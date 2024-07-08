@@ -79,7 +79,11 @@ export default function Page() {
   return (
       <ProtectedRoute>          
         <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
-          <Header />
+          <Header onFavoriteToggle={function (): void {
+          throw new Error('Function not implemented.');
+        } } onDeleteClick={function (): void {
+          throw new Error('Function not implemented.');
+        } } />
           <div className="flex flex-col items-center justify-start overflow-y-auto w-full ">
             <div className="mt-24 w-2/3 bg-pcolor p-4 rounded-2xl border-2 border-gray-200">
               <div className="text-2xl font-semibold">📝 Start a New Note </div>
