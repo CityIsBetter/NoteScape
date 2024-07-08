@@ -23,9 +23,7 @@ export default function Navbar() {
                     const favoritesQuery = query(notesCollection, where("fav", "==", true));
                     const querySnapshot = await getDocs(favoritesQuery);
                     const favoriteNotesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setFavoriteNotes(favoriteNotesData);
-                    console.log(favoriteNotes);
-                }
+                    setFavoriteNotes(favoriteNotesData);                }
             } catch (error) {
                 console.error('Error fetching favorite notes:', error);
             }
