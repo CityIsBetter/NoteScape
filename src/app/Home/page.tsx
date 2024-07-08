@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import ProtectedRoute from '@/components/ProtectedRoute';
+// import ProtectedRoute from '@/components/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 import { IoMdOpen } from "react-icons/io";
 import { collection, getDocs, setDoc, doc, query, orderBy, limit } from 'firebase/firestore';
 import db from '@/lib/firebase';
 import Header from '@/components/Header';
 import Link from 'next/link';
+
+import dynamic from 'next/dynamic';
+const ProtectedRoute = dynamic(() => import('@/components/ProtectedRoute'), {ssr: false})
 
 type Note = {
   id: string;
@@ -16,7 +19,7 @@ type Note = {
   lastEdited: Date;
 };
 
-export default function Page() {
+export default function Home() {
   const router = useRouter();
   const userEmail = typeof window !== 'undefined' ? window.localStorage.getItem("email-notescape") : null;
   const [recentNotes, setRecentNotes] = useState<Note[]>([]);
