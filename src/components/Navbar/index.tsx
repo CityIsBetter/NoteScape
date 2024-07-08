@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,6 +24,7 @@ export default function Navbar() {
                     const querySnapshot = await getDocs(favoritesQuery);
                     const favoriteNotesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     setFavoriteNotes(favoriteNotesData);
+                    console.log(favoriteNotes);
                 }
             } catch (error) {
                 console.error('Error fetching favorite notes:', error);

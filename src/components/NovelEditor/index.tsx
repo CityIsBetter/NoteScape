@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Editor } from "novel";
 import { type Editor as TipTapEditor, JSONContent } from "@tiptap/core";
 import { Card, CardContent } from "@/components/ui/card";
+import { LuPencil } from "react-icons/lu";
 
 type NovelEditorProps = {
   setContent: (content: JSONContent) => void;
@@ -17,12 +18,18 @@ export default function NovelEditor({ setContent, content, setTopic, topic }: No
   return (
     <Card className=" rounded-2xl min-w-128">
       <CardContent>
+        <div className="flex flex-row items-center">
         <input
           type="text"
           value={title}
           onChange={(e) => {setTitle(e.target.value); setTopic(e.target.value)}}
-          className="pt-4 font-bold text-2xl outline-none border-b-2 border-transparent text-black"
+          style={{
+            width:`${title.length * 14}px`
+          }}
+          className="pt-4 font-bold text-2xl outline-none border-b-2 border-black text-black max-w-full"
         />
+        <LuPencil className="text-2xl self-end"/>
+        </div>
         <Editor
           defaultValue={content || []}
           onDebouncedUpdate={(editor?: TipTapEditor) => {
