@@ -103,13 +103,11 @@ export default function Home() {
       try {
         const notesCollection = collection(db, `users/${userEmail}/notes`);
         const notesSnapshot = await getDocs(notesCollection);
-        const noteCount = notesSnapshot.size;
-  
-        const newNoteId = `note-${noteCount + 1}`;
+        const currentDate = new Date();
+        const newNoteId = `note-${currentDate.getTime()}`;
   
         const newNoteContent = createContent(e, newNoteId);
 
-        const currentDate = new Date();
         await setDoc(doc(db, `users/${userEmail}/notes/${newNoteId}`), {
           ...newNoteContent,
           lastEdited: currentDate,
