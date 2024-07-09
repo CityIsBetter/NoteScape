@@ -8,6 +8,7 @@ import { collection, getDocs, setDoc, doc, query, orderBy, limit } from 'firebas
 import db from '@/lib/firebase';
 import Header from '@/components/Header';
 import Link from 'next/link';
+import { newNote, study, geoceries, vacation, todo } from './default-values';
 
 import dynamic from 'next/dynamic';
 const ProtectedRoute = dynamic(() => import('@/components/ProtectedRoute'), {ssr: false})
@@ -48,7 +49,56 @@ export default function Home() {
     
   }, [userEmail]);
 
-  const createNewNote = async () => {
+  const createContent = (e: string, title: string) => {
+    if(e === "new"){
+      return {
+        json: {
+          type: "doc",
+          content: newNote,
+        },
+        fav: false,
+        title: title
+      };
+    } else if(e === "g"){
+      return {
+        json: {
+          type: "doc",
+          content: geoceries,
+        },
+        fav: false,
+        title: "Geoceries List🥕"
+      };
+    }else if(e === "s"){
+      return {
+        json: {
+          type: "doc",
+          content: study,
+        },
+        fav: false,
+        title: "Study Plan📖"
+      };
+    }else if(e === "v"){
+      return {
+        json: {
+          type: "doc",
+          content: vacation,
+        },
+        fav: false,
+        title: "Vacation Planning🛫"
+      };
+    }else if(e === "t"){
+      return {
+        json: {
+          type: "doc",
+          content: todo,
+        },
+        fav: false,
+        title: "To Do List📃"
+      };
+    }
+  }
+
+  const createNewNote = async (e: string) => {
     if (userEmail) {
       try {
         const notesCollection = collection(db, `users/${userEmail}/notes`);
@@ -57,12 +107,7 @@ export default function Home() {
   
         const newNoteId = `note-${noteCount + 1}`;
   
-        const newNoteContent = {
-          json: {
-            type: "doc",
-            content: [],
-          }
-        };
+        const newNoteContent = createContent(e, newNoteId);
 
         const currentDate = new Date();
         await setDoc(doc(db, `users/${userEmail}/notes/${newNoteId}`), {
@@ -92,23 +137,23 @@ export default function Home() {
               <div className="text-2xl font-semibold">📝 Start a New Note </div>
               <div className="flex flex-row mt-2 justify-between text-sm">
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-6xl font-thin rounded-xl cursor-pointer" onClick={createNewNote}>➕</div>
+                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-6xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("new")}>➕</div>
                   <p>New Note</p> 
                 </div>
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl">🍅</div>
+                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("g")}>🍅</div>
                   <p>Groceries List</p>
                 </div>
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl">✅</div>
+                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("t")}>✅</div>
                   <p>To Do List</p>
                 </div>
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl">📚</div>
-                  <p>Study List</p>
+                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("s")}>📚</div>
+                  <p>Study Plan</p>
                 </div>
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl">🏖️</div>
+                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("v")}>🏖️</div>
                   <p>Vacation Planning</p>
                 </div>
               </div>
@@ -141,3 +186,5 @@ export default function Home() {
       </ProtectedRoute>
   )
 }
+
+

@@ -90,6 +90,7 @@ const Note: React.FC<NoteProps> = ({ params }) => {
     if (content !== undefined) {
       saveContent([e], title);
     }
+    console.log([e]);
   };
 
   const handleTitleChange = (e: string) => {
