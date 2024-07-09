@@ -183,7 +183,7 @@ export default function Navbar() {
     };
 
     return (
-        <div className='flex flex-col bg-pcolor h-screen p-5 w-1/5 min-w-72 max-w-96 justify-start shadow-xs border-r-2 border-gray-200'>
+        <div className='flex flex-col bg-pcolor h-screen p-5 w-1/5 min-w-72 max-w-96 justify-start shadow-xs border-r-2 border-gray-200 overflow-hidden'>
             <div className="user flex flex-row justify-between items-center">
                 <div className="flex-col">
                     <p className='text-gray-700 text-xs'>Logged in as...</p>
@@ -191,131 +191,132 @@ export default function Navbar() {
                 </div>
                 {userPfp && <Image src={userPfp} alt='user Photo' height={50} width={50} className='rounded-full' />}
             </div>
+            <div className="overflow-y-auto no-scrollbar">
+                <div className="flex flex-col gap-1 pt-12">
+                    <p className='font-semibold border-b-2 border-gray-200 text-tcolor'>General</p>
+                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink('/Home')}`}>
+                        🏠Home
+                    </Link>
+                    <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink('/Reminders')}`}>
+                        ⏰Reminders
+                    </Link>
+                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink('/Settings')}`}>
+                        ⚙️Settings
+                    </Link>
+                </div>
 
-            <div className="flex flex-col gap-1 pt-12">
-                <p className='font-semibold border-b-2 border-gray-200 text-tcolor'>General</p>
-                <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink('/Home')}`}>
-                    🏠Home
-                </Link>
-                <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink('/Reminders')}`}>
-                    ⏰Reminders
-                </Link>
-                <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink('/Settings')}`}>
-                    ⚙️Settings
-                </Link>
-            </div>
-
-            <div className='flex flex-col gap-3 pt-12'>
-                <p className='font-semibold border-b-2 border-gray-200 text-tcolor'>Favorites</p>
-                {favNotes.map(note => (
-                    <div
-                        key={note.id}
-                        className={`flex items-center justify-between px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink(`/Note/${note.id}`)}`}
-                        onMouseEnter={() => setHoveredNoteId(note.id)}
-                        onMouseLeave={() => setHoveredNoteId(null)}
-                    >
-                        <Link href={`/Note/${note.id}`} className='flex-1'>
-                            {note.title}
-                        </Link>
-                        <button
-                            className="ml-2 text-red-300 hover:text-red-700 text-lg"
-                            onClick={() => handleRemoveFavorite(note.id)}
+                <div className='flex flex-col gap-3 pt-12'>
+                    <p className='font-semibold border-b-2 border-gray-200 text-tcolor'>Favorites</p>
+                    {favNotes.map(note => (
+                        <div
+                            key={note.id}
+                            className={`flex items-center justify-between px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink(`/Note/${note.id}`)}`}
+                            onMouseEnter={() => setHoveredNoteId(note.id)}
+                            onMouseLeave={() => setHoveredNoteId(null)}
                         >
-                            {hoveredNoteId === note.id ? <MdFavoriteBorder /> : <MdFavorite />}
+                            <Link href={`/Note/${note.id}`} className='flex-1'>
+                                {note.title}
+                            </Link>
+                            <button
+                                className="ml-2 text-red-300 hover:text-red-700 text-lg"
+                                onClick={() => handleRemoveFavorite(note.id)}
+                            >
+                                {hoveredNoteId === note.id ? <MdFavoriteBorder /> : <MdFavorite />}
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
+                <div className='flex flex-col gap-3 pt-12'>
+                    <div className="flex items-center justify-between border-b-2 border-gray-200">
+                        <p className='font-semibold  text-tcolor'>Folders</p>
+                        <button className="text-tcolor hover:text-green-700 text-lg" onClick={() => setIsCreatingFolder(true)}>
+                            <MdAdd />
                         </button>
                     </div>
-                ))}
-            </div>
-
-            <div className='flex flex-col gap-3 pt-12'>
-                <div className="flex items-center justify-between border-b-2 border-gray-200">
-                    <p className='font-semibold  text-tcolor'>Folders</p>
-                    <button className="text-tcolor hover:text-green-700 text-lg" onClick={() => setIsCreatingFolder(true)}>
-                        <MdAdd />
-                    </button>
-                </div>
-                {isCreatingFolder && (
-                    <div className="flex items-center">
-                        <input
-                            type="text"
-                            value={newFolderName}
-                            placeholder='Folder Name'
-                            onChange={(e) => setNewFolderName(e.target.value)}
-                            className="flex-1 rounded mx-2 px-2 py-1 focus:outline-none border-2 border-gray-200 w-3/4"
-                            onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
-                            onBlur={handleCreateFolder}
-                            autoFocus
-                        />
-                        <button className='bg-red-500 hover:bg-red-600 rounded-md text-white p-1' onClick={()=>setIsCreatingFolder(false)}>Cancel</button>
-                    </div>
-                )}
-                {folders.map(folder => (
-                    <div key={folder.id} className="flex flex-col">
-                        <div className="flex items-center justify-between px-2 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium">
-                            {editingFolderId === folder.id ? (
-                                <input
-                                    type="text"
-                                    defaultValue={folder.name}
-                                    onBlur={(e) => handleRenameFolder(folder.id, e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleRenameFolder(folder.id, (e.target as HTMLInputElement).value)}
-                                    autoFocus
-                                    className='focus:outline-none border-b-2 border-gray-200 w-3/4'
-                                />
-                            ) : (
-                                <div className="flex flex-row">
-                                    <button
-                                    className="text-gray-500 hover:text-gray-700 text-lg"
-                                    onClick={() => handleToggleFolder(folder.id)}
-                                >
-                                    {expandedFolderIds.has(folder.id) ? <MdExpandMore  /> : <MdExpandMore  className='-rotate-90'/>}
-                                </button>
-                                    <div className="flex-1" onClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
-                                </div>
-                                
-                            )}
-                            <div className="flex items-center gap-2">
-                                <button
-                                    className="text-green-500 hover:text-green-700 text-lg"
-                                    onClick={() => setIsDropdownOpen(folder.id)}
-                                >
-                                    <MdAdd />
-                                </button>
-                                <button
-                                    className="text-red-500 hover:text-red-700 text-lg"
-                                    onClick={() => handleDeleteFolder(folder.id)}
-                                >
-                                    <MdDelete />
-                                </button>
-                            </div>
+                    {isCreatingFolder && (
+                        <div className="flex items-center">
+                            <input
+                                type="text"
+                                value={newFolderName}
+                                placeholder='Folder Name'
+                                onChange={(e) => setNewFolderName(e.target.value)}
+                                className="flex-1 rounded mx-2 px-2 py-1 focus:outline-none border-2 border-gray-200 w-3/4"
+                                onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
+                                onBlur={handleCreateFolder}
+                                autoFocus
+                            />
+                            <button className='bg-red-500 hover:bg-red-600 rounded-md text-white p-1' onClick={()=>setIsCreatingFolder(false)}>Cancel</button>
                         </div>
-                        {expandedFolderIds.has(folder.id) && (
-                            <div className="pl-8">
-                                {folder.notes.map(noteId => {
-                                    const note = allNotes.find(note => note.id === noteId);
-                                    return note ? (
-                                        <Link key={note.id} href={`/Note/${note.id}`} className={`block px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink(`/Note/${note.id}`)}`}>
-                                            {note.title}
-                                        </Link>
-                                    ) : null;
-                                })}
-                            </div>
-                        )}
-                        {isDropdownOpen === folder.id && (
-                            <div className="ml-8 flex flex-col gap-1 bg-white border-2 border-gray-200 z-10 rounded-2xl">
-                                {availableNotes(folder.id).map(note => (
-                                    <button
-                                        key={note.id}
-                                        className="block px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium"
-                                        onClick={() => handleAddNoteToFolder(folder.id, note)}
+                    )}
+                    {folders.map(folder => (
+                        <div key={folder.id} className="flex flex-col">
+                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium">
+                                {editingFolderId === folder.id ? (
+                                    <input
+                                        type="text"
+                                        defaultValue={folder.name}
+                                        onBlur={(e) => handleRenameFolder(folder.id, e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleRenameFolder(folder.id, (e.target as HTMLInputElement).value)}
+                                        autoFocus
+                                        className='focus:outline-none border-b-2 border-gray-200 w-3/4'
+                                    />
+                                ) : (
+                                    <div className="flex flex-row">
+                                        <button
+                                        className="text-gray-500 hover:text-gray-700 text-lg"
+                                        onClick={() => handleToggleFolder(folder.id)}
                                     >
-                                        {note.title}
+                                        {expandedFolderIds.has(folder.id) ? <MdExpandMore  /> : <MdExpandMore  className='-rotate-90'/>}
                                     </button>
-                                ))}
-                                <button className='bg-red-500 hover:bg-red-600 rounded-2xl text-white p-2' onClick={()=>setIsDropdownOpen(null)}>Cancel</button>
+                                        <div className="flex-1" onClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
+                                    </div>
+                                    
+                                )}
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        className="text-green-500 hover:text-green-700 text-lg"
+                                        onClick={() => setIsDropdownOpen(folder.id)}
+                                    >
+                                        <MdAdd />
+                                    </button>
+                                    <button
+                                        className="text-red-500 hover:text-red-700 text-lg"
+                                        onClick={() => handleDeleteFolder(folder.id)}
+                                    >
+                                        <MdDelete />
+                                    </button>
+                                </div>
                             </div>
-                        )}
-                    </div>
-                ))}
+                            {expandedFolderIds.has(folder.id) && (
+                                <div className="pl-8">
+                                    {folder.notes.map(noteId => {
+                                        const note = allNotes.find(note => note.id === noteId);
+                                        return note ? (
+                                            <Link key={note.id} href={`/Note/${note.id}`} className={`block px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink(`/Note/${note.id}`)}`}>
+                                                {note.title}
+                                            </Link>
+                                        ) : null;
+                                    })}
+                                </div>
+                            )}
+                            {isDropdownOpen === folder.id && (
+                                <div className="ml-8 flex flex-col gap-1 bg-white border-2 border-gray-200 z-10 rounded-2xl">
+                                    {availableNotes(folder.id).map(note => (
+                                        <button
+                                            key={note.id}
+                                            className="block px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium"
+                                            onClick={() => handleAddNoteToFolder(folder.id, note)}
+                                        >
+                                            {note.title}
+                                        </button>
+                                    ))}
+                                    <button className='bg-red-500 hover:bg-red-600 rounded-2xl text-white p-2' onClick={()=>setIsDropdownOpen(null)}>Cancel</button>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
