@@ -54,8 +54,8 @@ const Note: React.FC<NoteProps> = ({ params }) => {
           console.error('Error saving note:', error);
         }
       }
-    }, 1000), // Adjust the debounce delay as needed
-    [userEmail, params.id, isFavorite]
+    }, 1000),
+    [userEmail, params.id, isFavorite] // Add isFavorite to the dependency array
   );
 
   const handleFavoriteToggle = async () => {
