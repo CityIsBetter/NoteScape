@@ -16,6 +16,7 @@
     "@tailwindcss/typography": "^0.5.13",
     "@upstash/ratelimit": "^1.2.1",
     "@vercel/kv": "^2.0.0",
+    "ai": "^3.2.18",
     "autoprefixer": "^10.4.19",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

@@ -26,6 +26,9 @@ const config = {
       minWidth: {
         '128': '38rem',
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
       colors: {
         'pcolor': '#fbfbfa',
         'phcolor': '#efefee',
