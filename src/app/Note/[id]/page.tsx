@@ -1,6 +1,6 @@
 "use client";
 import { debounce } from 'lodash';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { setDoc, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { JSONContent } from '@tiptap/core';
 import NovelEditor from '@/components/NovelEditor';
@@ -18,6 +18,22 @@ const Note: React.FC<NoteProps> = ({ params }) => {
   const [title, setTitle] = useState<string>(params.id);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const userEmail = typeof window !== 'undefined' ? window.localStorage.getItem('email-notescape') : null;
+
+  const debouncedSaveContent = useRef(
+    debounce(async (newContent: JSONContent[], newTitle: string, userEmail: string, noteId: string, isFavorite: boolean) => {
+      try {
+        await setDoc(doc(db, 'users', userEmail, 'notes', noteId), {
+          json: { content: newContent },
+          title: newTitle,
+          fav: isFavorite,
+          lastEdited: new Date(),
+        });
+        console.log('Note successfully saved!');
+      } catch (error) {
+        console.error('Error saving note:', error);
+      }
+    }, 1000)
+  ).current;
 
   useEffect(() => {
     const getData = async () => {
@@ -39,24 +55,15 @@ const Note: React.FC<NoteProps> = ({ params }) => {
     getData();
   }, [userEmail, params.id]);
 
-  const saveContent = useCallback(
-    debounce(async (newContent: JSONContent[], newTitle: string) => {
-      if (userEmail) {
-        try {
-          await setDoc(doc(db, 'users', userEmail, 'notes', params.id), {
-            json: { content: newContent },
-            title: newTitle,
-            fav: isFavorite,
-            lastEdited: new Date(),
-          });
-          console.log('Note successfully saved!');
-        } catch (error) {
-          console.error('Error saving note:', error);
-        }
+  useEffect(() => {
+    const handleDebounceSave = () => {
+      if (content !== undefined) {
+        debouncedSaveContent(content, title, userEmail!, params.id, isFavorite);
       }
-    }, 1000),
-    [userEmail, params.id, isFavorite] // Add isFavorite to the dependency array
-  );
+    };
+
+    handleDebounceSave();
+  }, [content, title, isFavorite, userEmail, params.id, debouncedSaveContent]);
 
   const handleFavoriteToggle = async () => {
     if (userEmail) {
@@ -87,17 +94,11 @@ const Note: React.FC<NoteProps> = ({ params }) => {
 
   const handleChange = (e: JSONContent) => {
     setContent([e]);
-    if (content !== undefined) {
-      saveContent([e], title);
-    }
     console.log([e]);
   };
 
   const handleTitleChange = (e: string) => {
     setTitle(e);
-    if (content !== undefined) {
-      saveContent(content, e);
-    }
   };
 
   return (
