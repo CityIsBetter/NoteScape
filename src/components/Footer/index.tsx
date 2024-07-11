@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react'
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
@@ -12,16 +13,16 @@ export default function Footer() {
             <div className="flex flex-col">
             <div className="links flex flex-col">
                 <p className='text-tcolor mb-12'>Creator's Links</p>
-                <a href='https://linkedin.com/in/mahesh-paul' target='_blank' className='hover:text-blue-400'>LinkedIn</a>
-                <a href='https://instagram.com/mahesh_paul_j' target='_blank' className='hover:text-red-400'>Instagram</a>
-                <a href='https://github.com/CityIsBetter' target='_blank' className='hover:text-gray-400'>Github</a>
+                <a href='https://linkedin.com/in/mahesh-paul' target='_blank' className='hover:text-blue-400 transition'>LinkedIn</a>
+                <a href='https://instagram.com/mahesh_paul_j' target='_blank' className='hover:text-red-400 transition'>Instagram</a>
+                <a href='https://github.com/CityIsBetter' target='_blank' className='hover:text-gray-400 transition'>Github</a>
             </div>
             </div>
             <div className="links flex flex-col">
                 <p className='text-tcolor mb-12'>NoteScape's Links</p>
-                <a href='https://linkedin.com/in/mahesh-paul' target='_blank' className='hover:text-gray-400'>Home</a>
-                <a href='https://linkedin.com/in/mahesh-paul' target='_blank' className='hover:text-blue-400'>Features</a>
-                <a href='https://instagram.com/mahesh_paul_j' target='_blank' className='hover:text-red-400'>About</a>
+                <Link href={'/'} className='hover:text-gray-400 transition'>Home</Link>
+                <Link href={'/Features'} className='hover:text-blue-400 transition'>Features</Link>
+                <Link href={"/About"} className='hover:text-red-400 transition'>About</Link>
             </div>
             <div className="links flex flex-row items-end">
             <p className='flex flex-row text-lg'>See how this website was&nbsp;<a href='https://github.com/CityIsBetter' target='_blank' className='hover:text-purple-400 flex flex-row font-semibold border-b-2 border-transparent hover:border-violet-500'> made&nbsp; <FaArrowUpRightFromSquare className='text-xs self-center'/></a></p>

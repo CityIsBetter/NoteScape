@@ -12,7 +12,7 @@ export default function Home() {
         <Link className="logo text-2xl font-bold" href={"/"}>NoteScape</Link>
         <div className="text-xl">
           <Link href={"/Features"} className="mr-4 p-2 rounded-md hover:bg-gray-100 transition">Features</Link>
-          <Link href={"/"} className="mr-2 p-2 rounded-md hover:bg-gray-100 transition">About</Link>
+          <Link href={"/About"} className="mr-2 p-2 rounded-md hover:bg-gray-100 transition">About</Link>
           <Link href={"/SignIn"} className="ml-2 mr-4 p-2 rounded-md hover:bg-gray-100 transition">Sign In</Link>
           <Link href={"/Home"}><button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-gray-700 font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button></Link>
         </div>
