@@ -1,4 +1,5 @@
-import ProtectedRoute from '@/components/ProtectedRoute'
+import dynamic from 'next/dynamic';
+const ProtectedRoute = dynamic(() => import('@/components/ProtectedRoute'), {ssr: false})
 import React from 'react'
 
 export default function Reminders() {
