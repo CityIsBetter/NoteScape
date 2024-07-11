@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import React from 'react'
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import logo from '/public/logo.png';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
     <div className="flex flex-col mt-24">
         <div className='border-t-2 border-gray-200 flex flex-row max-sm:flex-col gap-12 py-12 px-28 max-lg:px-24 max-sm:px-12 justify-between'>
             <div className="flex flex-col">
-                <div className="text-2xl font-bold underline">NoteScape</div>
+                <div className="text-2xl font-bold underline"><Image src={logo} alt='logo' className='w-12 h-12'/>NoteScape</div>
                 <p className='w-3/4 text-tcolor'>Make your thoughts actionable with NoteScape&apos;s dynamic workspace.</p>
             </div>
             <div className="flex flex-row gap-12">

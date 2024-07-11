@@ -3,13 +3,14 @@ import Link from 'next/link';
 import React from 'react';
 import mockup1 from '/public/assets/mockup1.png';
 import Footer from '@/components/Footer';
+import logo from '/public/logo.png';
 
 export default function Home() {
   return (
     <main className='flex flex-col w-full h-full'>
       {/* Navbar */}
       <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-gray-200 bg-white z-50">
-        <Link className="logo text-2xl font-bold max-sm:text-xl" href={"/"}>NoteScape</Link>
+        <Link className="logo text-4xl max-lg:text-3xl font-bold max-sm:text-xl flex flex-row items-center" href={"/"}><Image src={logo} alt='logo' className='w-12 h-12 max-lg:w-10 max-lg:h-10 max-sm:w-8 max-sm:h-8'/> NoteScape</Link>
         <div className="text-xl flex flex-wrap items-center justify-center gap-2">
           <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">Features</Link>
           <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">About</Link>

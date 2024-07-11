@@ -1,5 +1,8 @@
 "use client";
+import Image from 'next/image';
 import React, { useState } from 'react';
+
+import logo from '/public/logo.png'
 
 type HeaderProps = {
   title?: string;
@@ -34,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ title, isFavorite, onFavoriteToggle, on
 
   return (
     <div className="text-xl p-2 pl-4 pr-4 sticky top-0 bg-white z-10 w-full text-center border-b-2 border-gray-200 flex justify-between items-center">
-      <div className='self-start'>
+      <div className='self-start flex flex-row items-center'><Image  src={logo} alt='logo' className='w-12 h-12'/>
         {title === 'Settings' || title === 'Reminders' ? (
           <p>
             <span className='text-sm'>NoteScape/</span>

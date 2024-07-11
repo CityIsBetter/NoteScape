@@ -2,11 +2,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
 
+
 import favorite from '/public/assets/favorite.png';
 import signin from '/public/assets/signin.png';
 import folder from '/public/assets/folder.png';
 import template from '/public/assets/template.png';
 import note from '/public/assets/note.png';
+import logo from '/public/logo.png';
 
 import Footer from '@/components/Footer';
 
@@ -42,18 +44,18 @@ export default function Features() {
 
   return (
     <main className="flex flex-col w-full h-full">
-      {/* Navbar */}
-      <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-gray-200 bg-white z-50">
-        <Link className="logo text-2xl font-bold max-sm:text-xl" href={"/"}>NoteScape</Link>
-        <div className="text-xl flex flex-wrap items-center justify-center gap-2">
-          <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">Features</Link>
-          <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">About</Link>
-          <Link href={"/SignIn"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:hidden">Sign In</Link>
-          <Link href={"/Home"}>
-            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-gray-700 font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button>
-          </Link>
+        {/* Navbar */}
+        <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-gray-200 bg-white z-50">
+          <Link className="logo text-4xl font-bold max-sm:text-xl flex flex-row items-center" href={"/"}><Image src={logo} alt='logo' className='w-12 h-12'/> NoteScape</Link>
+          <div className="text-xl flex flex-wrap items-center justify-center gap-2">
+            <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">Features</Link>
+            <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">About</Link>
+            <Link href={"/SignIn"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:hidden">Sign In</Link>
+            <Link href={"/Home"}>
+              <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-gray-700 font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button>
+            </Link>
+          </div>
         </div>
-      </div>
 
       {/* Hero Section */}
       <div className="flex flex-col items-center justify-center h-screen bg-white text-center">
