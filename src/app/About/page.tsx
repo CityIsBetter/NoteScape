@@ -6,17 +6,19 @@ export default function About() {
   return (
     <main className='flex flex-col'>
         <div className='flex flex-col w-full h-full items-center'>
-            {/* Navbar */}
-            <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 border-b-2 border-gray-200 bg-white z-50">
-                <Link className="logo text-2xl font-bold" href={"/"}>NoteScape</Link>
-                <div className="text-xl">
-                <Link href={"/Features"} className="mr-4 p-2 rounded-md hover:bg-gray-100 transition">Features</Link>
-                <Link href={"/About"} className="mr-2 p-2 rounded-md hover:bg-gray-100 transition">About</Link>
-                <Link href={"/SignIn"} className="ml-2 mr-4 p-2 rounded-md hover:bg-gray-100 transition">Sign In</Link>
-                <Link href={"/Home"}><button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-gray-700 font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button></Link>
-                </div>
-            </div>
-            <div className="flex flex-col w-1/2 items-center justify-center  h-full pt-24 pb-12 mt-20 text-center">
+        {/* Navbar */}
+        <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-gray-200 bg-white z-50">
+          <Link className="logo text-2xl font-bold max-sm:text-xl" href={"/"}>NoteScape</Link>
+          <div className="text-xl flex flex-wrap items-center justify-center gap-2">
+            <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">Features</Link>
+            <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">About</Link>
+            <Link href={"/SignIn"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:hidden">Sign In</Link>
+            <Link href={"/Home"}>
+              <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-gray-700 font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button>
+            </Link>
+          </div>
+        </div>
+            <div className="flex flex-col w-1/2 max-md:w-5/6 max-sm:w-11/12 items-center justify-center  h-full pt-24 pb-12 mt-20 text-center">
                 <h1 className="text-4xl font-extrabold mb-6">About <span className='text-transparent bg-clip-text bg-gradient-to-br from-violet-600 to-blue-500'>NoteScape</span></h1>
                 <p className="text-xl mb-4">
                 Hello! I&apos;m <strong>Mahesh Paul</strong>, and I created <strong>NoteScape</strong> to make note-taking simple and seamless. With powerful tools that make organizing your thoughts and ideas easier, NoteScape aims to enhance your productivity. ✍️✨

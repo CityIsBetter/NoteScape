@@ -43,16 +43,14 @@ export default function Features() {
   return (
     <main className="flex flex-col w-full h-full">
       {/* Navbar */}
-      <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 border-b-2 border-gray-200 bg-white z-50">
-        <Link className="logo text-2xl font-bold" href={"/"}>NoteScape</Link>
-        <div className="text-xl">
-          <Link href={"/Features"} className="mr-4 p-2 rounded-md hover:bg-gray-100 transition">Features</Link>
-          <Link href={"/About"} className="mr-2 p-2 rounded-md hover:bg-gray-100 transition">About</Link>
-          <Link href={"/SignIn"} className="ml-2 mr-4 p-2 rounded-md hover:bg-gray-100 transition">Sign In</Link>
+      <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-gray-200 bg-white z-50">
+        <Link className="logo text-2xl font-bold max-sm:text-xl" href={"/"}>NoteScape</Link>
+        <div className="text-xl flex flex-wrap items-center justify-center gap-2">
+          <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">Features</Link>
+          <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">About</Link>
+          <Link href={"/SignIn"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:hidden">Sign In</Link>
           <Link href={"/Home"}>
-            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-gray-700 font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">
-              Open App
-            </button>
+            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-gray-700 font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button>
           </Link>
         </div>
       </div>
@@ -68,13 +66,13 @@ export default function Features() {
       {/* Features Section */}
       <div className="flex flex-col items-center w-full">
         {features.map((feature, index) => (
-          <div key={index} className={`flex w-4/5 py-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-            <div className="w-1/2 flex items-center justify-center">
+          <div key={index} className={`flex w-4/5 max-md:w-11/12 py-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'} max-sm:flex-col`}>
+            <div className="w-1/2 max-sm:w-full flex items-center justify-center">
               <Image src={feature.img} alt={`${feature.title} mockup`} className='rounded-2xl'/>
             </div>
-            <div className="w-1/2 flex flex-col justify-center p-6">
-              <h2 className="text-4xl font-bold mb-4">{feature.title}</h2>
-              <p className="text-lg text-gray-700">{feature.description}</p>
+            <div className="w-1/2 max-sm:w-full flex flex-col justify-center p-6">
+              <h2 className="text-4xl font-bold mb-4 max-sm:text-2xl">{feature.title}</h2>
+              <p className="text-lg text-gray-700 max-md:text-md">{feature.description}</p>
             </div>
           </div>
         ))}

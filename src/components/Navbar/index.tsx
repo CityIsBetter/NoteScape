@@ -22,7 +22,7 @@ interface Folder {
 export default function Navbar() {
     const userName = window.localStorage.getItem('user-notescape');
     const userPfp = window.localStorage.getItem('pfp-notescape');
-    const sidebar: boolean = localStorage.getItem('notescape-sidebar') === "false" && window.innerHeight > 1024 ? true : false;
+    const sidebar: boolean = localStorage.getItem('notescape-sidebar') === "false" && window.innerWidth > 1024 ? true : false;
     const pathName = usePathname();
     const [allNotes, setAllNotes] = useState<Note[]>([]);
     const [favNotes, setFavNotes] = useState<Note[]>([]);
@@ -330,7 +330,7 @@ export default function Navbar() {
             {/* Button to toggle sidebar visibility */}
             
         </div>
-            <button className={`fixed top-1/2 ${isSidebarOpen ? 'left-72' : 'left-0'} bg-pcolor text-tcolor px-2 py-4 border-y-2 border-r-2 border-gray-200`} onClick={toggleSidebar}>
+            <button className={`fixed z-10 top-1/2 ${isSidebarOpen ? 'left-72' : 'left-0'} bg-pcolor text-tcolor px-2 py-4 border-y-2 border-r-2 border-gray-200`} onClick={toggleSidebar}>
                 {isSidebarOpen ? <MdArrowBackIosNew /> : <MdArrowForwardIos/>}
             </button>
         </div>
