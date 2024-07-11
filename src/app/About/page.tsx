@@ -19,7 +19,7 @@ export default function About() {
             <div className="flex flex-col w-1/2 items-center justify-center  h-full pt-24 pb-12 mt-20 text-center">
                 <h1 className="text-4xl font-extrabold mb-6">About <span className='text-transparent bg-clip-text bg-gradient-to-br from-violet-600 to-blue-500'>NoteScape</span></h1>
                 <p className="text-xl mb-4">
-                Hello! I'm <strong>Mahesh Paul</strong>, and I created <strong>NoteScape</strong> to make note-taking simple and seamless. With powerful tools that make organizing your thoughts and ideas easier, NoteScape aims to enhance your productivity. ✍️✨
+                Hello! I&apos;m <strong>Mahesh Paul</strong>, and I created <strong>NoteScape</strong> to make note-taking simple and seamless. With powerful tools that make organizing your thoughts and ideas easier, NoteScape aims to enhance your productivity. ✍️✨
                 </p>
                 <p className="text-xl mb-4">
                 <strong>NoteScape</strong> is built using <strong>Next.js</strong> and <strong>TypeScript</strong> for a robust and scalable frontend, and it leverages <strong>Firebase</strong> for real-time data synchronization and storage. The <strong>Novel.sh editor</strong> brings advanced note-taking features, making it easy to add todos, quotes, code blocks, headings, images, and more. 🛠️📚

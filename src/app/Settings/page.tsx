@@ -25,7 +25,7 @@ export default function Settings() {
             <div className="bg-pcolor p-12 border-2 border-gray-200 rounded-2xl w-1/2">
                 
                 <div className="flex flex-row justify-start items-center">
-                    <p>Change Theme: </p>
+                    <p>Change Theme:(not ready yet) </p>
                     <ThemeToggle />
                 </div>
                 <a onClick={()=>logout()} className='text-red-300'>LogOut</a>

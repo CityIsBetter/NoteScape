@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { collection, query, where, getDocs, getDoc, updateDoc, doc, addDoc, deleteDoc } from 'firebase/firestore';
 import db from '@/lib/firebase';
-import { MdFavoriteBorder, MdFavorite, MdExpandMore, MdDelete, MdAdd } from "react-icons/md";
+import { MdFavoriteBorder, MdFavorite, MdExpandMore, MdDelete, MdAdd, MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 
 interface Note {
     id: string;
@@ -22,6 +22,7 @@ interface Folder {
 export default function Navbar() {
     const userName = window.localStorage.getItem('user-notescape');
     const userPfp = window.localStorage.getItem('pfp-notescape');
+    const sidebar: boolean = localStorage.getItem('notescape-sidebar') === "false" && window.innerHeight > 1024 ? true : false;
     const pathName = usePathname();
     const [allNotes, setAllNotes] = useState<Note[]>([]);
     const [favNotes, setFavNotes] = useState<Note[]>([]);
@@ -32,6 +33,7 @@ export default function Navbar() {
     const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
     const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(new Set());
     const [isDropdownOpen, setIsDropdownOpen] = useState<string | null>(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(sidebar); // State to manage sidebar visibility
 
     useEffect(() => {
         fetchAllNotes();
@@ -182,8 +184,15 @@ export default function Navbar() {
         return allNotes;
     };
 
+    const toggleSidebar = () => {
+        setIsSidebarOpen(prev => !prev);
+        localStorage.setItem('notescape-sidebar', JSON.stringify(isSidebarOpen));
+        console.log(isSidebarOpen, localStorage.getItem('notescape-sidebar'));
+    };
+
     return (
-        <div className='flex flex-col bg-pcolor h-screen p-5 w-1/5 min-w-72 max-w-96 justify-start shadow-xs border-r-2 border-gray-200 overflow-hidden'>
+        <div className="">
+        <div className={`flex flex-col ${isSidebarOpen ? '' : 'hidden'} transition-transform ease-in-out duration-300 bg-pcolor h-screen p-5 w-72 justify-start border-r-2 border-gray-200 overflow-hidden`}>
             <div className="user flex flex-row justify-between items-center">
                 <div className="flex-col">
                     <p className='text-gray-700 text-xs'>Logged in as...</p>
@@ -318,6 +327,12 @@ export default function Navbar() {
                     ))}
                 </div>
             </div>
+            {/* Button to toggle sidebar visibility */}
+            
+        </div>
+            <button className={`fixed top-1/2 ${isSidebarOpen ? 'left-72' : 'left-0'} bg-pcolor text-tcolor px-2 py-4 border-y-2 border-r-2 border-gray-200`} onClick={toggleSidebar}>
+                {isSidebarOpen ? <MdArrowBackIosNew /> : <MdArrowForwardIos/>}
+            </button>
         </div>
     );
 }

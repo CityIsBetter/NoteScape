@@ -60,7 +60,7 @@ export default function Features() {
       {/* Hero Section */}
       <div className="flex flex-col items-center justify-center h-screen bg-white text-center">
         <h1 className="text-6xl font-bold ">
-          Discover NoteScape's <span className='text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500'>Features</span> 
+          Discover NoteScape&apos;s <span className='text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500'>Features</span> 
         </h1>
         <p className="text-xl text-gray-600 mt-4">Maximize your productivity with our powerful tools.</p>
       </div>
