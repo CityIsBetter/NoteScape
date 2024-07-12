@@ -101,8 +101,6 @@ export default function Home() {
   const createNewNote = async (e: string) => {
     if (userEmail) {
       try {
-        const notesCollection = collection(db, `users/${userEmail}/notes`);
-        const notesSnapshot = await getDocs(notesCollection);
         const currentDate = new Date();
         const newNoteId = `note-${currentDate.getTime()}`;
   
@@ -131,7 +129,7 @@ export default function Home() {
           throw new Error('Function not implemented.');
         } } />
           <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
-            <div className="mt-24 w-2/3 max-lg:w-4/5 max-md:w- max-w-4xl min-h-80 bg-pcolor p-4 rounded-2xl border-2 border-gray-200 ">
+            <div className="mt-24 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl min-h-80 bg-pcolor p-4 rounded-2xl border-2 border-gray-200 ">
               <div className="text-2xl font-semibold">📝 Start a New Note </div>
               <div className="flex flex-row mt-2 gap-2 justify-between text-sm w-full overflow-x-scroll">
                 <div className="">
@@ -158,7 +156,7 @@ export default function Home() {
             </div>
   
             {/* Recent Notes */}
-            <div className="w-1/4 max-lg:w-1/2 max-md:w-3/4 max-sm:w-11/12 mt-24 mb-20 bg-pcolor p-4 rounded-2xl border-2 border-gray-200">
+            <div className="w-1/4 max-lg:w-1/2 max-md:w-3/4 max-sm:w-11/12 mt-24 max-sm:mt-4 max-sm:mb-40 mb-20 bg-pcolor p-4 rounded-2xl border-2 border-gray-200">
               <div className="text-2xl font-semibold">⌚ Your Recent Notes </div>
               <div className='flex flex-col mt-2 items-start justify-between gap-2'>
                 {recentNotes.length > 0 ? (

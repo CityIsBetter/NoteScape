@@ -187,7 +187,6 @@ export default function Navbar() {
     const toggleSidebar = () => {
         setIsSidebarOpen(prev => !prev);
         localStorage.setItem('notescape-sidebar', JSON.stringify(isSidebarOpen));
-        console.log(isSidebarOpen, localStorage.getItem('notescape-sidebar'));
     };
 
     return (
@@ -236,7 +235,7 @@ export default function Navbar() {
                     ))}
                 </div>
 
-                <div className='flex flex-col gap-3 pt-12'>
+                <div className='flex flex-col gap-3 pt-12 pb-24'>
                     <div className="flex items-center justify-between border-b-2 border-gray-200">
                         <p className='font-semibold  text-tcolor'>Folders</p>
                         <button className="text-tcolor hover:text-green-700 text-lg" onClick={() => setIsCreatingFolder(true)}>
@@ -327,8 +326,6 @@ export default function Navbar() {
                     ))}
                 </div>
             </div>
-            {/* Button to toggle sidebar visibility */}
-            
         </div>
             <button className={`fixed z-10 top-1/2 ${isSidebarOpen ? 'left-72' : 'left-0'} bg-pcolor text-tcolor px-2 py-4 border-y-2 border-r-2 border-gray-200`} onClick={toggleSidebar}>
                 {isSidebarOpen ? <MdArrowBackIosNew /> : <MdArrowForwardIos/>}

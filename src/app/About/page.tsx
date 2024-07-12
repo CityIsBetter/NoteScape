@@ -10,7 +10,7 @@ export default function About() {
         <div className='flex flex-col w-full h-full items-center'>
         {/* Navbar */}
         <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-gray-200 bg-white z-50">
-          <Link className="logo text-4xl font-bold max-sm:text-xl flex flex-row items-center" href={"/"}><Image src={logo} alt='logo' className='w-12 h-12'/> NoteScape</Link>
+          <Link className="logo text-4xl max-lg:text-3xl font-bold max-sm:text-xl flex flex-row items-center" href={"/"}><Image src={logo} alt='logo' className='w-12 h-12 max-lg:w-10 max-lg:h-10 max-sm:w-8 max-sm:h-8'/> NoteScape</Link>
           <div className="text-xl flex flex-wrap items-center justify-center gap-2">
             <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">Features</Link>
             <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">About</Link>
