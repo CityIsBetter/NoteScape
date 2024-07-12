@@ -94,7 +94,6 @@ const Note: React.FC<NoteProps> = ({ params }) => {
 
   const handleChange = (e: JSONContent) => {
     setContent([e]);
-    console.log([e]);
   };
 
   const handleTitleChange = (e: string) => {
@@ -111,7 +110,7 @@ const Note: React.FC<NoteProps> = ({ params }) => {
           onDeleteClick={handleDeleteClick}
           threedots={true}
         />
-        <div className="flex flex-col w-full h-screen items-center justify-start overflow-y-auto p-12">
+        <div className="flex flex-col w-full h-screen items-center justify-start overflow-y-auto p-12 max-sm:px-0">
           <div className="flex self-center justify-center">
             {!loading && content !== undefined ? (
               <NovelEditor setContent={handleChange} topic={title} content={content} setTopic={handleTitleChange} />

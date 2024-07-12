@@ -37,7 +37,7 @@ export default function NovelEditor({ setContent, content, setTopic, topic }: No
             setTopic(title);
           }}
           disableLocalStorage={true}
-          className="rounded-2xl border mt-4"
+          className="rounded-2xl border-2 mt-4"
         />
       </CardContent>
     </Card>
