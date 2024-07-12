@@ -4,7 +4,7 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import { getFirestore} from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyADk4e-CaXKln9MSKIstFZLbn7H8-RDyeQ",
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: "notescape-auth.firebaseapp.com",
   projectId: "notescape-auth",
   storageBucket: "notescape-auth.appspot.com",

@@ -31,6 +31,8 @@ export default function About() {
                 <p className="text-xl mb-4">
                 This is an <strong>open-source project</strong> and <strong>contributions are welcomed</strong>. Join me in making NoteScape better for everyone. Feel free to check out the code on <a href="https://github.com/CityIsBetter/NoteScape" className="text-blue-500 hover:underline">GitHub</a> and contribute! 🌟👩‍💻👨‍💻
                 </p>
+                <p>Links that helped me create the Logo: <a href="https://www.textstudio.com/" className='text-blue-400'>Font generator</a> and
+                <a href="https://www.flaticon.com/free-icons/3d-notes" title="3d notes icons" className='text-blue-400'> 3d notes icons created by Freepik - Flaticon</a></p>
             </div>
             
             </div>
