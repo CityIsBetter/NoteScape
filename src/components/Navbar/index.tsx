@@ -176,6 +176,23 @@ export default function Navbar() {
         }
     };
 
+    const handleRemoveNoteFromFolder = async (folderId: string, noteId: string) => {
+        const userEmail = window.localStorage.getItem('email-notescape');
+        if (userEmail) {
+            try {
+                const folderRef = doc(db, 'users', userEmail, 'folders', folderId);
+                const folderDoc = await getDoc(folderRef);
+                const folderData = folderDoc.data() as Folder;
+                const updatedNotes = folderData.notes.filter(id => id !== noteId);
+                await updateDoc(folderRef, { notes: updatedNotes });
+                setFolders(folders.map(folder => folder.id === folderId ? { ...folder, notes: updatedNotes } : folder));
+                console.log('Note removed from folder!');
+            } catch (error) {
+                console.error('Error removing note from folder:', error);
+            }
+        }
+    };
+
     const availableNotes = (folderId: string) => {
         const folder = folders.find(f => f.id === folderId);
         if (folder) {
@@ -277,7 +294,7 @@ export default function Navbar() {
                                     >
                                         {expandedFolderIds.has(folder.id) ? <MdExpandMore  /> : <MdExpandMore  className='-rotate-90'/>}
                                     </button>
-                                        <div className="flex-1" onClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
+                                        <div className="flex-1" onDoubleClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
                                     </div>
                                     
                                 )}
@@ -289,7 +306,7 @@ export default function Navbar() {
                                         <MdAdd />
                                     </button>
                                     <button
-                                        className="text-red-500 hover:text-red-700 text-lg"
+                                        className="text-red-300 hover:text-red-500 text-lg"
                                         onClick={() => handleDeleteFolder(folder.id)}
                                     >
                                         <MdDelete />
@@ -301,9 +318,12 @@ export default function Navbar() {
                                     {folder.notes.map(noteId => {
                                         const note = allNotes.find(note => note.id === noteId);
                                         return note ? (
-                                            <Link key={note.id} href={`/Note/${note.id}`} className={`block px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink(`/Note/${note.id}`)}`}>
-                                                {note.title}
-                                            </Link>
+                                            <div className="flex px-5 py-2 transition hover:bg-phcolor rounded-xl flex-row items-center justify-between">
+                                                <Link key={note.id} href={`/Note/${note.id}`} className={`text-tcolor font-medium ${isActiveLink(`/Note/${note.id}`)}`}>
+                                                    {note.title}
+                                                </Link>
+                                                <MdDelete className="text-red-500 hover:text-red-600 cursor-pointer" onClick={() => handleRemoveNoteFromFolder(folder.id, noteId)} />
+                                            </div>
                                         ) : null;
                                     })}
                                 </div>

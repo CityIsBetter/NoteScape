@@ -5,7 +5,7 @@ import { Ratelimit } from "@upstash/ratelimit";
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_TOKEN,
+  apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_TOKEN,
   baseURL: "https://openrouter.ai/api/v1/",
 });
 
@@ -24,7 +24,7 @@ export async function POST(req: Request): Promise<Response> {
     });
 
     const { success, limit, reset, remaining } = await ratelimit.limit(
-      `notty_ratelimit_${ip}`,
+      `notescape_ratelimit_${ip}`,
     );
 
     if (!success) {
@@ -39,11 +39,10 @@ export async function POST(req: Request): Promise<Response> {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { prompt } = await req.json();
 
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo-1106",
+    model: "google/gemma-2-9b-it:free",
     messages: [
       {
         role: "system",
@@ -55,7 +54,6 @@ export async function POST(req: Request): Promise<Response> {
       },
       {
         role: "user",
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         content: prompt,
       },
     ],
