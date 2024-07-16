@@ -58,11 +58,22 @@ export default function Home() {
             <div className="feature-text text-sm sm:text-lg text-gray-600">Never miss a task with our upcoming reminders feature.</div>
           </div>
 
-          <div className="feature-item p-4 border-2 border-gray-200 rounded-lg shadow-lg h-40 flex flex-col justify-center lg:col-start-2">
+          <div className="feature-item p-4 border-2 border-gray-200 rounded-lg shadow-lg h-40 flex flex-col justify-center">
             <div className="feature-title text-xl sm:text-2xl font-bold">Novel.sh Editor 📝</div>
             <div className="feature-text text-sm sm:text-lg text-gray-600">Experience seamless writing with Novel.sh, an editor with tons of features!</div>
           </div>
+
+          <div className="feature-item p-4 border-2 border-gray-200 rounded-lg shadow-lg h-40 flex flex-col justify-center">
+            <div className="feature-title text-xl sm:text-2xl font-bold">AI Assistant🤖</div>
+            <div className="feature-text text-sm sm:text-lg text-gray-600">Get answers to your questions and auto-complete sentences with "++" at the end.</div>
+          </div>
+
+          <div className="feature-item p-4 border-2 border-gray-200 rounded-lg shadow-lg h-40 flex flex-col justify-center">
+            <div className="feature-title text-xl sm:text-2xl font-bold">Image Upload🖼️</div>
+            <div className="feature-text text-sm sm:text-lg text-gray-600">Upload images using "/image" or by dragging and dropping them into the editor.</div>
+          </div>
         </div>
+
         
         <div className="mt-8">
           <p>See more <span className='underline font-semibold text-violet-400 hover:text-purple-400 transition'><Link href={"/Features"}>Features</Link></span></p>
