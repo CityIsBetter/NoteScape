@@ -65,12 +65,12 @@ export default function Home() {
 
           <div className="feature-item p-4 border-2 border-gray-200 rounded-lg shadow-lg h-40 flex flex-col justify-center">
             <div className="feature-title text-xl sm:text-2xl font-bold">AI Assistant🤖</div>
-            <div className="feature-text text-sm sm:text-lg text-gray-600">Get answers to your questions and auto-complete sentences with "++" at the end.</div>
+            <div className="feature-text text-sm sm:text-lg text-gray-600">Get answers to your questions and auto-complete sentences with &quot;++&quot; at the end.</div>
           </div>
 
           <div className="feature-item p-4 border-2 border-gray-200 rounded-lg shadow-lg h-40 flex flex-col justify-center">
             <div className="feature-title text-xl sm:text-2xl font-bold">Image Upload🖼️</div>
-            <div className="feature-text text-sm sm:text-lg text-gray-600">Upload images using "/image" or by dragging and dropping them into the editor.</div>
+            <div className="feature-text text-sm sm:text-lg text-gray-600">Upload images using &quot;/image&quot; or by dragging and dropping them into the editor.</div>
           </div>
         </div>
 
