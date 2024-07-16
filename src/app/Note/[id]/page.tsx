@@ -7,6 +7,7 @@ import NovelEditor from '@/components/NovelEditor';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Header from '@/components/Header';
 import db from '@/lib/firebase';
+import { useRouter } from 'next/navigation';
 
 type NoteProps = {
   params: { id: string };
@@ -84,7 +85,7 @@ const Note: React.FC<NoteProps> = ({ params }) => {
         if (window.confirm('Are you sure you want to delete this note?')) {
           await deleteDoc(doc(db, 'users', userEmail, 'notes', params.id));
           console.log('Note successfully deleted!');
-          // Redirect or handle deletion confirmation as needed
+          useRouter().push("/Home")
         }
       } catch (error) {
         console.error('Error deleting note:', error);

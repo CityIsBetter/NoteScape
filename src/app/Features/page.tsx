@@ -83,7 +83,7 @@ export default function Features() {
         {features.map((feature, index) => (
           <div key={index} className={`flex w-4/5 max-md:w-11/12 py-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'} max-sm:flex-col`}>
             <div className="w-1/2 max-sm:w-full flex items-center justify-center">
-              <Image src={feature.img} alt={`${feature.title} mockup`} className='rounded-2xl'/>
+              <Image src={feature.img} alt={`${feature.title} mockup`} className='rounded-2xl' draggable='false'/>
             </div>
             <div className="w-1/2 max-sm:w-full flex flex-col justify-center p-6">
               <h2 className="text-4xl font-bold mb-4 max-sm:text-2xl">{feature.title}</h2>

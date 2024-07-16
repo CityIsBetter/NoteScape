@@ -214,7 +214,7 @@ export default function Navbar() {
                     <p className='text-gray-700 text-xs'>Logged in as...</p>
                     <p className='text-black text-xl'>{userName}</p>
                 </div>
-                {userPfp && <Image src={userPfp} alt='user Photo' height={50} width={50} className='rounded-full' />}
+                {userPfp && <Image src={userPfp} alt='user Photo' height={50} width={50} className='rounded-full' draggable='false'/>}
             </div>
             <div className="overflow-y-auto no-scrollbar">
                 <div className="flex flex-col gap-1 pt-12">
@@ -315,8 +315,8 @@ export default function Navbar() {
                                     {folder.notes.map(noteId => {
                                         const note = allNotes.find(note => note.id === noteId);
                                         return note ? (
-                                            <div className="flex px-5 py-2 transition hover:bg-phcolor rounded-xl flex-row items-center justify-between">
-                                                <Link key={note.id} href={`/Note/${note.id}`} className={`text-tcolor font-medium ${isActiveLink(`/Note/${note.id}`)}`}>
+                                            <div className={`flex px-5 py-2 transition hover:bg-phcolor rounded-xl flex-row items-center justify-between ${isActiveLink(`/Note/${note.id}`)}`}>
+                                                <Link key={note.id} href={`/Note/${note.id}`} className={`text-tcolor font-medium `}>
                                                     {note.title}
                                                 </Link>
                                                 <MdDelete className="text-red-500 hover:text-red-600 cursor-pointer" onClick={() => handleRemoveNoteFromFolder(folder.id, noteId)} />
