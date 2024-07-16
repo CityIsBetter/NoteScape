@@ -26,7 +26,7 @@ export default function NovelEditor({ setContent, content, setTopic, topic }: No
           style={{
             width:`${title.length * 14}px`
           }}
-          className="pt-4 font-bold text-2xl outline-none border-b-2 border-black text-black max-w-full"
+          className="pt-4 font-bold text-2xl outline-none border-b-2 border-black text-black max-w-full bg-white"
         />
         <LuPencil className="text-2xl self-end"/>
         </div>

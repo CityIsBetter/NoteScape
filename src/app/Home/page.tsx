@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-// import ProtectedRoute from '@/components/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 import { IoMdOpen } from "react-icons/io";
 import { collection, getDocs, setDoc, doc, query, orderBy, limit } from 'firebase/firestore';
@@ -119,7 +118,6 @@ export default function Home() {
       console.error('User email is not available');
     }
   };
-
   return (
       <ProtectedRoute>          
         <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">

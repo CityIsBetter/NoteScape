@@ -27,7 +27,6 @@ export default function SignIn() {
                     localStorage.setItem("pfp-notescape", userPfp);
                     window.location.href = "/Home";
                 }
-                console.log(data);
             })
             .catch((error) => {
                 console.error('Error signing in with Google:', error);

@@ -38,3 +38,6 @@ next-env.d.ts
 
 .gitignore
 .vercel
+
+/src/lib/service_key.json
+certificates

@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/NovelEditor", "src/app/api/new-note.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/NovelEditor", "src/app/api/new-note.js", "src/hooks/useFcmToken.tss", "functions/tsconfig.json"],
   "exclude": ["node_modules"]
 }

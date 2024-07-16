@@ -68,10 +68,10 @@
 
 @layer base {
   * {
-    @apply border-border;
+    /* @apply border-border; */
     font-family: Arial, Helvetica, sans-serif
   }
-  body {
+  /* body {
     @apply bg-background text-foreground;
-  }
+  } */
 }
