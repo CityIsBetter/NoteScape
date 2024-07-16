@@ -14,6 +14,7 @@ type NoteProps = {
 };
 
 const Note: React.FC<NoteProps> = ({ params }) => {
+  const router = useRouter();
   const [content, setContent] = useState<JSONContent[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState<string>(params.id);
@@ -85,7 +86,8 @@ const Note: React.FC<NoteProps> = ({ params }) => {
         if (window.confirm('Are you sure you want to delete this note?')) {
           await deleteDoc(doc(db, 'users', userEmail, 'notes', params.id));
           console.log('Note successfully deleted!');
-          useRouter().push("/Home")
+
+          router.push("/Home");
         }
       } catch (error) {
         console.error('Error deleting note:', error);
