@@ -71,7 +71,7 @@ export default function Navbar() {
     };    
 
     const isActiveLink = (href: string) => {
-        return pathName === href ? 'bg-phcolor' : '';
+        return pathName === href ? 'bg-secondary-foreground' : '';
     };
 
     const fetchFavNotes = async () => {
@@ -208,31 +208,31 @@ export default function Navbar() {
 
     return (
         <div className="">
-        <div className={`flex flex-col ${isSidebarOpen ? '' : 'hidden'} transition-transform ease-in-out duration-300 bg-pcolor h-screen p-5 w-72 justify-start border-r-2 border-gray-200 overflow-hidden`}>
+        <div className={`flex flex-col ${isSidebarOpen ? '' : 'hidden'} transition-transform ease-in-out duration-300 bg-secondary h-screen p-5 w-72 justify-start border-r-2 border-border overflow-hidden`}>
             <div className="user flex flex-row justify-between items-center">
                 <div className="flex-col">
-                    <p className='text-gray-700 text-xs'>Logged in as...</p>
-                    <p className='text-black text-xl'>{userName}</p>
+                    <p className='text-text text-xs'>Logged in as...</p>
+                    <p className='text-foreground text-xl'>{userName}</p>
                 </div>
                 {userPfp && <Image src={userPfp} alt='user Photo' height={50} width={50} className='rounded-full' draggable='false'/>}
             </div>
             <div className="overflow-y-auto no-scrollbar">
                 <div className="flex flex-col gap-1 pt-12">
-                    <p className='font-semibold border-b-2 border-gray-200 text-tcolor'>General</p>
-                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink('/Home')}`}>
+                    <p className='font-semibold border-b-2 border-border dark:border-gray-500 text-text'>General</p>
+                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/Home')}`}>
                         🏠Home
                     </Link>
-                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink('/Settings')}`}>
+                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/Settings')}`}>
                         ⚙️Settings
                     </Link>
                 </div>
 
                 <div className='flex flex-col gap-3 pt-12'>
-                    <p className='font-semibold border-b-2 border-gray-200 text-tcolor'>Favorites</p>
+                    <p className='font-semibold border-b-2 border-gray-200 dark:border-gray-500 text-text'>Favorites</p>
                     {favNotes.map(note => (
                         <div
                             key={note.id}
-                            className={`flex items-center justify-between px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium ${isActiveLink(`/Note/${note.id}`)}`}
+                            className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink(`/Note/${note.id}`)}`}
                             onMouseEnter={() => setHoveredNoteId(note.id)}
                             onMouseLeave={() => setHoveredNoteId(null)}
                         >
@@ -250,9 +250,9 @@ export default function Navbar() {
                 </div>
 
                 <div className='flex flex-col gap-3 pt-12 pb-24'>
-                    <div className="flex items-center justify-between border-b-2 border-gray-200">
-                        <p className='font-semibold  text-tcolor'>Folders</p>
-                        <button className="text-tcolor hover:text-green-700 text-lg" onClick={() => setIsCreatingFolder(true)}>
+                    <div className="flex items-center justify-between border-b-2 border-gray-200 dark:border-gray-500">
+                        <p className='font-semibold  text-text'>Folders</p>
+                        <button className="text-text hover:text-green-700 text-lg" onClick={() => setIsCreatingFolder(true)}>
                             <MdAdd />
                         </button>
                     </div>
@@ -273,7 +273,7 @@ export default function Navbar() {
                     )}
                     {folders.map(folder => (
                         <div key={folder.id} className="flex flex-col">
-                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium">
+                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium">
                                 {editingFolderId === folder.id ? (
                                     <input
                                         type="text"
@@ -286,7 +286,7 @@ export default function Navbar() {
                                 ) : (
                                     <div className="flex flex-row">
                                         <button
-                                        className="text-gray-500 hover:text-gray-700 text-lg"
+                                        className="text-text hover:text-gray-200 text-lg"
                                         onClick={() => handleToggleFolder(folder.id)}
                                     >
                                         {expandedFolderIds.has(folder.id) ? <MdExpandMore  /> : <MdExpandMore  className='-rotate-90'/>}
@@ -315,8 +315,8 @@ export default function Navbar() {
                                     {folder.notes.map(noteId => {
                                         const note = allNotes.find(note => note.id === noteId);
                                         return note ? (
-                                            <div className={`flex px-5 py-2 transition hover:bg-phcolor rounded-xl flex-row items-center justify-between ${isActiveLink(`/Note/${note.id}`)}`}>
-                                                <Link key={note.id} href={`/Note/${note.id}`} className={`text-tcolor font-medium `}>
+                                            <div className={`flex px-5 py-2 transition hover:bg-secondary-foreground rounded-xl flex-row items-center justify-between ${isActiveLink(`/Note/${note.id}`)}`}>
+                                                <Link key={note.id} href={`/Note/${note.id}`} className={`text-text font-medium `}>
                                                     {note.title}
                                                 </Link>
                                                 <MdDelete className="text-red-500 hover:text-red-600 cursor-pointer" onClick={() => handleRemoveNoteFromFolder(folder.id, noteId)} />
@@ -330,7 +330,7 @@ export default function Navbar() {
                                     {availableNotes(folder.id).map(note => (
                                         <button
                                             key={note.id}
-                                            className="block px-5 py-2 transition hover:bg-phcolor rounded-xl text-tcolor font-medium"
+                                            className="block px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium"
                                             onClick={() => handleAddNoteToFolder(folder.id, note)}
                                         >
                                             {note.title}
@@ -344,7 +344,7 @@ export default function Navbar() {
                 </div>
             </div>
         </div>
-            <button className={`fixed z-10 top-1/2 ${isSidebarOpen ? 'left-72' : 'left-0'} bg-pcolor text-tcolor px-2 py-4 border-y-2 border-r-2 border-gray-200`} onClick={toggleSidebar}>
+            <button className={`fixed z-10 top-1/2 ${isSidebarOpen ? 'left-72' : 'left-0'} bg-secondary text-text px-2 py-4 border-y-2 border-r-2 border-border`} onClick={toggleSidebar}>
                 {isSidebarOpen ? <MdArrowBackIosNew /> : <MdArrowForwardIos/>}
             </button>
         </div>

@@ -16,7 +16,7 @@ export default function NovelEditor({ setContent, content, setTopic, topic }: No
   const [title, setTitle] = useState(topic);
 
   return (
-    <Card className=" rounded-2xl min-w-128 max-sm:min-w-full">
+    <Card className=" rounded-2xl min-w-128 max-sm:min-w-full border-border ">
       <CardContent>
         <div className="flex flex-row items-center">
         <input
@@ -26,7 +26,7 @@ export default function NovelEditor({ setContent, content, setTopic, topic }: No
           style={{
             width:`${title.length * 14}px`
           }}
-          className="pt-4 font-bold text-2xl outline-none border-b-2 border-black text-black max-w-full bg-white"
+          className="pt-4 font-bold text-2xl outline-none border-b-2 border-foreground text-foreground max-w-full bg-background"
         />
         <LuPencil className="text-2xl self-end"/>
         </div>
@@ -37,7 +37,7 @@ export default function NovelEditor({ setContent, content, setTopic, topic }: No
             setTopic(title);
           }}
           disableLocalStorage={true}
-          className="rounded-2xl border-2 mt-4"
+          className="rounded-2xl border-2 border-border mt-4 bg-secondary"
         />
       </CardContent>
     </Card>

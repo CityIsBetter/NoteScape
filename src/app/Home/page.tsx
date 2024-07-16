@@ -127,41 +127,41 @@ export default function Home() {
           throw new Error('Function not implemented.');
         } } />
           <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
-            <div className="mt-24 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl min-h-80 bg-pcolor p-4 rounded-2xl border-2 border-gray-200 ">
+            <div className="mt-24 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl min-h-80 bg-background p-4 rounded-2xl border-2 border-border ">
               <div className="text-2xl font-semibold">📝 Start a New Note </div>
               <div className="flex flex-row mt-2 gap-2 justify-between text-sm w-full overflow-x-scroll">
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-6xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("new")}>➕</div>
+                  <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-6xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("new")}>➕</div>
                   <p>New Note</p> 
                 </div>
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("g")}>🍅</div>
+                  <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("g")}>🍅</div>
                   <p>Groceries List</p>
                 </div>
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("t")}>✅</div>
+                  <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("t")}>✅</div>
                   <p>To Do List</p>
                 </div>
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("s")}>📚</div>
+                  <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("s")}>📚</div>
                   <p>Study Plan</p>
                 </div>
                 <div className="">
-                  <div className="h-52 w-40 transition bg-white hover:bg-phcolor border-2 border-gray-200 flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("v")}>🏖️</div>
+                  <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={()=>createNewNote("v")}>🏖️</div>
                   <p>Vacation Planning</p>
                 </div>
               </div>
             </div>
   
             {/* Recent Notes */}
-            <div className="w-1/4 max-lg:w-1/2 max-md:w-3/4 max-sm:w-11/12 mt-24 max-sm:mt-4 max-sm:mb-40 mb-20 bg-pcolor p-4 rounded-2xl border-2 border-gray-200">
+            <div className=" max-w-lg w-1/2 max-lg:w-1/2 max-md:w-3/4 max-sm:w-11/12 mt-24 max-sm:mt-4 max-sm:mb-40 mb-20 bg-pcolor p-4 rounded-2xl border-2 border-border">
               <div className="text-2xl font-semibold">⌚ Your Recent Notes </div>
               <div className='flex flex-col mt-2 items-start justify-between gap-2'>
                 {recentNotes.length > 0 ? (
                   recentNotes.map((note) => (
                     <div
                       key={note.id}
-                      className="w-full transition bg-white hover:bg-phcolor border-2 border-gray-200 flex justify-start text-7xl font-thin rounded-xl cursor-pointer"
+                      className="w-full transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex justify-start text-7xl font-thin rounded-xl cursor-pointer"
                     >
                       <div className="text-sm w-full p-4">
                         <Link href={`/Note/${note.id}`} className='flex flex-row items-center justify-between w-full'>
@@ -171,7 +171,7 @@ export default function Home() {
                     </div>
                   ))
                 ) : (
-                  <div className="text-sm flex self-start p-4 bg-gray-100 w-40 rounded-xl text-gray-400">No recent notes found</div>
+                  <div className="text-sm flex self-start p-4 bg-secondary w-40 rounded-xl text-text">No recent notes found</div>
                 )}
               </div>
             </div>

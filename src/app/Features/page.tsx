@@ -58,24 +58,24 @@ export default function Features() {
   return (
     <main className="flex flex-col w-full h-full">
       {/* Navbar */}
-      <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-gray-200 bg-white z-50">
+      <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-border bg-background z-50">
         <Link className="logo text-4xl max-lg:text-3xl font-bold max-sm:text-xl flex flex-row items-center" href={"/"}><Image src={logo} alt='logo' className='w-12 h-12 max-lg:w-10 max-lg:h-10 max-sm:w-8 max-sm:h-8'/> NoteScape</Link>
         <div className="text-xl flex flex-wrap items-center justify-center gap-2">
-          <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">Features</Link>
-          <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:text-sm">About</Link>
-          <Link href={"/SignIn"} className="p-2 max-sm:p-0 rounded-md hover:bg-gray-100 transition max-sm:hidden">Sign In</Link>
+          <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:text-sm">Features</Link>
+          <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:text-sm">About</Link>
+          <Link href={"/SignIn"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:hidden">Sign In</Link>
           <Link href={"/Home"}>
-            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-gray-700 font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button>
+            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-foreground font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button>
           </Link>
         </div>
       </div>
 
       {/* Hero Section */}
-      <div className="flex flex-col items-center justify-center h-screen bg-white text-center">
+      <div className="flex flex-col items-center justify-center h-screen bg-background text-center">
         <h1 className="text-6xl font-bold ">
           Discover NoteScape&apos;s <span className='text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500'>Features</span> 
         </h1>
-        <p className="text-xl text-gray-600 mt-4">Maximize your productivity with our powerful tools.</p>
+        <p className="text-xl text-gray-500 mt-4">Maximize your productivity with our powerful tools.</p>
       </div>
 
       {/* Features Section */}
@@ -87,7 +87,7 @@ export default function Features() {
             </div>
             <div className="w-1/2 max-sm:w-full flex flex-col justify-center p-6">
               <h2 className="text-4xl font-bold mb-4 max-sm:text-2xl">{feature.title}</h2>
-              <p className="text-lg text-gray-700 max-md:text-md">{feature.description}</p>
+              <p className="text-lg text-text max-md:text-md">{feature.description}</p>
             </div>
           </div>
         ))}
