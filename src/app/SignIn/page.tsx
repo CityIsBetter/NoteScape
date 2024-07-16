@@ -42,7 +42,7 @@ export default function SignIn() {
   return (
     <div>
         <div className='flex flex-col w-screen h-screen items-center justify-center text-center'>
-            <div className='p-12 w-1/2 max-lg:w-3/4 max-md:w-11/12 bg-pcolor border-2 border-gray-200 rounded-2xl items-center justify-center flex flex-col shadow-sm'>
+            <div className='p-12 w-1/2 max-lg:w-3/4 max-md:w-11/12 bg-secondary border-2 border-border rounded-2xl items-center justify-center flex flex-col shadow-sm gap-4'>
                 <Image src={logo} alt='logo' className='w-24 h-24'/>
                 <h2 className='text-7xl font-bold max-lg:text-6xl max-sm:text-4xl'>Welcome to  <span className='bg-gradient-to-r from-violet-600 via-blue-500 to-indigo-400 bg-clip-text text-transparent'>NoteScape</span></h2>
                 <p className='text-2xl max-sm:text-xl'>Please sign in with your Google account to continue</p>
