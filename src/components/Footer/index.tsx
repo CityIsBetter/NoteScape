@@ -27,7 +27,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="flex flex-row items-end justify-start">
-                <p className='text-md max-sm:flex max-sm:flex-row'>See how this website was&nbsp;<a href='https://github.com/CityIsBetter' target='_blank' className='hover:text-purple-400 flex-row flex font-semibold border-b-2 border-transparent hover:underline'> made&nbsp; <FaArrowUpRightFromSquare className='text-xs self-center'/></a></p>
+                <p className='text-md max-sm:flex max-sm:flex-row'>See how this website was&nbsp;<a href='https://t.ly/t0ryI' target='_blank' className='hover:text-purple-400 flex-row flex font-semibold border-b-2 border-transparent hover:underline'> made&nbsp; <FaArrowUpRightFromSquare className='text-xs self-center'/></a></p>
             </div>
         </div>
         <div className="flex items-center justify-center mb-12">© 2024 Mahesh Paul</div>
