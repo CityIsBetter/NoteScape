@@ -10,9 +10,15 @@ export async function POST(req: Request) {
     });
   }
 
-  const file = req.body || "";
+  const contentType = req.headers.get("content-type");
+  if (!contentType) {
+    return new Response("Missing content-type header.", {
+      status: 400,
+    });
+  }
+
+  const file = await req.blob();
   const filename = req.headers.get("x-vercel-filename") || "file.txt";
-  const contentType = req.headers.get("content-type") || "text/plain";
   const fileType = `.${contentType.split("/")[1]}`;
 
   // Add timestamp to the filename to ensure uniqueness
