@@ -1,6 +1,6 @@
 # NoteScape
 
-NoteScape is a powerful and versatile note-taking app designed to enhance your productivity and organization. Featuring bulletins, to-dos, image uploads, and an AI assistant, NoteScape offers seamless sync across devices and a rich editing experience.
+NoteScape is a powerful and versatile note-taking app designed to enhance your productivity and organization. Featuring bulletins, to-dos, image uploads, and an AI assistant, NoteScape offers seamless sync across devices and a rich editing experience. read the [blog](https://t.ly/t0ryI) to know how I made this project.
 
 ## Features
 
