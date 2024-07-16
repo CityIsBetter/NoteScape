@@ -11,23 +11,28 @@ export async function POST(req: Request) {
   }
 
   const contentType = req.headers.get("content-type");
-  if (!contentType) {
-    return new Response("Missing content-type header.", {
+  if (!contentType || !contentType.startsWith("image/")) {
+    return new Response("Invalid or missing content-type header.", {
       status: 400,
     });
   }
 
-  const file = await req.blob();
   const filename = req.headers.get("x-vercel-filename") || "file.txt";
   const fileType = `.${contentType.split("/")[1]}`;
-
-  // Add timestamp to the filename to ensure uniqueness
   const timestamp = Date.now();
   const finalName = filename.includes(fileType) ? `${filename}-${timestamp}` : `${filename}-${timestamp}${fileType}`;
-  const blob = await put(finalName, file, {
-    contentType,
-    access: "public",
-  });
 
-  return NextResponse.json(blob);
+  try {
+    const arrayBuffer = await req.arrayBuffer();
+    const blob = await put(finalName, new Uint8Array(arrayBuffer), {
+      contentType,
+      access: "public",
+    });
+
+    return NextResponse.json(blob);
+  } catch (error) {
+    return new Response(`Error: ${error}`, {
+      status: 500,
+    });
+  }
 }
