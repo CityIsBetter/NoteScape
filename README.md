@@ -64,3 +64,7 @@ NoteScape is a powerful and versatile note-taking app designed to enhance your p
 ## Contributions
 
 Contributions are welcomed! If you have ideas for improvements or have found bugs, feel free to open an issue or submit a pull request. Let's make NoteScape even better together!
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/CityIsBetter/NoteScape/blob/master/LICENSE) file for details.
