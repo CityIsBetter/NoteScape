@@ -158,8 +158,8 @@ export default function Home() {
               <div className="text-2xl font-semibold">⌚ Your Recent Notes </div>
               <div className='flex flex-col mt-2 items-start justify-between gap-2'>
                 {recentNotes.length > 0 ? (
-                  recentNotes.map((note) => (
-                    <Link href={`/Note/${note.id}`} className='w-full'>
+                  recentNotes.map((note, key) => (
+                    <Link href={`/Note/${note.id}`} className='w-full' key={key}>
                       <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
                         <div className="flex flex-row items-center justify-between text-sm w-full p-4">
                           <p className='text-sm'>{note.title ? note.title : note.id}</p>
