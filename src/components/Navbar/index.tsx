@@ -263,7 +263,7 @@ export default function Navbar() {
                                 value={newFolderName}
                                 placeholder='Folder Name'
                                 onChange={(e) => setNewFolderName(e.target.value)}
-                                className="flex-1 rounded mx-2 px-2 py-1 focus:outline-none border-2 border-gray-200 w-3/4"
+                                className="flex-1 rounded mx-2 px-2 py-1 focus:outline-none border-2 border-border w-3/4"
                                 onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
                                 onBlur={handleCreateFolder}
                                 autoFocus
@@ -326,7 +326,7 @@ export default function Navbar() {
                                 </div>
                             )}
                             {isDropdownOpen === folder.id && (
-                                <div className="ml-8 flex flex-col gap-1 bg-white border-2 border-gray-200 z-10 rounded-2xl">
+                                <div className="ml-8 flex flex-col gap-1 bg-background border-2 border-border z-10 rounded-2xl">
                                     {availableNotes(folder.id).map(note => (
                                         <button
                                             key={note.id}

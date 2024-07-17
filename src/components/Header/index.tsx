@@ -56,11 +56,11 @@ const Header: React.FC<HeaderProps> = ({ title, isFavorite, onFavoriteToggle, on
         <button className="focus:outline-none" onClick={toggleDropdown}>
           <span className="text-xl cursor-pointer">{!isDropdownOpen ? "···" : "x"}</span>
         </button>
-        <div className={`absolute right-0 mt-2 w-40 bg-white border-2 rounded-xl shadow-lg py-2 ${isDropdownOpen ? '' : 'hidden'}`}>
-          <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={handleFavoriteClick}>
+        <div className={`absolute right-0 mt-2 w-40 bg-background border-2 border-border rounded-2xl shadow-lg p-2 ${isDropdownOpen ? '' : 'hidden'}`}>
+          <div className="block px-4 py-2 text-sm text-text hover:bg-secondary cursor-pointer rounded-xl" onClick={handleFavoriteClick}>
             {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
           </div>
-          <div className="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 cursor-pointer" onClick={handleDeleteClick}>
+          <div className="block px-4 py-2 text-sm text-red-500 hover:bg-secondary cursor-pointer rounded-xl" onClick={handleDeleteClick}>
             Delete
           </div>
         </div>

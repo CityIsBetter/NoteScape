@@ -127,7 +127,7 @@ export default function Home() {
           throw new Error('Function not implemented.');
         } } />
           <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
-            <div className="mt-24 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl min-h-80 bg-background p-4 rounded-2xl border-2 border-border ">
+            <div className="mt-24 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl min-h-80 bg-background p-4 rounded-2xl border-2 border-border">
               <div className="text-2xl font-semibold">📝 Start a New Note </div>
               <div className="flex flex-row mt-2 gap-2 justify-between text-sm w-full overflow-x-scroll">
                 <div className="">
@@ -159,16 +159,14 @@ export default function Home() {
               <div className='flex flex-col mt-2 items-start justify-between gap-2'>
                 {recentNotes.length > 0 ? (
                   recentNotes.map((note) => (
-                    <div
-                      key={note.id}
-                      className="w-full transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex justify-start text-7xl font-thin rounded-xl cursor-pointer"
-                    >
-                      <div className="text-sm w-full p-4">
-                        <Link href={`/Note/${note.id}`} className='flex flex-row items-center justify-between w-full'>
-                        <p className='text-sm'>{note.title ? note.title : note.id}</p>
-                        <IoMdOpen/></Link>
+                    <Link href={`/Note/${note.id}`} className='w-full'>
+                      <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
+                        <div className="flex flex-row items-center justify-between text-sm w-full p-4">
+                          <p className='text-sm'>{note.title ? note.title : note.id}</p>
+                          <IoMdOpen/>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   ))
                 ) : (
                   <div className="text-sm flex self-start p-4 bg-secondary w-40 rounded-xl text-text">No recent notes found</div>
