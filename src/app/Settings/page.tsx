@@ -22,7 +22,7 @@ export default function Settings() {
             } } onDeleteClick={function (): void {
                 throw new Error('Function not implemented.');
             } } />
-            <div className="mt-24 bg-background p-12 border-2 border-border rounded-2xl w-1/2 overflow-y-auto">
+            <div className="mt-24 max-sm:mt-6 bg-background p-12 border-2 border-border rounded-2xl w-1/2 max-md:w-3/4 overflow-y-auto">
                 <div className="flex flex-row justify-start items-center">
                     <p className='text-xl'>Change Theme: </p>
                     <ThemeToggle />

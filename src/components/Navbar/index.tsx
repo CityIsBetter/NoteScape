@@ -222,6 +222,12 @@ export default function Navbar() {
                     <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/Home')}`}>
                         🏠Home
                     </Link>
+                    <Link href={"/All-Notes"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/All-Notes')}`}>
+                        📒All Notes
+                    </Link>
+                    <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/Reminders')}`}>
+                        ⏱️Reminders
+                    </Link>
                     <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/Settings')}`}>
                         ⚙️Settings
                     </Link>
