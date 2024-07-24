@@ -149,26 +149,35 @@ export default function Home() {
     const today: Reminder[] = [];
     const tomorrow: Reminder[] = [];
     const thisWeek: Reminder[] = [];
+    const others: Reminder[] = [];
+  
     const now = new Date();
-    const todayDate = new Date(now.setHours(0, 0, 0, 0));
-    const tomorrowDate = new Date(todayDate);
-    tomorrowDate.setDate(todayDate.getDate() + 1);
-    const endOfWeek = new Date(todayDate);
-    endOfWeek.setDate(todayDate.getDate() + (7 - todayDate.getDay()));
-
+    const todayStart = new Date(now.setHours(0, 0, 0, 0)); // Start of today
+    const tomorrowStart = new Date(todayStart);
+    tomorrowStart.setDate(todayStart.getDate() + 1); // Start of tomorrow
+    const tomorrowEnd = new Date(tomorrowStart);
+    tomorrowEnd.setDate(tomorrowStart.getDate() + 1); // End of tomorrow (Start of day after tomorrow)
+  
+    const endOfWeek = new Date(todayStart);
+    endOfWeek.setDate(todayStart.getDate() + (7 - todayStart.getDay())); // End of the week
+  
     reminders.forEach(reminder => {
       const reminderDate = new Date(reminder.date);
-      if (reminderDate >= todayDate && reminderDate < tomorrowDate) {
+      
+      if (reminderDate >= todayStart && reminderDate < tomorrowStart) {
         today.push(reminder);
-      } else if (reminderDate >= tomorrowDate && reminderDate < endOfWeek) {
+      } else if (reminderDate >= tomorrowStart && reminderDate < tomorrowEnd) {
         tomorrow.push(reminder);
-      } else if (reminderDate >= endOfWeek) {
+      } else if (reminderDate >= tomorrowEnd && reminderDate <= endOfWeek) {
         thisWeek.push(reminder);
+      } else if (reminderDate > endOfWeek) {
+        others.push(reminder);
       }
     });
-
-    return { today, tomorrow, thisWeek };
+  
+    return { today, tomorrow, thisWeek, others };
   };
+
 
   const { today, tomorrow, thisWeek } = categorizeReminders();
 
@@ -251,7 +260,7 @@ export default function Home() {
                   <div className='w-full'>
                     <div className="font-semibold">Tomorrow</div>
                     {tomorrow.map(reminder => (
-                      <div key={reminder.id} className="transition bg-secondary border-l-4 border-red-400 flex justify-start text-7xl font-thin rounded-xl cursor-pointer mb-2">
+                      <div key={reminder.id} className="bg-secondary border-l-4 border-red-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
                         <div className="flex flex-row items-center justify-between text-sm w-full p-4">
                           <p>{reminder.title}</p>
                           <p>{new Date(reminder.date).toLocaleString()}</p>
@@ -264,7 +273,7 @@ export default function Home() {
                   <div className='w-full'>
                     <div className="font-semibold">This Week</div>
                     {thisWeek.map(reminder => (
-                      <div key={reminder.id} className="transition bg-secondary border-l-4 border-blue-400 flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
+                      <div key={reminder.id} className="bg-secondary border-l-4 border-yellow-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
                         <div className="flex flex-row items-center justify-between text-sm w-full p-4">
                           <p>{reminder.title}</p>
                           <p>{new Date(reminder.date).toLocaleString()}</p>
