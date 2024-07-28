@@ -1,15 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { IoMdOpen } from "react-icons/io";
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import db from '@/lib/firebase';
 import Header from '@/components/Header';
 import Link from 'next/link';
 import { Timestamp } from 'firebase/firestore';
 
 import dynamic from 'next/dynamic';
+import { MdDelete, MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 const ProtectedRoute = dynamic(() => import('@/components/ProtectedRoute'), { ssr: false })
 
 type Note = {
@@ -17,14 +16,15 @@ type Note = {
   title: string;
   content: string[];
   lastEdited: Timestamp;
+  fav?: boolean;
 };
 
 export default function AllNotes() {
-  const router = useRouter();
   const userEmail = typeof window !== 'undefined' ? window.localStorage.getItem("email-notescape") : null;
   const [allNotes, setAllNotes] = useState<Note[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  
+  const [updated, setUpdated] = useState(false);
+
   useEffect(() => {
     const fetchAllNotes = async () => {
       if (userEmail) {
@@ -65,12 +65,42 @@ export default function AllNotes() {
     setSearchQuery(event.target.value);
   };
 
+  const handleToggleFavorite = async (noteId: string, isFavorite: boolean) => {
+    if (userEmail) {
+      try {
+        const noteRef = doc(db, 'users', userEmail, 'notes', noteId);
+        await updateDoc(noteRef, { fav: !isFavorite });
+        setAllNotes(prevNotes => 
+          prevNotes.map(note => 
+            note.id === noteId ? { ...note, fav: !isFavorite } : note
+          )
+        );
+        setUpdated(!updated);        
+      } catch (error) {
+        console.error('Error updating favorite status:', error);
+      }
+    }
+  };
+
+  const handleDeleteNote = async (noteId: string) => {
+    if (userEmail) {
+      try {
+        const noteRef = doc(db, 'users', userEmail, 'notes', noteId);
+        await deleteDoc(noteRef);
+        setAllNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+        console.log('Note deleted!');
+      } catch (error) {
+        console.error('Error deleting note:', error);
+      }
+    }
+  };
+
   const filteredNotes = allNotes.filter(note =>
     note.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute navUpdate={updated}>
       <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
         <Header
           title='All Notes'
@@ -95,17 +125,22 @@ export default function AllNotes() {
                 filteredNotes.map((note) => {
                   const formattedDate = formatLastEditedDate(note.lastEdited);
                   return (
-                    <Link href={`/Note/${note.id}`} className='w-full' key={note.id}>
-                      <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
+                    <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
+                      
                         <div className="flex flex-row items-center justify-between text-sm w-full p-4">
-                          <div className="">
-                              <p className='text-lg font-semibold'>{note.title ? note.title : note.id}</p>
-                              <p className='text-sm mt-2'><span className='font-semibold'>Last Edited:</span> {formattedDate}</p>
+                          <Link href={`/Note/${note.id}`} className='w-full' key={note.id}><div className="">
+                            <p className='text-lg font-semibold'>{note.title ? note.title : note.id}</p>
+                            <p className='text-sm mt-2'><span className='font-semibold'>Last Edited:</span> {formattedDate}</p>
+                          </div></Link>
+                          <div className="flex flex-row items-center gap-2">
+                            <button className={`text-red-400 text-xl`} 
+                              onClick={() => handleToggleFavorite(note.id, note.fav || false)}> {note.fav ? <MdFavorite  className='hover:text-red-500'/> : <MdFavoriteBorder  className='hover:text-red-500'/>} </button>
+                            <button  className="text-xl text-text"
+                              onClick={() => handleDeleteNote(note.id)}><MdDelete className='hover:text-red-500'/></button>
                           </div>
-                          <IoMdOpen />
                         </div>
-                      </div>
-                    </Link>
+                      
+                    </div>
                   );
                 })
               ) : (

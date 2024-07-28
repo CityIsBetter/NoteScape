@@ -182,7 +182,7 @@ export default function Home() {
   const { today, tomorrow, thisWeek } = categorizeReminders();
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute navUpdate={false}>
       <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
         <Header onFavoriteToggle={function (): void {
           throw new Error('Function not implemented.');

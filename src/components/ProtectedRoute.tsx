@@ -3,10 +3,11 @@ import { useEffect } from 'react';
 import Navbar from './Navbar';
 
 interface LayoutProps {
-    children: React.ReactNode;
+    children: React.ReactNode,
+    navUpdate: boolean;
 }
 
-const ProtectedRoute: React.FC<LayoutProps> = ({ children }) => {
+const ProtectedRoute: React.FC<LayoutProps> = ({ children, navUpdate }) => {
 
     useEffect(() => {
         if (localStorage.getItem('email-notescape') == null) {
@@ -15,7 +16,7 @@ const ProtectedRoute: React.FC<LayoutProps> = ({ children }) => {
     }, []);
 
     return <>
-            <Navbar />
+            <Navbar navUpdate={navUpdate}/>
             <div className="w-full">
                 {children}
             </div>

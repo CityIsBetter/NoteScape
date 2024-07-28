@@ -35,7 +35,7 @@ export default function Home() {
         <Link href={"/Home"}>
         <Link href={"/Home"}><button className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-rose-300 hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4  origin-left hover:decoration-2 hover:text-text relative bg-background h-16 w-64 border-2 border-border text-left p-3 text-tcolor text-base font-bold rounded-lg  overflow-hidden  before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg  after:absolute after:z-10 after:w-20 after:h-20 after:content['']  after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg">Start Taking Notes</button></Link>
         </Link>
-        <Image src={mockup1} alt='mockup' className='w-full max-w-3xl rounded-2xl border-2 border-gray-200' draggable='false'/>
+        <Image src={mockup1} alt='mockup' className='w-full max-w-3xl' draggable='false'/>
       </div>
 
       {/* Features Section */}
@@ -43,34 +43,69 @@ export default function Home() {
         <div className="feature-description text-lg sm:text-xl text-text">NoteScape offers a wide range of features to enhance your note-taking experience.</div>
 
         <div className="feature-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 w-full max-w-6xl">
-          <div className="feature-item p-4 border-2 border-border rounded-lg shadow-lg h-40 flex flex-col justify-center bg-secondary">
+          {/* <div className="feature-item p-4 border-2 border-border rounded-lg h-40 flex flex-col justify-center bg-secondary">
             <div className="feature-title text-xl sm:text-2xl font-bold">Sync Across Devices📱</div>
             <div className="feature-text text-sm sm:text-lg text-gray-500">Access your notes anywhere, anytime with Google Account sync.</div>
+          </div> */}
+
+          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
+            <span className="absolute inset-0 border-2 border-dashed border-black"></span>
+            <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+              <div className="absolute p-4 group-hover:relative">
+                <div className="feature-title text-xl sm:text-2xl font-bold">Sync Across Devices📱</div>
+                <div className="feature-text text-sm sm:text-lg text-gray-500">Access your notes anywhere, anytime with Google Account sync.</div>
+              </div>
+            </div>
           </div>
 
-          <div className="feature-item p-4 border-2 border-border rounded-lg shadow-lg h-40 flex flex-col justify-center bg-secondary">
-            <div className="feature-title text-xl sm:text-2xl font-bold">Organize with Folders📂</div>
-            <div className="feature-text text-sm sm:text-lg text-gray-500">Keep your notes neatly organized with folders and favorites.</div>
+          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
+          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+            <div className="absolute p-4 group-hover:relative">
+              <div className="feature-title text-xl sm:text-2xl font-bold">Organize with Folders📂</div>
+              <div className="feature-text text-sm sm:text-lg text-gray-500">Keep your notes neatly organized with folders and favorites.</div>
+            </div>
+          </div>
           </div>
 
-          <div className="feature-item p-4 border-2 border-border rounded-lg shadow-lg h-40 flex flex-col justify-center bg-secondary">
-            <div className="feature-title text-xl sm:text-2xl font-bold">Set Reminders⏰</div>
-            <div className="feature-text text-sm sm:text-lg text-gray-500">Never miss a task with our upcoming reminders feature.</div>
+          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
+          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+            <div className="absolute p-4 group-hover:relative">
+              <div className="feature-title text-xl sm:text-2xl font-bold">Set Reminders⏰</div>
+              <div className="feature-text text-sm sm:text-lg text-gray-500">Never miss a task with our upcoming reminders feature.</div>
+            </div>
+          </div>
           </div>
 
-          <div className="feature-item p-4 border-2 border-border rounded-lg shadow-lg h-40 flex flex-col justify-center bg-secondary">
-            <div className="feature-title text-xl sm:text-2xl font-bold">Novel.sh Editor 📝</div>
-            <div className="feature-text text-sm sm:text-lg text-gray-500">Experience seamless writing with Novel.sh, an editor with tons of features!</div>
+          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
+          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+            <div className="absolute p-4 group-hover:relative">
+              <div className="feature-title text-xl sm:text-2xl font-bold">Novel.sh Editor 📝</div>
+              <div className="feature-text text-sm sm:text-lg text-gray-500">Experience seamless writing with Novel.sh, an editor with tons of features!</div>
+            </div>
+          </div>
           </div>
 
-          <div className="feature-item p-4 border-2 border-border rounded-lg shadow-lg h-40 flex flex-col justify-center bg-secondary">
-            <div className="feature-title text-xl sm:text-2xl font-bold">AI Assistant🤖</div>
-            <div className="feature-text text-sm sm:text-lg text-gray-500">Get answers to your questions and auto-complete sentences with &quot;++&quot; at the end.</div>
+          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
+          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+            <div className="absolute p-4 group-hover:relative">
+              <div className="feature-title text-xl sm:text-2xl font-bold">AI Assistant🤖</div>
+              <div className="feature-text text-sm sm:text-lg text-gray-500">Get answers to your questions and auto-complete sentences with &quot;++&quot; at the end.</div>
+            </div>
+          </div>
           </div>
 
-          <div className="feature-item p-4 border-2 border-border rounded-lg shadow-lg h-40 flex flex-col justify-center bg-secondary">
-            <div className="feature-title text-xl sm:text-2xl font-bold">Image Upload🖼️</div>
-            <div className="feature-text text-sm sm:text-lg text-gray-500">Upload images using &quot;/image&quot; or by dragging and dropping them into the editor.</div>
+          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
+          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+            <div className="absolute p-4 group-hover:relative">
+              <div className="feature-title text-xl sm:text-2xl font-bold">Image Upload🖼️</div>
+              <div className="feature-text text-sm sm:text-lg text-gray-500">Upload images using &quot;/image&quot; or by dragging and dropping them into the editor.</div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -84,3 +119,13 @@ export default function Home() {
     </main>
   );
 }
+
+
+{/* <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary">
+<span className="absolute inset-0 border-2 border-dashed border-black"></span>
+<div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+  <div className="absolute p-4 group-hover:relative">
+
+  </div>
+</div>
+</div> */}

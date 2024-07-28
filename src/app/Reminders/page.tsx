@@ -140,7 +140,7 @@ export default function Page() {
   const { today, tomorrow, thisWeek, others } = categorizeReminders();
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute navUpdate={false}>
       <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
         <Header title='Reminders' onFavoriteToggle={function (): void {
           throw new Error('Function not implemented.');
@@ -149,7 +149,7 @@ export default function Page() {
         } } />
         <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
           <div className="w-3/4 max-md:w-11/12 border-2 border-border rounded-2xl p-6 max-sm:p-2 mt-12 mb-12">
-            <p className='text-4xl font-semibold'>Reminders</p>
+            <p className='text-4xl font-semibold underline mb-4'>Reminders</p>
             <div className="flex flex-col gap-6 border-2 border-border rounded-2xl py-6 px-20 max-sm:px-2">
               <div className="flex flex-col">
                 <label>Reminder</label>
@@ -162,18 +162,18 @@ export default function Page() {
                   className='p-4 outline-none rounded-2xl border-2 border-border'
                 /> 
               </div>
-              <div className="flex flex-row w-full gap-6 max-sm:gap-2">
-                <div className="flex flex-col">
-                  <label>Date</label>
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                    className='p-4 outline-none rounded-2xl border-2 border-border'
-                  />
-                </div>
-                <div className="flex flex-col">
+              <div className="flex flex-col">
+                <label>Date</label>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  required
+                  className='p-4 outline-none rounded-2xl border-2 border-border'
+                />
+              </div>
+              <div className="flex flex-row gap-6">
+                <div className="flex flex-col w-full">
                   <label>Time</label>
                   <input
                     type='time'
@@ -184,18 +184,18 @@ export default function Page() {
                     className='p-4 outline-none rounded-2xl border-2 border-border'
                   />
                 </div>
-              </div>
-              <div className={`cursor-pointer flex flex-row justify-center border-blue-400 hover:bg-secondary border-2 transition rounded-2xl py-2 px-4 w-24 ${allDay ? 'bg-blue-400 text-black hover:bg-blue-500' : ''}`} onClick={() => setAllDay(!allDay)}>
-                <p>All day</p>
-              </div>
-              <button onClick={handleAddReminder} className='w-42 px-4 py-2 border-4 border-violet-500 bg-purple-400 hover:border-violet-600 hover:bg-purple-500 transition rounded-2xl text-background self-end text-lg'>+ Add Reminder</button>
+                <div className={`cursor-pointer flex flex-row self-end items-center border-blue-400 hover:text-black  border-2 transition rounded-2xl py-2 px-4 w-24 h-16 ${allDay ? 'bg-blue-400 text-black hover:bg-blue-500' : 'hover:bg-blue-200'}`} onClick={() => setAllDay(!allDay)}>
+                  <p>All day</p>
+                </div>
+              </div>  
+              <button onClick={handleAddReminder} className='w-42 px-4 py-2 border-4 border-violet-400 hover:bg-purple-400 transition rounded-2xl text-foreground font-semibold self-end text-lg'>+ Add Reminder</button>
             </div>
-            <p className='text-4xl font-semibold mt-12'>Upcoming Reminders</p>
+            <p className='text-4xl font-semibold mt-12 underline mb-4'>Upcoming Reminders</p>
             <div className="border-2 border-border rounded-2xl p-6 max-sm:p-2">
               <h2 className='text-2xl font-semibold border-b-2 border-gray-200 dark:border-gray-500'>Today</h2>
               {today.length > 0 ? (
                 today.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-l-8 border-y-2 border-green-400 rounded-2xl mt-4 p-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-accent border-green-400 rounded-2xl mt-4 p-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
@@ -211,7 +211,7 @@ export default function Page() {
               <h2 className='text-2xl font-semibold mt-12 border-b-2 border-gray-200 dark:border-gray-500'>Tomorrow</h2>
               {tomorrow.length > 0 ? (
                 tomorrow.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-l-8 border-y-2 border-red-400 rounded-2xl mt-4 px-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-accent border-red-400 rounded-2xl mt-4 px-4 py-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
@@ -227,7 +227,7 @@ export default function Page() {
               <h2 className='text-2xl font-semibold mt-12 border-b-2 border-gray-200 dark:border-gray-500'>This Week</h2>
               {thisWeek.length > 0 ? (
                 thisWeek.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-l-8 border-y-2 border-yellow-400 rounded-2xl mt-4 px-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-accent border-yellow-400 rounded-2xl mt-4 px-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
@@ -243,7 +243,7 @@ export default function Page() {
               <h2 className='text-2xl font-semibold mt-12 border-b-2 border-gray-200 dark:border-gray-500'>Others</h2>
               {others.length > 0 ? (
                 others.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-l-8 border-y-2 border-blue-400 rounded-2xl mt-4 px-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-accent border-blue-400 rounded-2xl mt-4 px-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
@@ -257,11 +257,11 @@ export default function Page() {
                 <p>Nothing else</p>
               )}
             </div>
-            <p className='text-4xl font-semibold mt-12'>Overdue Reminders</p>
+            <p className='text-4xl font-semibold mt-12 underline mb-4'>Overdue Reminders</p>
             <div className="border-2 border-border rounded-2xl p-6 max-sm:p-2">
               {overdueReminders.length > 0 ? (
                 overdueReminders.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-b-2 border-red-400 rounded-2xl mt-4 px-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-b-2 bg-accent border-red-400 rounded-2xl mt-4 px-4 py-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>

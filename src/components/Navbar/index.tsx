@@ -19,7 +19,7 @@ interface Folder {
     notes: string[]; // Note ids
 }
 
-export default function Navbar() {
+export default function Navbar({navUpdate} : {navUpdate: boolean}) {
     const userName = window.localStorage.getItem('user-notescape');
     const userPfp = window.localStorage.getItem('pfp-notescape');
     const sidebar: boolean = localStorage.getItem('notescape-sidebar') === "false" && window.innerWidth > 1024 ? true : false;
@@ -40,6 +40,11 @@ export default function Navbar() {
         fetchFolders();
         fetchFavNotes();
     }, []);
+    useEffect(() => {
+        fetchAllNotes();
+        fetchFolders();
+        fetchFavNotes();
+    }, [navUpdate]);
 
     const fetchAllNotes = async () => {
         try {
@@ -239,15 +244,16 @@ export default function Navbar() {
                         <div
                             key={note.id}
                             className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink(`/Note/${note.id}`)}`}
-                            onMouseEnter={() => setHoveredNoteId(note.id)}
-                            onMouseLeave={() => setHoveredNoteId(null)}
+                            
                         >
-                            <Link href={`/Note/${note.id}`} className='flex-1'>
-                                {note.title}
-                            </Link>
+                            
+                                <Link href={`/Note/${note.id}`} className='flex-1'>{note.title}</Link>
+                        
                             <button
-                                className="ml-2 text-red-300 hover:text-red-700 text-lg"
+                                className="ml-2 text-red-300 hover:text-red-700 text-lg z-10"
                                 onClick={() => handleRemoveFavorite(note.id)}
+                                onMouseEnter={() => setHoveredNoteId(note.id)}
+                                onMouseLeave={() => setHoveredNoteId(null)}
                             >
                                 {hoveredNoteId === note.id ? <MdFavoriteBorder /> : <MdFavorite />}
                             </button>

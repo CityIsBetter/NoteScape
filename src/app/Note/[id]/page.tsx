@@ -104,7 +104,7 @@ const Note: React.FC<NoteProps> = ({ params }) => {
   };
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute navUpdate={isFavorite}>
       <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
         <Header
           title={title}

@@ -11,6 +11,7 @@ import note from '/public/assets/note.png';
 import imageUpload from '/public/assets/imageUpload.gif';
 import AIassistant from '/public/assets/AIassistant.gif';
 import logo from '/public/logo.png';
+import Reminders from '/public/assets/reminders.gif';
 
 import Footer from '@/components/Footer';
 
@@ -25,6 +26,11 @@ export default function Features() {
         title: 'AI Assistant',
         description: 'Leverage the power of AI to enhance your note-taking experience. Our AI assistant can answer questions and provide relevant information, making your notes more informative and interactive. Additionally, by typing "++" at the end of a sentence or phrase, the AI can auto-complete your sentences, helping you to write more efficiently and effectively. 🤖💬',
         img: AIassistant,
+      },
+      {
+        title: 'Reminders',
+        description: 'Stay organized and never miss a deadline with our Reminders feature! Easily add tasks and set reminders to keep track of important events and deadlines. 🗓️⏰ Your upcoming reminders are conveniently displayed on the home page, ensuring you always stay on top of your schedule. Whether it’s a meeting, a project deadline, or a personal task, our Reminders feature helps you stay focused and productive. 💪📋',
+        img: Reminders,
       },
       {
         title: 'Image Upload',
