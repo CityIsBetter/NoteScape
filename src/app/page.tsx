@@ -48,7 +48,7 @@ export default function Home() {
             <div className="feature-text text-sm sm:text-lg text-gray-500">Access your notes anywhere, anytime with Google Account sync.</div>
           </div> */}
 
-          <div className="group relative rounded-lg justify-center h-40">
+          <div className="group relative justify-center h-40">
             <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
             <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
               <div className="absolute p-4 group-hover:relative">
@@ -58,7 +58,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="group relative justify-center bg-secondary h-40">
+          <div className="group relative justify-center h-40">
           <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
           <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
@@ -68,7 +68,7 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="group relative justify-center bg-secondary h-40">
+          <div className="group relative justify-center h-40">
           <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
           <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
@@ -78,7 +78,7 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="group relative justify-center bg-secondary h-40">
+          <div className="group relative justify-center h-40">
           <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
           <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
@@ -88,7 +88,7 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="group relative justify-center bg-secondary h-40">
+          <div className="group relative justify-center h-40">
           <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
           <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
@@ -98,7 +98,7 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="group relative justify-center bg-secondary h-40">
+          <div className="group relative justify-center h-40">
           <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
           <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
