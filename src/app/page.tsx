@@ -48,9 +48,9 @@ export default function Home() {
             <div className="feature-text text-sm sm:text-lg text-gray-500">Access your notes anywhere, anytime with Google Account sync.</div>
           </div> */}
 
-          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
-            <span className="absolute inset-0 border-2 border-dashed border-black"></span>
-            <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+          <div className="group relative rounded-lg justify-center h-40">
+            <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
+            <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
               <div className="absolute p-4 group-hover:relative">
                 <div className="feature-title text-xl sm:text-2xl font-bold">Sync Across Devices📱</div>
                 <div className="feature-text text-sm sm:text-lg text-gray-500">Access your notes anywhere, anytime with Google Account sync.</div>
@@ -58,9 +58,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
-          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
-          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+          <div className="group relative justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
+          <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
               <div className="feature-title text-xl sm:text-2xl font-bold">Organize with Folders📂</div>
               <div className="feature-text text-sm sm:text-lg text-gray-500">Keep your notes neatly organized with folders and favorites.</div>
@@ -68,9 +68,9 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
-          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
-          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+          <div className="group relative justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
+          <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
               <div className="feature-title text-xl sm:text-2xl font-bold">Set Reminders⏰</div>
               <div className="feature-text text-sm sm:text-lg text-gray-500">Never miss a task with our upcoming reminders feature.</div>
@@ -78,9 +78,9 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
-          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
-          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+          <div className="group relative justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
+          <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
               <div className="feature-title text-xl sm:text-2xl font-bold">Novel.sh Editor 📝</div>
               <div className="feature-text text-sm sm:text-lg text-gray-500">Experience seamless writing with Novel.sh, an editor with tons of features!</div>
@@ -88,9 +88,9 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
-          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
-          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+          <div className="group relative justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
+          <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
               <div className="feature-title text-xl sm:text-2xl font-bold">AI Assistant🤖</div>
               <div className="feature-text text-sm sm:text-lg text-gray-500">Get answers to your questions and auto-complete sentences with &quot;++&quot; at the end.</div>
@@ -98,9 +98,9 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary h-40">
-          <span className="absolute inset-0 border-2 border-dashed border-black"></span>
-          <div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
+          <div className="group relative justify-center bg-secondary h-40">
+          <span className="absolute inset-0 border-2 border-dashed border-secondary-foreground"></span>
+          <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
               <div className="feature-title text-xl sm:text-2xl font-bold">Image Upload🖼️</div>
               <div className="feature-text text-sm sm:text-lg text-gray-500">Upload images using &quot;/image&quot; or by dragging and dropping them into the editor.</div>
