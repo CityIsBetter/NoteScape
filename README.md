@@ -1,4 +1,4 @@
-# NoteScape
+# ![logo](https://i.imgur.com/biEclAI.png) NoteScape
 
 NoteScape is a powerful and versatile note-taking app designed to enhance your productivity and organization. Featuring bulletins, to-dos, image uploads, and an AI assistant, NoteScape offers seamless sync across devices and a rich editing experience. read the [blog](https://t.ly/t0ryI) to know how I made this project.
 
@@ -6,6 +6,7 @@ NoteScape is a powerful and versatile note-taking app designed to enhance your p
 
 - **Seamless Sync Across Devices**: Automatically sync your notes with your Google account. Access them from any device, anytime. 📱💻
 - **AI Assistant**: Enhance your note-taking with AI-powered autocompletion and interactive responses. Type "++" to auto-complete sentences. 🤖💬
+- **Reminders**: Never miss a task with our upcoming reminders feature.
 - **Image Upload**: Easily add images to your notes using the "/image" command or drag and drop. 🖼️📷
 - **Organize with Folders**: Keep your notes organized by grouping them into folders. 📂
 - **Favorite Notes**: Mark important notes as favorites for quick access. ⭐
