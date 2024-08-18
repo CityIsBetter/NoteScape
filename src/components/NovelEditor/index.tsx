@@ -16,7 +16,7 @@ export default function NovelEditor({ setContent, content, setTopic, topic }: No
   const [title, setTitle] = useState(topic);
 
   return (
-    <Card className=" rounded-2xl min-w-128 max-sm:min-w-full border-border ">
+    <Card className=" rounded-2xl min-w-128 max-sm:min-w-full border-border max-sm:mb-40">
       <CardContent>
         <div className="flex flex-row items-center">
         <input
