@@ -14,6 +14,20 @@ const inter = FontSans({
 export const metadata: Metadata = {
   title: "NoteScape",
   description: "Website to meet your note taking needs, its more than a note taking app!",
+  openGraph: {
+    title:"NoteScape",
+    description: "Website to meet your note taking needs, its more than a note taking app!",
+    siteName:"NoteScape",
+    url:"https://notescape.vercel.app",
+    images:[{
+      url:'/logo.png'
+    }],
+    locale: "en-EN",
+    type: "website",
+  },
+  other: {
+    "google-site-verification":"IVOjL--iVz33j73JnMvQT2vZsRoEje6C9GQGxF8BlxQ"
+  }
 };
 
 export default function RootLayout({
