@@ -5,9 +5,16 @@ import mockup1 from '/public/assets/mockup1.png';
 import Footer from '@/components/Footer';
 import logo from '/public/logo.png';
 
+import Head from 'next/head';
+
+
 export default function Home() {
 
   return (
+    <>
+    <Head>
+      <meta name="google-site-verification" content="IVOjL--iVz33j73JnMvQT2vZsRoEje6C9GQGxF8BlxQ" />
+    </Head>
     <main className='flex flex-col w-full h-full'>
       {/* Navbar */}
       <div className="navbar fixed top-0 left-0 right-0 flex flex-row items-center justify-between p-4 max-sm:p-2 border-b-2 border-border bg-background z-50">
@@ -117,15 +124,6 @@ export default function Home() {
       
       <Footer />
     </main>
+    </>
   );
 }
-
-
-{/* <div className="group relative border-2 border-border rounded-lg justify-center bg-secondary">
-<span className="absolute inset-0 border-2 border-dashed border-black"></span>
-<div className="relative flex h-full transform items-center border-2 border-black bg-white transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
-  <div className="absolute p-4 group-hover:relative">
-
-  </div>
-</div>
-</div> */}
