@@ -9,7 +9,7 @@ export default function Footer() {
     <div className="flex flex-col mt-24">
         <div className='border-t-2 border-border flex flex-row max-sm:flex-col gap-12 py-12 px-28 max-lg:px-24 max-sm:px-12 justify-between'>
             <div className="flex flex-col">
-                <div className="text-2xl font-bold underline text-accent-foreground"><Image src={logo} alt='logo' className='w-12 h-12'/>NoteScape</div>
+                <div className="text-2xl font-bold underline text-accent-foreground"><Image src={logo} alt='logo' className='w-12 h-12' draggable={false}/>NoteScape</div>
                 <p className='w-3/4 text-text'>Make your thoughts actionable with NoteScape&apos;s dynamic workspace.</p>
             </div>
             <div className="flex flex-row gap-12">
