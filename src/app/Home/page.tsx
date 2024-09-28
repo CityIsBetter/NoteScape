@@ -182,17 +182,12 @@ export default function Home() {
   const { today, tomorrow, thisWeek } = categorizeReminders();
 
   return (
-    <ProtectedRoute navUpdate={false}>
-      <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
-        <Header onFavoriteToggle={function (): void {
-          throw new Error('Function not implemented.');
-        }} onDeleteClick={function (): void {
-          throw new Error('Function not implemented.');
-        }} />
+    <ProtectedRoute navUpdate={false} onFavoriteToggle={() => void{}} onDeleteClick={() => void{}} title="Home">
+      <div className="flex flex-col items-center justify-start w-full overflow-hidden">
         <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
-          <div className="mt-24 max-sm:mt-6 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl bg-background p-4 rounded-2xl border-2 border-border">
-            <div className="text-2xl font-semibold">📝 Start a New Note </div>
-            <div className="flex flex-row mt-2 gap-2 justify-between text-sm w-full overflow-x-scroll">
+          <div className="mt-6 bg-background p-4 rounded-2xl">
+            <div className="text-3xl font-semibold">Quick Start</div>
+            <div className="flex flex-row mt-2 gap-2 justify-between text-sm w-full">
               <div className="">
                 <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-6xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("new")}>➕</div>
                 <p>New Note</p>

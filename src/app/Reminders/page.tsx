@@ -140,15 +140,10 @@ export default function Page() {
   const { today, tomorrow, thisWeek, others } = categorizeReminders();
 
   return (
-    <ProtectedRoute navUpdate={false}>
+    <ProtectedRoute navUpdate={false} onFavoriteToggle={() => void{}} onDeleteClick={() => void{}} title='Reminders'>
       <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
-        <Header title='Reminders' onFavoriteToggle={function (): void {
-          throw new Error('Function not implemented.');
-        } } onDeleteClick={function (): void {
-          throw new Error('Function not implemented.');
-        } } />
         <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
-          <div className="w-3/4 max-md:w-11/12 border-2 border-border rounded-2xl p-6 max-sm:p-2 mt-12 mb-12">
+          <div className="w-3/4 max-md:w-11/12 border-2 border-border rounded-2xl p-6 max-sm:p-2 mt-6 mb-12">
             <p className='text-4xl font-semibold underline mb-4'>Reminders</p>
             <div className="flex flex-col gap-6 border-2 border-border rounded-2xl py-6 px-20 max-sm:px-2">
               <div className="flex flex-col">

@@ -100,17 +100,11 @@ export default function AllNotes() {
   );
 
   return (
-    <ProtectedRoute navUpdate={updated}>
-      <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
-        <Header
-          title='All Notes'
-          onFavoriteToggle={() => {}}
-          onDeleteClick={() => {}}
-        />
+    <ProtectedRoute navUpdate={updated} onFavoriteToggle={() => void{}} onDeleteClick={() => void{}} title='All Notes'>
+      <div className="flex flex-col items-center justify-start w-full overflow-hidden">
         <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
-          <div className="mt-24 max-sm:mt-6 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl bg-background p-4 rounded-2xl border-2 border-border mb-20">
+          <div className="mt-6 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl bg-background p-4 rounded-2xl border-2 border-border mb-20">
             <div className="text-2xl font-semibold">📝 All Notes</div>
-            
             {/* Search Input */}
             <input
               type="text"

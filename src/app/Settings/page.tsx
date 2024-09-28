@@ -15,13 +15,8 @@ export default function Settings() {
         window.location.reload();
       }
   return (
-    <ProtectedRoute navUpdate={false}>
-        <div className="flex flex-col justify-start items-center h-screen overflow-hidden">
-            <Header title='Settings' onFavoriteToggle={function (): void {
-                throw new Error('Function not implemented.');
-            } } onDeleteClick={function (): void {
-                throw new Error('Function not implemented.');
-            } } />
+    <ProtectedRoute navUpdate={false} onFavoriteToggle={() => void{}} onDeleteClick={() => void{}} title='Settings'>
+        <div className="flex flex-col justify-start items-center overflow-hidden w-full">
             <div className="mt-24 max-sm:mt-6 bg-background p-12 max-sm:p-2 border-2 border-border rounded-2xl w-1/2 max-md:w-3/4 overflow-y-auto">
             <p className="text-4xl font-bold underline mb-4">Settings</p>
             <div className="border-2 border-border rounded-2xl p-12 max-sm:px-4 gap-6">

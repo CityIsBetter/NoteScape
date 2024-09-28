@@ -3,9 +3,9 @@ import { debounce } from 'lodash';
 import React, { useEffect, useState, useRef } from 'react';
 import { setDoc, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { JSONContent } from '@tiptap/core';
+
 import NovelEditor from '@/components/NovelEditor';
 import ProtectedRoute from '@/components/ProtectedRoute';
-import Header from '@/components/Header';
 import db from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 
@@ -104,22 +104,23 @@ const Note: React.FC<NoteProps> = ({ params }) => {
   };
 
   return (
-    <ProtectedRoute navUpdate={isFavorite}>
-      <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
-        <Header
-          title={title}
-          isFavorite={isFavorite}
-          onFavoriteToggle={handleFavoriteToggle}
-          onDeleteClick={handleDeleteClick}
-          threedots={true}
-        />
-        <div className="flex flex-col w-full h-screen items-center justify-start overflow-y-auto p-12 max-sm:px-0">
-          <div className="flex self-center justify-center">
-            {!loading && content !== undefined ? (
-              <NovelEditor setContent={handleChange} topic={title} content={content} setTopic={handleTitleChange} />
-            ) : (
-              <div>Loading...</div>
-            )}
+    <ProtectedRoute navUpdate={isFavorite} onFavoriteToggle={handleFavoriteToggle} onDeleteClick={handleDeleteClick} title={title} isFavorite={isFavorite} threedots={true}>
+      <div className="w-full overflow-y-auto h-screen">
+        <div className="flex flex-col m-2 ">
+          <div className="flex flex-row items-center justify-start w-full p-2 border-b-2 border-border">
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => {setTitle(e.target.value)}}
+                className="pt-4 font-bold text-4xl outline-none text-foreground"
+              />
+          </div>
+          <div className="flex flex-col items-center justify-start w-full rounded-xl">
+                {!loading && content !== undefined ? (
+                  <NovelEditor initialValue={content[0]} onChange={handleChange} />
+                ) : (
+                  <div>Loading...</div>
+                )}
           </div>
         </div>
       </div>

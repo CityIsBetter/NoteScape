@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { collection, query, where, getDocs, getDoc, updateDoc, doc, addDoc, deleteDoc } from 'firebase/firestore';
 import db from '@/lib/firebase';
 import { MdFavoriteBorder, MdFavorite, MdExpandMore, MdDelete, MdAdd, MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
+import { FiSidebar } from "react-icons/fi";
+import { motion } from 'framer-motion';
 
 interface Note {
     id: string;
@@ -18,32 +20,72 @@ interface Folder {
     name: string;
     notes: string[]; // Note ids
 }
+interface SidebarProps {
+    navUpdate: boolean;
+    sidebar: boolean;
+    toggleSidebar: () => void;
+}
 
-export default function Navbar({navUpdate} : {navUpdate: boolean}) {
+const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) => {
     const userName = window.localStorage.getItem('user-notescape');
     const userPfp = window.localStorage.getItem('pfp-notescape');
-    const sidebar: boolean = localStorage.getItem('notescape-sidebar') === "false" && window.innerWidth > 1024 ? true : false;
+
+    const setCookie = (name: string, value: string, days: number) => {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Set expiration
+        const expires = `expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value}; ${expires}; path=/`;
+        console.log('from func', value);
+      };
+    
+      // Function to get cookie
+      const getCookie = (name: string) => {
+        const nameEQ = `${name}=`;
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+      };
+
     const pathName = usePathname();
+
     const [allNotes, setAllNotes] = useState<Note[]>([]);
-    const [favNotes, setFavNotes] = useState<Note[]>([]);
+    // const [favNotes, setFavNotes] = useState<Note[]>([]);
     const [hoveredNoteId, setHoveredNoteId] = useState<string | null>(null);
-    const [folders, setFolders] = useState<Folder[]>([]);
+    // const [folders, setFolders] = useState<Folder[]>([]);
     const [newFolderName, setNewFolderName] = useState<string>('');
     const [isCreatingFolder, setIsCreatingFolder] = useState<boolean>(false);
     const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
-    const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(new Set());
+    // const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(new Set());
     const [isDropdownOpen, setIsDropdownOpen] = useState<string | null>(null);
-    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(sidebar); // State to manage sidebar visibility
+    
+    const [favNotes, setFavNotes] = useState<Note[]>(() => {
+        const savedFavorites = getCookie("favorites");
+        return savedFavorites ? JSON.parse(savedFavorites) : [];
+      });
+      const [folders, setFolders] = useState<Folder[]>(() => {
+        const savedFolders = getCookie("folders");
+        return savedFolders ? JSON.parse(savedFolders) : [];
+      });
+      const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(() => {
+        const savedExpandedFolderIds = getCookie('expandedFolderIds');
+        return savedExpandedFolderIds ? new Set(JSON.parse(savedExpandedFolderIds)) : new Set();
+      });
 
     useEffect(() => {
         fetchAllNotes();
         fetchFolders();
         fetchFavNotes();
+        console.log(favNotes);
     }, []);
     useEffect(() => {
         fetchAllNotes();
         fetchFolders();
         fetchFavNotes();
+        console.log(favNotes);
     }, [navUpdate]);
 
     const fetchAllNotes = async () => {
@@ -69,6 +111,7 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
                 const querySnapshot = await getDocs(foldersCollection);
                 const foldersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Folder[];
                 setFolders(foldersData);
+                setCookie("folders", JSON.stringify(foldersData), 7);
             }
         } catch (error) {
             console.error('Error fetching folders:', error);
@@ -86,8 +129,9 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
                 const notesCollection = collection(db, `users/${userEmail}/notes`);
                 const FavQuery = query(notesCollection, where("fav", "==", true));
                 const querySnapshot = await getDocs(FavQuery);
-                const FavNotesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Note[];
+                const FavNotesData = querySnapshot.docs.map(doc => ({ id: doc.id, title: doc.data().title })) as Note[];
                 setFavNotes(FavNotesData);
+                setCookie("favorites", JSON.stringify(FavNotesData), 7);
             }
         } catch (error) {
             console.error('Error fetching favorite notes:', error);
@@ -153,15 +197,17 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
 
     const handleToggleFolder = (folderId: string) => {
         setExpandedFolderIds(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(folderId)) {
-                newSet.delete(folderId);
-            } else {
-                newSet.add(folderId);
-            }
-            return newSet;
+          const newSet = new Set(prev);
+          if (newSet.has(folderId)) {
+            newSet.delete(folderId);
+          } else {
+            newSet.add(folderId);
+          }
+
+          setCookie('expandedFolderIds', JSON.stringify([...newSet]), 1);
+          return newSet;
         });
-    };
+      };
 
     const handleAddNoteToFolder = async (folderId: string, note: Note) => {
         const userEmail = window.localStorage.getItem('email-notescape');
@@ -206,44 +252,49 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
         return allNotes;
     };
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(prev => !prev);
-        localStorage.setItem('notescape-sidebar', JSON.stringify(isSidebarOpen));
-    };
-
     return (
-        <div className="">
-        <div className={`flex flex-col ${isSidebarOpen ? '' : 'hidden'} transition-transform ease-in-out duration-300 bg-secondary h-screen p-5 w-72 justify-start border-r-2 border-border overflow-hidden`}>
+        <motion.div initial={{ width: '350px', padding: '20px'}}
+        animate={{
+            width: sidebar ? '350px' : '0px',
+            padding: sidebar ? '20px' : '0px' // Animate padding separately
+          }}
+          transition={{
+            width: { duration: 0.3, ease: 'easeInOut' },
+            padding: { duration: 0.1, ease: 'easeInOut', delay: sidebar ? 0 : 0.2 } // Delay padding when collapsing
+          }}
+        className={`flex flex-col  transition-transform ease-in-out duration-300 bg-secondary h-screen w-full justify-start overflow-hidden`}>
             <div className="user flex flex-row justify-between items-center">
-                <div className="flex-col">
-                    <p className='text-text text-xs'>Logged in as...</p>
-                    <p className='text-foreground text-xl'>{userName}</p>
+                <div className="flex items-center gap-4">
+                    {userPfp && <Image src={userPfp} alt='user Photo' height={50} width={50} className='rounded-full' draggable='false'/>}
+                    <div className="flex-col">
+                        <p className='text-foreground text-xl'>{userName}</p>
+                    </div>                    
                 </div>
-                {userPfp && <Image src={userPfp} alt='user Photo' height={50} width={50} className='rounded-full' draggable='false'/>}
+                <FiSidebar className='text-text text-3xl cursor-pointer' onClick={toggleSidebar}/>
             </div>
             <div className="overflow-y-auto no-scrollbar">
-                <div className="flex flex-col gap-1 pt-12">
-                    <p className='font-semibold border-b-2 border-border dark:border-gray-500 text-text'>General</p>
-                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/Home')}`}>
+                <div className="flex flex-col gap-1 pt-12 text-lg">
+                    <p className='font-semibold border-b-2 border-border dark:border-gray-500 text-text text-xl'>General</p>
+                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/Home')}`}>
                         🏠Home
                     </Link>
-                    <Link href={"/All-Notes"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/All-Notes')}`}>
+                    <Link href={"/All-Notes"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/All-Notes')}`}>
                         📒All Notes
                     </Link>
-                    <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/Reminders')}`}>
+                    <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/Reminders')}`}>
                         ⏱️Reminders
                     </Link>
-                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink('/Settings')}`}>
+                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/Settings')}`}>
                         ⚙️Settings
                     </Link>
                 </div>
 
-                <div className='flex flex-col gap-3 pt-12'>
-                    <p className='font-semibold border-b-2 border-gray-200 dark:border-gray-500 text-text'>Favorites</p>
+                <div className='flex flex-col gap-3 pt-12  text-lg'>
+                    <p className='font-semibold border-b-2 border-gray-200 dark:border-gray-500 text-text text-xl'>Favorites</p>
                     {favNotes.map(note => (
                         <div
                             key={note.id}
-                            className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium ${isActiveLink(`/Note/${note.id}`)}`}
+                            className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink(`/Note/${note.id}`)}`}
                             
                         >
                             
@@ -255,7 +306,7 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
                                 onMouseEnter={() => setHoveredNoteId(note.id)}
                                 onMouseLeave={() => setHoveredNoteId(null)}
                             >
-                                {hoveredNoteId === note.id ? <MdFavoriteBorder /> : <MdFavorite />}
+                                {hoveredNoteId === note.id ? <MdFavoriteBorder /> : <MdFavorite className='text-red-400' />}
                             </button>
                         </div>
                     ))}
@@ -263,7 +314,7 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
 
                 <div className='flex flex-col gap-3 pt-12 pb-24'>
                     <div className="flex items-center justify-between border-b-2 border-gray-200 dark:border-gray-500">
-                        <p className='font-semibold  text-text'>Folders</p>
+                        <p className='font-semibold  text-text text-xl'>Folders</p>
                         <button className="text-text hover:text-green-700 text-lg" onClick={() => setIsCreatingFolder(true)}>
                             <MdAdd />
                         </button>
@@ -285,7 +336,7 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
                     )}
                     {folders.map(folder => (
                         <div key={folder.id} className="flex flex-col">
-                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium">
+                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium  hover:scale-[.99]">
                                 {editingFolderId === folder.id ? (
                                     <input
                                         type="text"
@@ -298,12 +349,12 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
                                 ) : (
                                     <div className="flex flex-row">
                                         <button
-                                        className="text-text hover:text-gray-200 text-lg"
+                                        className="text-text hover:text-foreground text-lg"
                                         onClick={() => handleToggleFolder(folder.id)}
                                     >
                                         {expandedFolderIds.has(folder.id) ? <MdExpandMore  /> : <MdExpandMore  className='-rotate-90'/>}
                                     </button>
-                                        <div className="flex-1" onDoubleClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
+                                        <div className="flex-1 cursor-pointer text-lg font-semibold" onClick={() => handleToggleFolder(folder.id)} onDoubleClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
                                     </div>
                                     
                                 )}
@@ -315,7 +366,7 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
                                         <MdAdd />
                                     </button>
                                     <button
-                                        className="text-red-300 hover:text-red-500 text-lg"
+                                        className="text-red-400 hover:text-red-500 text-lg"
                                         onClick={() => handleDeleteFolder(folder.id)}
                                     >
                                         <MdDelete />
@@ -327,7 +378,7 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
                                     {folder.notes.map(noteId => {
                                         const note = allNotes.find(note => note.id === noteId);
                                         return note ? (
-                                            <div className={`flex px-5 py-2 transition hover:bg-secondary-foreground rounded-xl flex-row items-center justify-between ${isActiveLink(`/Note/${note.id}`)}`}>
+                                            <div className={`flex px-5 py-2 transition hover:bg-secondary-foreground rounded-xl flex-row items-center justify-between hover:scale-[.99] ${isActiveLink(`/Note/${note.id}`)}`}>
                                                 <Link key={note.id} href={`/Note/${note.id}`} className={`text-text font-medium `}>
                                                     {note.title}
                                                 </Link>
@@ -355,10 +406,8 @@ export default function Navbar({navUpdate} : {navUpdate: boolean}) {
                     ))}
                 </div>
             </div>
-        </div>
-            <button className={`fixed z-10 top-1/2 ${isSidebarOpen ? 'left-72' : 'left-0'} bg-secondary text-text px-2 py-4 border-y-2 border-r-2 border-border`} onClick={toggleSidebar}>
-                {isSidebarOpen ? <MdArrowBackIosNew /> : <MdArrowForwardIos/>}
-            </button>
-        </div>
+        </motion.div>
     );
 }
+
+export default React.memo(Sidebar)
