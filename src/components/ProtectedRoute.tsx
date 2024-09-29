@@ -10,10 +10,11 @@ interface LayoutProps {
     isFavorite?: boolean,
     threedots?: boolean,
     onFavoriteToggle: () => void;
-    onDeleteClick: () => void;
+    onDeleteClick: () => void,
+    getHtml?: object;
 }
 
-const ProtectedRoute: React.FC<LayoutProps> = ({ children, navUpdate, onDeleteClick, onFavoriteToggle, title, isFavorite, threedots}) => {
+const ProtectedRoute: React.FC<LayoutProps> = ({ children, navUpdate, onDeleteClick, onFavoriteToggle, title, isFavorite, threedots, getHtml}) => {
 
     const sidebar: boolean = localStorage.getItem('notescape-sidebar') === "false" && window.innerWidth > 1024 ? true : false;
 
@@ -32,8 +33,8 @@ const ProtectedRoute: React.FC<LayoutProps> = ({ children, navUpdate, onDeleteCl
 
     return <div className='bg-secondary flex w-full h-screen'>
             <Sidebar navUpdate={navUpdate} sidebar={isSidebarOpen} toggleSidebar={toggleSidebar}/>
-            <div className="w-full flex flex-col overflow-hidden items-center bg-background shadow rounded-xl m-3">
-                <Header onDeleteClick={onDeleteClick} onFavoriteToggle={onFavoriteToggle} sidebar={!sidebar} toggleSidebar={toggleSidebar} title={title} isFavorite={isFavorite} threedots={threedots}/>
+            <div className={`flex-1 ${isSidebarOpen ? 'w-0' : 'w-full'} flex flex-col overflow-hidden items-center bg-background shadow rounded-xl m-3`}>
+                <Header onDeleteClick={onDeleteClick} onFavoriteToggle={onFavoriteToggle} sidebar={!sidebar} toggleSidebar={toggleSidebar} title={title} isFavorite={isFavorite} threedots={threedots} Html={getHtml}/>
                 {children}
             </div>
             </div>;
