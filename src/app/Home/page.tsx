@@ -181,111 +181,131 @@ export default function Home() {
 
   const { today, tomorrow, thisWeek } = categorizeReminders();
 
+  const extractPreview = (note: any): string => {
+    let preview = "";
+
+    note.json.content.forEach((doc: any) => {
+        doc.content.forEach((block: any) => {
+            if (block.content) {
+                block.content.forEach((item: any) => {
+                    if (item.text) { // Check if item.text is defined
+                        preview += item.text + " ";
+                    }
+                });
+            }
+        });
+    });
+
+    preview = preview.trim().slice(0, 90); // Limit to 90 characters
+    preview += "...."; // Append ellipsis
+    return preview;
+};
+
   return (
-    <ProtectedRoute navUpdate={false}>
-      <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
-        <Header onFavoriteToggle={function (): void {
-          throw new Error('Function not implemented.');
-        }} onDeleteClick={function (): void {
-          throw new Error('Function not implemented.');
-        }} />
-        <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
-          <div className="mt-24 max-sm:mt-6 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl bg-background p-4 rounded-2xl border-2 border-border">
-            <div className="text-2xl font-semibold">📝 Start a New Note </div>
-            <div className="flex flex-row mt-2 gap-2 justify-between text-sm w-full overflow-x-scroll">
-              <div className="">
-                <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-6xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("new")}>➕</div>
-                <p>New Note</p>
-              </div>
-              <div className="">
-                <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("g")}>🍅</div>
-                <p>Groceries List</p>
-              </div>
-              <div className="">
-                <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("t")}>✅</div>
-                <p>To Do List</p>
-              </div>
-              <div className="">
-                <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("s")}>📚</div>
-                <p>Study Plan</p>
-              </div>
-              <div className="">
-                <div className="h-52 w-40 transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex items-center justify-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("v")}>🏖️</div>
-                <p>Vacation Planning</p>
-              </div>
+    <ProtectedRoute navUpdate={false} onFavoriteToggle={() => void{}} onDeleteClick={() => void{}} title="Home">
+     <div className="flex flex-col items-center justify-start w-full overflow-y-auto scrollbar-w-2 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-text">
+      <div className="flex flex-col items-center justify-center w-full"> {/* Outer container for layout */}
+        
+          <div className="mt-6 p-4 max-sm:p-1 overflow-hidden max-w-[864px] w-11/12 mx-auto"> {/* Set max width and center */}
+            <div className="text-3xl font-semibold">Quick Start</div>
+            <div className="flex flex-row mt-2 gap-2 text-sm w-full overflow-x-auto scrollbar scrollbar-thumb-text"> {/* Enable horizontal scrolling */}
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("new")}>
+                    <div className='flex items-center justify-center h-full'>➕</div>
+                    <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>New Note</p>
+                </div>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer"  onClick={() => createNewNote("g")}>
+                    <div className='flex items-center justify-center h-full'>🍅</div>
+                    <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>Groceries List</p>
+                </div>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer"  onClick={() => createNewNote("t")}>
+                    <div className='flex items-center justify-center h-full'>✅</div>
+                    <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>To Do List</p>
+                </div>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("s")}>
+                    <div className='flex items-center justify-center h-full'>📚</div>
+                    <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>Study Plan</p>
+                </div>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("v")}>
+                    <div className='flex items-center justify-center h-full'>🏖️</div>
+                    <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>Vacation Planning</p>
+                </div>
             </div>
           </div>
 
-          <div className="flex flex-row max-sm:flex-col max-sm:mb-40 mb-20 w-full items-start max-sm:items-center justify-center gap-4 mt-24 max-sm:mt-4">
-            {/* Recent Notes */}
-            <div className="max-w-lg w-1/2 max-lg:w-1/2 max-md:w-3/4 max-sm:w-11/12  bg-pcolor p-4 rounded-2xl border-2 border-border">
-              <div className="text-2xl font-semibold">⌚ Your Recent Notes </div>
-              <div className='flex flex-col mt-2 items-start justify-between gap-2'>
-                {recentNotes.length > 0 ? (
-                  recentNotes.map((note, key) => (
-                    <Link href={`/Note/${note.id}`} className='w-full' key={key}>
-                      <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
-                        <div className="flex flex-row items-center justify-between text-sm w-full p-4">
-                          <p className='text-sm'>{note.title ? note.title : note.id}</p>
-                          <IoMdOpen />
-                        </div>
+          <div className="p-4 max-sm:p-1 overflow-hidden w-11/12 max-w-[864px] mx-auto">
+            <div className="text-3xl font-semibold">Recent Notes </div>
+            <div className='flex gap-2 items-center justify-start mt-2 overflow-x-auto scrollbar scrollbar-thumb-text'>
+              {recentNotes.length > 0 ? (
+                recentNotes.map((note, key) => (
+                  <Link href={`/Note/${note.id}`} key={key}>
+                      <div key={note.id} className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99]  flex flex-col justify-between text-7xl font-thin rounded-xl cursor-pointer">
+                          <div className="flex p-2">
+                              <p className='text-sm font-extralight text-accent-foreground'>{extractPreview(note)}</p>
+                          </div>
+                          <div className="flex flex-row items-center justify-between text-sm w-full p-4 border-t-2 border-border">
+                              <p className='text-md font-bold'>
+                                  {note.title && note.title.length > 12
+                                      ? note.title.slice(0, 12) + '...' 
+                                      : note.title || note.id}
+                              </p>
+                              <IoMdOpen className='text-xl'/>
+                          </div>
                       </div>
-                    </Link>
-                  ))
-                ) : (
-                  <div className="text-sm flex self-start p-4 bg-secondary w-40 rounded-xl text-text">No recent notes found</div>
-                )}
-              </div>
+                  </Link>
+              ))              
+              ) : (
+                <div className="text-sm flex self-start p-4 bg-secondary w-40 rounded-xl text-text">No recent notes found</div>
+              )}
             </div>
+          </div>
 
-            {/* Upcoming Reminders */}
-            <div className="max-w-lg w-1/2 max-lg:w-1/2 max-md:w-3/4 max-sm:w-11/12 bg-pcolor p-4 rounded-2xl border-2 border-border">
-              <div className="text-2xl font-semibold">⏰ Upcoming Reminders </div>
-              {reminders.length > 0 ? 
-              <div className='flex flex-col mt-2 items-start justify-between gap-2'>
-                {today.length > 0 && (
-                  <div className='w-full'>
-                    <div className="font-semibold">Today</div>
-                    {today.map(reminder => (
-                      <div key={reminder.id} className="bg-secondary border-l-4 border-green-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
-                        <div className="flex flex-row items-center justify-between text-sm w-full p-4">
-                          <p>{reminder.title}</p>
-                          <p>{new Date(reminder.date).toLocaleString()}</p>
-                        </div>
+          {/* Upcoming Reminders */}
+          <div className="p-4">
+            <div className="text-3xl font-semibold">Upcoming Reminders </div>
+            {reminders.length > 0 ? 
+            <div className='flex flex-col mt-2 items-start justify-between gap-2'>
+              {today.length > 0 && (
+                <div className='w-full'>
+                  <div className="font-semibold">Today</div>
+                  {today.map(reminder => (
+                    <div key={reminder.id} className="bg-secondary border-l-4 border-green-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
+                      <div className="flex flex-row items-center justify-between text-sm w-full p-4">
+                        <p>{reminder.title}</p>
+                        <p>{new Date(reminder.date).toLocaleString()}</p>
                       </div>
-                    ))}
-                  </div>
-                )}
-                {tomorrow.length > 0 && (
-                  <div className='w-full'>
-                    <div className="font-semibold">Tomorrow</div>
-                    {tomorrow.map(reminder => (
-                      <div key={reminder.id} className="bg-secondary border-l-4 border-red-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
-                        <div className="flex flex-row items-center justify-between text-sm w-full p-4">
-                          <p>{reminder.title}</p>
-                          <p>{new Date(reminder.date).toLocaleString()}</p>
-                        </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            {tomorrow.length > 0 && (
+                <div className='w-full'>
+                  <div className="font-semibold">Tomorrow</div>
+                  {tomorrow.map(reminder => (
+                    <div key={reminder.id} className="bg-secondary border-l-4 border-red-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
+                      <div className="flex flex-row items-center justify-between text-sm w-full p-4">
+                        <p>{reminder.title}</p>
+                        <p>{new Date(reminder.date).toLocaleString()}</p>
                       </div>
-                    ))}
-                  </div>
-                )}
-                {thisWeek.length > 0 && (
-                  <div className='w-full'>
-                    <div className="font-semibold">This Week</div>
-                    {thisWeek.map(reminder => (
-                      <div key={reminder.id} className="bg-secondary border-l-4 border-yellow-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
-                        <div className="flex flex-row items-center justify-between text-sm w-full p-4">
-                          <p>{reminder.title}</p>
-                          <p>{new Date(reminder.date).toLocaleString()}</p>
-                        </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {thisWeek.length > 0 && (
+                <div className='w-full'>
+                  <div className="font-semibold">This Week</div>
+                  {thisWeek.map(reminder => (
+                    <div key={reminder.id} className="bg-secondary border-l-4 border-yellow-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
+                      <div className="flex flex-row items-center justify-between text-sm w-full p-4">
+                        <p>{reminder.title}</p>
+                        <p>{new Date(reminder.date).toLocaleString()}</p>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              : <div className="m-4">No Upcoming Reminders</div>
-            }
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
+            : <div className="m-4">No Upcoming Reminders</div>
+          }
           </div>
         </div>
       </div>

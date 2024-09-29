@@ -100,32 +100,26 @@ export default function AllNotes() {
   );
 
   return (
-    <ProtectedRoute navUpdate={updated}>
-      <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
-        <Header
-          title='All Notes'
-          onFavoriteToggle={() => {}}
-          onDeleteClick={() => {}}
-        />
-        <div className="flex flex-col items-center justify-start overflow-y-auto w-full">
-          <div className="mt-24 max-sm:mt-6 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl bg-background p-4 rounded-2xl border-2 border-border mb-20">
-            <div className="text-2xl font-semibold">📝 All Notes</div>
-            
+    <ProtectedRoute navUpdate={updated} onFavoriteToggle={() => void{}} onDeleteClick={() => void{}} title='All Notes'>
+      <div className="flex flex-col items-center justify-start w-full overflow-hidden">
+        <div className="flex flex-col items-center justify-start overflow-y-auto scrollbar scrollbar-thumb-text w-full">
+          <div className="mt-6 w-2/3 max-lg:w-4/5 max-md:w-11/12 max-w-4xl bg-background p-4 max-sm:p-2 rounded-2xl mb-20">
+            <div className="text-4xl font-semibold">All Notes</div>
             {/* Search Input */}
             <input
               type="text"
               placeholder="Search notes..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="mt-4 p-2 w-full border border-border rounded-2xl outline-none"
+              className="mt-4 p-2 w-full border-2 border-border rounded-2xl outline-none text-zinc-600 font-mono ring-1 ring-zinc-400 focus:ring-2 focus:ring-rose-400 duration-300 placeholder:text-zinc-600 placeholder:opacity-50  px-4 py-1 shadow-md focus:shadow-lg focus:shadow-rose-400"
             />
 
-            <div className='flex flex-col mt-2 items-start justify-between gap-2'>
+            <div className='flex flex-col mt-4 items-center justify-between gap-2'>
               {filteredNotes.length > 0 ? (
                 filteredNotes.map((note) => {
                   const formattedDate = formatLastEditedDate(note.lastEdited);
                   return (
-                    <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground border-2 border-border flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
+                    <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
                       
                         <div className="flex flex-row items-center justify-between text-sm w-full p-4">
                           <Link href={`/Note/${note.id}`} className='w-full' key={note.id}><div className="">
@@ -134,9 +128,9 @@ export default function AllNotes() {
                           </div></Link>
                           <div className="flex flex-row items-center gap-2">
                             <button className={`text-red-400 text-xl`} 
-                              onClick={() => handleToggleFavorite(note.id, note.fav || false)}> {note.fav ? <MdFavorite  className='hover:text-red-500'/> : <MdFavoriteBorder  className='hover:text-red-500'/>} </button>
+                              onClick={() => handleToggleFavorite(note.id, note.fav || false)}> {note.fav ? <MdFavorite  className='hover:text-red-500 transition'/> : <MdFavoriteBorder  className='hover:text-red-500 transition'/>} </button>
                             <button  className="text-xl text-text"
-                              onClick={() => handleDeleteNote(note.id)}><MdDelete className='hover:text-red-500'/></button>
+                              onClick={() => handleDeleteNote(note.id)}><MdDelete className='hover:text-red-500 transition'/></button>
                           </div>
                         </div>
                       
@@ -144,7 +138,7 @@ export default function AllNotes() {
                   );
                 })
               ) : (
-                <div className="text-sm flex self-start p-4 bg-secondary w-40 rounded-xl text-text">No notes found</div>
+                <div className="text-sm flex self-center p-4 bg-secondary w-40 rounded-xl text-text">No notes found</div>
               )}
             </div>
           </div>
