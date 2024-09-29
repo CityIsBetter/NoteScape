@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
-
+import { cookies } from 'next/headers';
 
 import favorite from '/public/assets/favorite.png';
 import signin from '/public/assets/signin.png';
@@ -12,10 +12,14 @@ import imageUpload from '/public/assets/imageUpload.gif';
 import AIassistant from '/public/assets/AIassistant.gif';
 import logo from '/public/logo.png';
 import Reminders from '/public/assets/reminders.gif';
+import TakingNote from '/public/assets/taking_note.png';
 
 import Footer from '@/components/Footer';
 
 export default function Features() {
+  
+  const user = cookies().get('user-notescape');
+
     const features = [
       {
         title: 'Seamless Sync Across Devices',
@@ -69,9 +73,8 @@ export default function Features() {
         <div className="text-xl flex flex-wrap items-center justify-center gap-2">
           <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:text-sm">Features</Link>
           <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:text-sm">About</Link>
-          <Link href={"/SignIn"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:hidden">Sign In</Link>
-          <Link href={"/Home"}>
-            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-foreground font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button>
+          <Link href={`${user ? "/Home" : "/SignIn"}`}>
+            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-foreground font-semibold hover:shadow-xl hover:scale-[1.02] hover:shadow-violet-500 transition">{user ? "Open App" : "Sign In"}  </button>
           </Link>
         </div>
       </div>
@@ -81,7 +84,8 @@ export default function Features() {
         <h1 className="text-6xl font-bold ">
           Discover NoteScape&apos;s <span className='text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500'>Features</span> 
         </h1>
-        <p className="text-xl text-gray-500 mt-4">Maximize your productivity with our powerful tools.</p>
+        <p className="text-xl text-gray-500 mt-4 z-[1]">Maximize your productivity with our powerful tools.</p>
+        <Image src={TakingNote} alt={'note-taking'} width={512} height={424} className='absolute bottom-0 right-0'/>
       </div>
 
       {/* Features Section */}

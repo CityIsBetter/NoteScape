@@ -7,7 +7,7 @@ import { collection, query, where, getDocs, getDoc, updateDoc, doc, addDoc, dele
 import db from '@/lib/firebase';
 import { MdFavoriteBorder, MdFavorite, MdExpandMore, MdDelete, MdAdd, MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import { FiSidebar } from "react-icons/fi";
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface Note {
     id: string;
@@ -35,7 +35,6 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Set expiration
         const expires = `expires=${date.toUTCString()}`;
         document.cookie = `${name}=${value}; ${expires}; path=/`;
-        console.log('from func', value);
       };
     
       // Function to get cookie
@@ -53,14 +52,14 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
     const pathName = usePathname();
 
     const [allNotes, setAllNotes] = useState<Note[]>([]);
-    // const [favNotes, setFavNotes] = useState<Note[]>([]);
+    const [isMobile, setIsMobile] = useState(false);
     const [hoveredNoteId, setHoveredNoteId] = useState<string | null>(null);
-    // const [folders, setFolders] = useState<Folder[]>([]);
     const [newFolderName, setNewFolderName] = useState<string>('');
     const [isCreatingFolder, setIsCreatingFolder] = useState<boolean>(false);
     const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
-    // const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(new Set());
     const [isDropdownOpen, setIsDropdownOpen] = useState<string | null>(null);
+    const [isFavExpanded, setIsFavExpanded] = useState<boolean>(localStorage.getItem('isFavExpanded-notescape') === "true" ? true : false);
+    const [isFoldExpanded, setIsFoldExpanded] = useState<boolean>(localStorage.getItem('isFoldExpanded-notescape') === "true" ? true : false);
     
     const [favNotes, setFavNotes] = useState<Note[]>(() => {
         const savedFavorites = getCookie("favorites");
@@ -79,14 +78,29 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
         fetchAllNotes();
         fetchFolders();
         fetchFavNotes();
-        console.log(favNotes);
+
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+          };
+      
+          handleResize();
+          window.addEventListener('resize', handleResize);
+      
+          // Cleanup event listener on unmount
+          return () => window.removeEventListener('resize', handleResize);
+
     }, []);
+
     useEffect(() => {
         fetchAllNotes();
         fetchFolders();
         fetchFavNotes();
-        console.log(favNotes);
     }, [navUpdate]);
+
+    useEffect(() => {
+        localStorage.setItem('isFavExpanded-notescape', JSON.stringify(isFavExpanded));
+        localStorage.setItem('isFoldExpanded-notescape', JSON.stringify(isFoldExpanded));
+    }, [isFavExpanded, isFoldExpanded]);
 
     const fetchAllNotes = async () => {
         try {
@@ -253,16 +267,18 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
     };
 
     return (
-        <motion.div initial={{ width: '350px', padding: '20px'}}
-        animate={{
-            width: sidebar ? '350px' : '0px',
-            padding: sidebar ? '20px' : '0px' // Animate padding separately
-          }}
-          transition={{
-            width: { duration: 0.3, ease: 'easeInOut' },
-            padding: { duration: 0.1, ease: 'easeInOut', delay: sidebar ? 0 : 0.2 } // Delay padding when collapsing
-          }}
-        className={`flex flex-col  transition-transform ease-in-out duration-300 bg-secondary h-screen w-full justify-start overflow-hidden`}>
+        <motion.div
+            initial={{ width: '350px', padding: '20px' }}
+            animate={{
+                width: sidebar ? isMobile ? '100vw' :'350px' : '0px',
+                padding: sidebar ? '20px' : '0px' // Animate padding separately
+            }}
+            transition={{
+                width: { duration: 0.3, ease: 'easeInOut' },
+                padding: { duration: 0.1, ease: 'easeInOut', delay: sidebar ? 0 : 0.2 } // Delay padding when collapsing
+            }}
+            className={`flex flex-col transition-transform ease-in-out duration-300 bg-secondary h-screen w-full justify-start overflow-hidden select-none`}
+            >
             <div className="user flex flex-row justify-between items-center">
                 <div className="flex items-center gap-4">
                     {userPfp && <Image src={userPfp} alt='user Photo' height={50} width={50} className='rounded-full' draggable='false'/>}
@@ -270,11 +286,11 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                         <p className='text-foreground text-xl'>{userName}</p>
                     </div>                    
                 </div>
-                <FiSidebar className='text-text text-3xl cursor-pointer' onClick={toggleSidebar}/>
+                <FiSidebar className='text-text text-3xl cursor-pointer hover:scale-[.95] transition' onClick={toggleSidebar}/>
             </div>
-            <div className="overflow-y-auto no-scrollbar">
+            <div className="overflow-y-auto scrollbar-none">
                 <div className="flex flex-col gap-1 pt-12 text-lg">
-                    <p className='font-semibold border-b-2 border-border dark:border-gray-500 text-text text-xl'>General</p>
+                    <p className='font-semibold border-b-2 border-text dark:border-gray-500 text-text text-xl'>General</p>
                     <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/Home')}`}>
                         🏠Home
                     </Link>
@@ -289,35 +305,50 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                     </Link>
                 </div>
 
-                <div className='flex flex-col gap-3 pt-12  text-lg'>
-                    <p className='font-semibold border-b-2 border-gray-200 dark:border-gray-500 text-text text-xl'>Favorites</p>
-                    {favNotes.map(note => (
-                        <div
-                            key={note.id}
-                            className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink(`/Note/${note.id}`)}`}
-                            
-                        >
-                            
-                                <Link href={`/Note/${note.id}`} className='flex-1'>{note.title}</Link>
-                        
-                            <button
-                                className="ml-2 text-red-300 hover:text-red-700 text-lg z-10"
-                                onClick={() => handleRemoveFavorite(note.id)}
-                                onMouseEnter={() => setHoveredNoteId(note.id)}
-                                onMouseLeave={() => setHoveredNoteId(null)}
+                <div className='flex flex-col gap-3 pt-12 text-lg'>
+                    <div className="flex justify-between items-center border-b-2 border-text dark:border-gray-500 cursor-pointer" onClick={() => setIsFavExpanded(!isFavExpanded)}>
+                        <p className='font-semibold text-text text-xl'>Favorites</p>
+                        {isFavExpanded ? <MdExpandMore className="rotate-180 transition-transform text-2xl" /> : <MdExpandMore className="transition-transform text-2xl" />}
+                    </div>
+                    
+                    <AnimatePresence>
+                        {isFavExpanded && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }} // Starting state
+                                animate={{ height: 'auto', opacity: 1 }} // Expanded state
+                                exit={{ height: 0, opacity: 0 }} // Collapsed state
+                                transition={{ duration: 0.3 }} // Transition settings
                             >
-                                {hoveredNoteId === note.id ? <MdFavoriteBorder /> : <MdFavorite className='text-red-400' />}
-                            </button>
-                        </div>
-                    ))}
+                                {favNotes.map(note => (
+                                    <div
+                                        key={note.id}
+                                        className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink(`/Note/${note.id}`)}`}
+                                    >
+                                        <Link href={`/Note/${note.id}`} className='flex-1'>{note.title}</Link>
+                                        <button
+                                            className="ml-2 text-red-300 hover:text-red-700 text-lg z-10"
+                                            onClick={() => handleRemoveFavorite(note.id)}
+                                            onMouseEnter={() => setHoveredNoteId(note.id)}
+                                            onMouseLeave={() => setHoveredNoteId(null)}
+                                        >
+                                            {hoveredNoteId === note.id ? <MdFavoriteBorder /> : <MdFavorite className='text-red-400' />}
+                                        </button>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
 
                 <div className='flex flex-col gap-3 pt-12 pb-24'>
-                    <div className="flex items-center justify-between border-b-2 border-gray-200 dark:border-gray-500">
-                        <p className='font-semibold  text-text text-xl'>Folders</p>
-                        <button className="text-text hover:text-green-700 text-lg" onClick={() => setIsCreatingFolder(true)}>
-                            <MdAdd />
-                        </button>
+                    <div className="flex items-center justify-between border-b-2 border-text dark:border-gray-500 cursor-pointer">
+                        <p className='font-semibold  text-text text-xl' onClick={() => setIsFoldExpanded(!isFoldExpanded)}>Folders</p>
+                        <div className="flex">
+                            <button className="text-text hover:text-green-700 text-2xl" onClick={() => setIsCreatingFolder(true)}>
+                                <MdAdd />
+                            </button>
+                            {isFoldExpanded ? <MdExpandMore className="rotate-180 transition-transform text-2xl" onClick={() => setIsFoldExpanded(!isFoldExpanded)} /> : <MdExpandMore className="transition-transform text-2xl" onClick={() => setIsFoldExpanded(!isFoldExpanded)} />}
+                        </div>
                     </div>
                     {isCreatingFolder && (
                         <div className="flex items-center">
@@ -334,6 +365,14 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                             <button className='bg-red-500 hover:bg-red-600 rounded-md text-white p-1' onClick={()=>setIsCreatingFolder(false)}>Cancel</button>
                         </div>
                     )}
+                    <AnimatePresence>
+                    {isFoldExpanded && (
+                        <motion.div
+                        initial={{ height: 0, opacity: 0 }} // Starting state
+                        animate={{ height: 'auto', opacity: 1 }} // Expanded state
+                        exit={{ height: 0, opacity: 0 }} // Collapsed state
+                        transition={{ duration: 0.3 }} // Transition settings
+                    >
                     {folders.map(folder => (
                         <div key={folder.id} className="flex flex-col">
                             <div className="flex items-center justify-between px-2 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium  hover:scale-[.99]">
@@ -374,7 +413,7 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                                 </div>
                             </div>
                             {expandedFolderIds.has(folder.id) && (
-                                <div className="pl-8">
+                                <div className="ml-8 flex flex-col gap-1">
                                     {folder.notes.map(noteId => {
                                         const note = allNotes.find(note => note.id === noteId);
                                         return note ? (
@@ -404,6 +443,9 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                             )}
                         </div>
                     ))}
+                    </motion.div>
+                )}
+                    </AnimatePresence>
                 </div>
             </div>
         </motion.div>

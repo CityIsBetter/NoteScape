@@ -3,8 +3,12 @@ import Link from 'next/link'
 import React from 'react'
 import logo from '/public/logo.png';
 import Image from 'next/image';
+import { cookies } from 'next/headers';
 
 export default function About() {
+
+  const user = cookies().get('user-notescape');
+
   return (
     <main className='flex flex-col'>
         <div className='flex flex-col w-full h-full items-center'>
@@ -14,13 +18,12 @@ export default function About() {
           <div className="text-xl flex flex-wrap items-center justify-center gap-2">
             <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:text-sm">Features</Link>
             <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:text-sm">About</Link>
-            <Link href={"/SignIn"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:hidden">Sign In</Link>
-            <Link href={"/Home"}>
-              <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-foreground font-semibold hover:shadow-xl hover:scale-105 hover:shadow-violet-500 transition">Open App</button>
-            </Link>
+            <Link href={`${user ? "/Home" : "/SignIn"}`}>
+            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-foreground font-semibold hover:shadow-xl hover:scale-[1.02] hover:shadow-violet-500 transition">{user ? "Open App" : "Sign In"}  </button>
+          </Link>
           </div>
         </div>
-            <div className="flex flex-col w-1/2 max-md:w-5/6 max-sm:w-11/12 items-center justify-center  h-full pt-24 pb-12 mt-20 text-center">
+            <div className=" flex flex-col w-1/2 max-md:w-5/6 max-sm:w-11/12 items-center justify-center  h-full pt-24 pb-12 mt-20 text-center">
                 <h1 className="text-4xl font-extrabold mb-6">About <span className='text-transparent bg-clip-text bg-gradient-to-br from-violet-600 to-blue-500'>NoteScape</span></h1>
                 <p className="text-xl mb-4">
                 Hello! I&apos;m <strong>Mahesh Paul</strong>, and I created <strong>NoteScape</strong> to make note-taking simple and seamless. With powerful tools that make organizing your thoughts and ideas easier, NoteScape aims to enhance your productivity. ✍️✨

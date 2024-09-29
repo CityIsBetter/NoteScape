@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     const docxBuffer = await htmlToDocx(htmlContent);
 
     // Create a response with the DOCX file, using the title for the filename
-    const fileName = `${title}.docx`; // Fallback to 'note.docx' if title is not provided
+    const fileName = `${title || 'note'}.docx`; // Fallback to 'note.docx' if title is not provided
     const response = new Response(docxBuffer, {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
