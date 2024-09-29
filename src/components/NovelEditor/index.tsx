@@ -28,10 +28,11 @@ const extensions = [...defaultExtensions, slashCommand];
 
 interface EditorProp {
   initialValue?: JSONContent;
-  onChange: (value: JSONContent) => void;
+  onChange: (value: JSONContent) => void,
+  getHtml: (value: string) => void;
 }
 
-const Editor = ({ initialValue, onChange }: EditorProp) => {
+const Editor = ({ initialValue, onChange, getHtml }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
@@ -95,6 +96,11 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
         }}
         onUpdate={({ editor }) => {
           onChange(editor.getJSON());
+          getHtml(editor.getHTML());
+        }}
+        onCreate={({ editor }) => {
+          // This will run when the editor is initialized
+          getHtml(editor.getHTML());
         }}
         // slotAfter={<ImageResizer />} buggy cuz of h-screen styling
       >

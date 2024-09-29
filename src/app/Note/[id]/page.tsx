@@ -19,6 +19,8 @@ const Note: React.FC<NoteProps> = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState<string>(params.id);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false); // State to manage edit mode
+  const [htmlContent, setHtmlContent] = useState<string>("");
   const userEmail = typeof window !== 'undefined' ? window.localStorage.getItem('email-notescape') : null;
 
   const debouncedSaveContent = useRef(
@@ -86,7 +88,6 @@ const Note: React.FC<NoteProps> = ({ params }) => {
         if (window.confirm('Are you sure you want to delete this note?')) {
           await deleteDoc(doc(db, 'users', userEmail, 'notes', params.id));
           console.log('Note successfully deleted!');
-
           router.push("/Home");
         }
       } catch (error) {
@@ -103,24 +104,44 @@ const Note: React.FC<NoteProps> = ({ params }) => {
     setTitle(e);
   };
 
+  const handleTitleDoubleClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleTitleBlur = () => {
+    setIsEditing(false);
+    // Save the title when editing is done
+    if (userEmail) {
+      debouncedSaveContent(content!, title, userEmail!, params.id, isFavorite);
+    }
+  };
+
   return (
-    <ProtectedRoute navUpdate={isFavorite} onFavoriteToggle={handleFavoriteToggle} onDeleteClick={handleDeleteClick} title={title} isFavorite={isFavorite} threedots={true}>
-      <div className="w-full overflow-y-auto h-screen">
+    <ProtectedRoute navUpdate={isFavorite} onFavoriteToggle={handleFavoriteToggle} onDeleteClick={handleDeleteClick} title={title} isFavorite={isFavorite} threedots={true} getHtml={{ title, htmlContent }}>
+      <div className="w-full overflow-y-auto scrollbar scrollbar-thumb-text h-screen">
         <div className="flex flex-col m-2 ">
           <div className="flex flex-row items-center justify-start w-full p-2 border-b-2 border-border">
+            {isEditing ? (
               <input
                 type="text"
                 value={title}
-                onChange={(e) => {setTitle(e.target.value)}}
-                className="pt-4 font-bold text-4xl outline-none text-foreground"
+                onChange={(e) => handleTitleChange(e.target.value)}
+                onBlur={handleTitleBlur} // Save on blur
+                className="pt-4 font-bold text-4xl outline-none text-foreground bg-secondary"
+                autoFocus
               />
+            ) : (
+              <span onDoubleClick={handleTitleDoubleClick} className="pt-4 font-bold text-4xl cursor-pointer text-foreground">
+                {title}
+              </span>
+            )}
           </div>
           <div className="flex flex-col items-center justify-start w-full rounded-xl">
-                {!loading && content !== undefined ? (
-                  <NovelEditor initialValue={content[0]} onChange={handleChange} />
-                ) : (
-                  <div>Loading...</div>
-                )}
+            {!loading && content !== undefined ? (
+              <NovelEditor initialValue={content[0]} onChange={handleChange} getHtml={setHtmlContent}/>
+            ) : (
+              <div>Loading...</div>
+            )}
           </div>
         </div>
       </div>
