@@ -11,6 +11,7 @@ import note from '/public/assets/note.png';
 import imageUpload from '/public/assets/imageUpload.gif';
 import AIassistant from '/public/assets/AIassistant.gif';
 import logo from '/public/logo.png';
+import downloadDocx from '/public/assets/downloadDocx.png';
 import Reminders from '/public/assets/reminders.gif';
 import TakingNote from '/public/assets/taking_note.png';
 
@@ -60,6 +61,11 @@ export default function Features() {
         title: 'Enhanced Note-taking with Novel.sh Editor',
         description: 'Experience advanced note-taking features with the Novel.sh editor. Add todos, quotes, code blocks, headings, images, and more to your notes. The editor offers a rich array of tools to enhance your notes, making them more informative and visually appealing. Whether you’re compiling research, writing a detailed report, or organizing your thoughts, the Novel.sh editor helps you create professional and comprehensive notes with ease. 📝🖼️',
         img: note,
+      },
+      {
+        title: 'Download Notes as Document',
+        description: 'Easily Download your notes as Document and share with your friends and collegues. This is still in beta and this does not support Images and Todo lists yet.',
+        img: downloadDocx,
       },
     ];
     

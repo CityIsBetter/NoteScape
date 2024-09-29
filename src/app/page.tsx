@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import mockup1 from '/public/assets/mockup1.png';
+import mockup from '/public/assets/mockup.png';
 import Footer from '@/components/Footer';
 import logo from '/public/logo.png';
 
@@ -42,7 +42,7 @@ export default function Home() {
         <Link href={"/Home"}>
         <Link href={"/Home"}><button className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-text hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4  origin-left hover:decoration-2 hover:text-text relative bg-background h-16 w-64 border-2 border-border text-left p-3 text-tcolor text-base font-bold rounded-lg  overflow-hidden  before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg  after:absolute after:z-10 after:w-20 after:h-20 after:content['']  after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg">Start Taking Notes</button></Link>
         </Link>
-        <Image src={mockup1} alt='mockup' className='w-full max-w-7xl' draggable='false'/>
+        <Image src={mockup} alt='mockup' className='w-full max-w-7xl' draggable='false'/>
       </div>
 
       <div className="w-full flex justify-center p-2">
@@ -108,7 +108,7 @@ export default function Home() {
           <div className="relative flex h-full transform items-center border-2 border-secondary-foreground bg-secondary transition-transform group-hover:-translate-x-2 group-hover:-translate-y-2">
             <div className="absolute p-4 group-hover:relative">
               <div className="feature-title text-xl sm:text-2xl font-bold">AI Assistant</div>
-              <div className="feature-text text-sm sm:text-lg text-gray-500">Get answers to your questions and auto-complete sentences with &quot;++&quot; at the end.</div>
+              <div className="feature-text text-sm sm:text-lg text-gray-500">Get answers to your questions and auto-complete sentences by highlighting your text and choose AI auto-complete option.</div>
             </div>
           </div>
           </div>
@@ -122,6 +122,9 @@ export default function Home() {
             </div>
           </div>
           </div>
+        </div>
+        <div className="px-8 py-6 rounded-xl after:content-['BETA'] after:absolute after:text-xs after:-top-1 after:-right-2 after:bg-[#1E2036] after:p-0.5 after:px-1 after:rounded-md relative border-[#786CFF] border-opacity-40 text-[#786CFF] bg-[#786CFF1e] hover:text-[#786CFF] dark:text-[#857aff] dark:hover:bg-[#786CFF1e] dark:hover:text-[#857aff]">
+          Download your notes as Document(.docx) files by clicking the three dots on top right.
         </div>
       </div>
       

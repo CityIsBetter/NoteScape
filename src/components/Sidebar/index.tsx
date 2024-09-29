@@ -428,18 +428,41 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                                 </div>
                             )}
                             {isDropdownOpen === folder.id && (
-                                <div className="ml-8 flex flex-col gap-1 bg-background border-2 border-border z-10 rounded-2xl">
-                                    {availableNotes(folder.id).map(note => (
-                                        <button
-                                            key={note.id}
-                                            className="block px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium"
-                                            onClick={() => handleAddNoteToFolder(folder.id, note)}
-                                        >
-                                            {note.title}
-                                        </button>
-                                    ))}
-                                    <button className='bg-red-500 hover:bg-red-600 rounded-2xl text-white p-2' onClick={()=>setIsDropdownOpen(null)}>Cancel</button>
-                                </div>
+                                <motion.div 
+                                    className="flex flex-col max-h-96 overflow-hidden"
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <motion.div 
+                                        className="ml-8 flex flex-col gap-1 bg-background border-2 border-border z-10 rounded-xl overflow-y-auto scrollbar scrollbar-thumb-text"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.4 }}
+                                    >
+                                        {availableNotes(folder.id).map(note => (
+                                            <motion.button
+                                                key={note.id}
+                                                className="block px-5 py-2 transition rounded-xl text-text font-medium"
+                                                whileHover={{ scale: 0.97, backgroundColor: 'var(--secondary-foreground)' }}
+                                                onClick={() => handleAddNoteToFolder(folder.id, note)}
+                                            >
+                                                {note.title}
+                                            </motion.button>
+                                        ))}
+                                    </motion.div>
+                                    <motion.button 
+                                        className="ml-8 bg-red-500 hover:bg-red-600 rounded-xl text-white p-2 transition"
+                                        whileHover={{ scale: 0.97 }}
+                                        onClick={() => setIsDropdownOpen(null)}
+                                        initial={{ opacity: 0, y: -20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        Cancel
+                                    </motion.button>
+                                </motion.div>
                             )}
                         </div>
                     ))}
