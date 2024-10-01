@@ -23,8 +23,8 @@ export default function Home() {
         <div className="text-xl flex flex-wrap items-center justify-center gap-2">
           <Link href={"/Features"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:text-sm">Features</Link>
           <Link href={"/About"} className="p-2 max-sm:p-0 rounded-md hover:bg-secondary transition max-sm:text-sm">About</Link>
-          <Link href={`${user ? "/Home" : "/SignIn"}`}>
-            <button className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-foreground font-semibold hover:shadow-xl hover:scale-[1.02] hover:shadow-violet-500 transition">{user ? "Open App" : "Sign In"}  </button>
+          <Link href={`${user ? "/Home" : "/SignIn"}`} className="rounded-xl p-2 border-2 border-violet-300 hover:text-white hover:bg-gradient-to-br from-purple-600 to-blue-500 text-foreground font-semibold hover:shadow-xl hover:scale-[1.02] hover:shadow-violet-500 transition">
+            {user ? "Open App" : "Sign In"}
           </Link>
         </div>
       </div>
@@ -39,9 +39,7 @@ export default function Home() {
         <div className="subheading w-full max-w-2xl">
           <p className='text-lg sm:text-xl text-text'>Simplify your workflow with NoteScape&apos;s all-in-one note-taking solution.</p>
         </div>
-        <Link href={"/Home"}>
-        <Link href={"/Home"}><button className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:border-text hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4  origin-left hover:decoration-2 hover:text-text relative bg-background h-16 w-64 border-2 border-border text-left p-3 text-tcolor text-base font-bold rounded-lg  overflow-hidden  before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg  after:absolute after:z-10 after:w-20 after:h-20 after:content['']  after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg">Start Taking Notes</button></Link>
-        </Link>
+        <Link href={"/Home"} className="group group-hover:before:duration-500 group-hover:after:duration-500 after:duration-500 hover:scale-[1.05] hover:text-lg hover:before:[box-shadow:_20px_20px_20px_30px_#a21caf] duration-500 before:duration-500 hover:duration-500 underline underline-offset-2 hover:after:-right-8 hover:before:right-12 hover:before:-bottom-8 hover:before:blur hover:underline hover:underline-offset-4  origin-left hover:decoration-2 hover:text-text relative bg-background h-16 w-64 border-2 border-border text-left p-3 text-tcolor text-base font-bold rounded-lg  overflow-hidden  before:absolute before:w-12 before:h-12 before:content[''] before:right-1 before:top-1 before:z-10 before:bg-violet-500 before:rounded-full before:blur-lg  after:absolute after:z-10 after:w-20 after:h-20 after:content['']  after:bg-rose-300 after:right-8 after:top-3 after:rounded-full after:blur-lg">Start Taking Notes</Link>
         <Image src={mockup} alt='mockup' className='w-full max-w-7xl' draggable='false'/>
       </div>
 
@@ -50,12 +48,12 @@ export default function Home() {
           <p className='text-foreground font-extrabold text-7xl max-lg:text-6xl max-sm:text-5xl w-1/2 max-md:w-full max-sm:text-center'>Simplify Your Note-Taking Journey.</p>
           <div className="flex flex-col w-1/2 max-md:w-full gap-2">
             <div className="flex text-9xl max-lg:text-7xl justify-between">
-              <CiFolderOn />
-              <CiAlarmOn />
-              <PiMetaLogoThin />
+              <CiFolderOn className='hover:text-yellow-400 hover:scale-105 transition'/>
+              <CiAlarmOn className='hover:text-red-400 hover:scale-105 transition'/>
+              <PiMetaLogoThin className='hover:text-blue-400 hover:scale-105 transition'/>
             </div>
             <p className='text-text text-2xl'>Write, organize, and let AI give your notes a polished touch.</p>
-            <Link href={'/Features'} className='text-blue-400 flex items-center hover:underline hover:scale-[.99] gap-2 transition w-[150px]'>Explore Features <FaArrowRight /></Link>
+            <Link href={'/Features'} className='text-blue-400 flex items-center hover:underline hover:scale-110 gap-2 transition w-[150px]'>Explore Features <FaArrowRight /></Link>
           </div>
         </div>
       </div>
@@ -123,7 +121,7 @@ export default function Home() {
           </div>
           </div>
         </div>
-        <div className="px-8 py-6 rounded-xl after:content-['BETA'] after:absolute after:text-xs after:-top-1 after:-right-2 after:bg-[#1E2036] after:p-0.5 after:px-1 after:rounded-md relative border-[#786CFF] border-opacity-40 text-[#786CFF] bg-[#786CFF1e] hover:text-[#786CFF] dark:text-[#857aff] dark:hover:bg-[#786CFF1e] dark:hover:text-[#857aff]">
+        <div className="px-8 py-6 rounded-xl border-2 border-background transition hover:border-[#7165fb1e] after:content-['BETA'] after:absolute after:text-xs after:-top-1 after:-right-2 after:bg-[#1E2036] after:p-0.5 after:px-1 after:rounded-md relative border-[#786CFF] border-opacity-40 text-[#786CFF] bg-[#786CFF1e] hover:text-[#786CFF] dark:text-[#857aff] dark:hover:bg-[#786CFF1e] dark:hover:text-[#857aff]">
           Download your notes as Document(.docx) files by clicking the three dots on top right.
         </div>
       </div>

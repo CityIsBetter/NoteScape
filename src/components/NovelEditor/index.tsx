@@ -80,7 +80,7 @@ const Editor = ({ initialValue, onChange, getHtml }: EditorProp) => {
   return (
     <EditorRoot>
       <EditorContent
-        className="p-4 rounded-xl"
+        className="p-4 max-md:p-0 rounded-xl"
         {...(initialValue && { initialContent: initialValue })}
         extensions={extensions}
         editorProps={{

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Header';
 import db from '@/lib/firebase';
 import { addDoc, collection, getDocs, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { MdDelete } from 'react-icons/md';
@@ -143,7 +142,7 @@ export default function Page() {
     <ProtectedRoute navUpdate={false} onFavoriteToggle={() => void{}} onDeleteClick={() => void{}} title='Reminders'>
       <div className="flex flex-col items-center justify-start w-full h-screen overflow-hidden">
         <div className="flex flex-col items-center justify-start overflow-y-auto scrollbar scrollbar-thumb-text w-full">
-          <div className="w-3/4 max-md:w-11/12 rounded-2xl p-6 max-sm:p-2 mt-6 mb-12">
+          <div className="w-3/4 max-md:w-11/12 rounded-xl p-6 max-sm:p-2 mt-6 mb-12">
             <p className='text-4xl font-semibold mb-4'>Reminders</p>
             <div className="flex flex-col gap-6 rounded-xl py-6 px-20 max-sm:px-2 bg-secondary shadow">
               <div className="flex flex-col">
@@ -179,24 +178,24 @@ export default function Page() {
                     className='p-4 outline-none rounded-full border-2 border-border focus:shadow-md focus:scale-[1.01] transition'
                   />
                 </div>
-                <div className={`cursor-pointer flex flex-row self-end items-center border-blue-400 hover:text-black hover:scale-[.99] active:scale-[.9]  border-2 transition rounded-full py-2 px-4 min-w-[88px] h-16 ${allDay ? 'bg-blue-400 text-black hover:bg-blue-500' : 'hover:bg-blue-200'}`} onClick={() => setAllDay(!allDay)}>
+                <div className={`cursor-pointer flex flex-row self-end items-center border-blue-400 hover:text-black hover:scale-[.99] active:scale-[.9]  border-2 transition rounded-full py-2 px-4 min-w-[88px] h-16 ${allDay ? 'bg-blue-400 text-black hover:bg-blue-500' : 'hover:bg-blue-300'}`} onClick={() => setAllDay(!allDay)}>
                   <p>All day</p>
                 </div>
               </div>  
-              <button onClick={handleAddReminder} className='w-42 px-4 py-2 border-4 border-violet-400 hover:bg-purple-400 transition  hover:scale-[.99] active:scale-[.9] rounded-full text-foreground font-semibold self-end text-lg'>+ Add Reminder</button>
+              <button onClick={handleAddReminder} className='w-42 px-4 py-2 border-4 border-violet-400 hover:bg-purple-400 hover:text-gray-900 transition  hover:scale-[.99] active:scale-[.9] rounded-full text-foreground font-semibold self-end text-lg'>+ Add Reminder</button>
             </div>
             <p className='text-4xl font-semibold mt-12 mb-4'>Upcoming Reminders</p>
             <div className="rounded-xl p-6 max-sm:p-2 bg-secondary  shadow">
               <h2 className='text-2xl font-semibold border-b-2 border-foreground'>Today</h2>
               {today.length > 0 ? (
                 today.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-background border-green-400 rounded-2xl mt-4 p-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-background border-green-400 rounded-xl mt-4 p-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
                     </div>
                     <div>
-                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-red-400 hover:text-red-500 text-xl'><MdDelete /></button>
+                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-red-400 hover:text-red-500 active:scale-95 transition text-xl'><MdDelete /></button>
                     </div>
                   </div>
                 ))
@@ -206,13 +205,13 @@ export default function Page() {
               <h2 className='text-2xl font-semibold mt-12 border-b-2 border-foreground'>Tomorrow</h2>
               {tomorrow.length > 0 ? (
                 tomorrow.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-background border-red-400 rounded-2xl mt-4 px-4 py-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-background border-red-400 rounded-xl mt-4 px-4 py-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
                     </div>
                     <div>
-                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-red-400 hover:text-red-500 text-xl'><MdDelete /></button>
+                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-red-400 hover:text-red-500 active:scale-95 transition text-xl'><MdDelete /></button>
                     </div>
                   </div>
                 ))
@@ -222,13 +221,13 @@ export default function Page() {
               <h2 className='text-2xl font-semibold mt-12 border-b-2 border-foreground'>This Week</h2>
               {thisWeek.length > 0 ? (
                 thisWeek.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-background border-yellow-400 rounded-2xl mt-4 px-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-background border-yellow-400 rounded-xl mt-4 px-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
                     </div>
                     <div>
-                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-red-400 hover:text-red-500 text-xl'><MdDelete /></button>
+                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-red-400 hover:text-red-500 active:scale-95 transition text-xl'><MdDelete /></button>
                     </div>
                   </div>
                 ))
@@ -238,13 +237,13 @@ export default function Page() {
               <h2 className='text-2xl font-semibold mt-12 border-b-2 border-foreground'>Others</h2>
               {others.length > 0 ? (
                 others.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-background border-blue-400 rounded-2xl mt-4 px-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-l-8 bg-background border-blue-400 rounded-xl mt-4 px-2">
                     <div>
                       <p className='font-semibold text-lg'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
                     </div>
                     <div>
-                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-red-400 hover:text-red-500 text-xl'><MdDelete /></button>
+                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-red-400 hover:text-red-500 active:scale-95 transition text-xl'><MdDelete /></button>
                     </div>
                   </div>
                 ))
@@ -256,13 +255,13 @@ export default function Page() {
             <div className="bg-secondary shadow rounded-xl p-6 max-sm:p-2">
               {overdueReminders.length > 0 ? (
                 overdueReminders.map(reminder => (
-                  <div key={reminder.id} className="flex justify-between items-center border-b-2 bg-background border-red-400 rounded-2xl mt-4 px-4 py-2">
+                  <div key={reminder.id} className="flex justify-between items-center border-b-2 bg-background border-red-400 rounded-xl mt-4 px-4 py-2">
                     <div>
-                      <p className='font-semibold text-lg'>{reminder.title}</p>
+                      <p className='font-semibold text-lg text-rose-400'>{reminder.title}</p>
                       <p>{new Date(reminder.date).toLocaleString()}</p>
                     </div>
                     <div>
-                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='text-green-400 border-2 border-green-400 rounded-2xl px-2 py-1 hover:bg-green-400 hover:text-gray-700'>Mark as Done</button>
+                      <button onClick={() => handleDeleteReminder(reminder.id!)} className='transition active:scale-95 text-green-400 border-2 border-green-400 rounded-xl px-2 py-1 hover:bg-green-400 hover:text-gray-700'>Mark as Done</button>
                     </div>
                   </div>
                 ))
