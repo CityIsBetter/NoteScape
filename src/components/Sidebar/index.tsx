@@ -360,10 +360,10 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
 
                 <div className='flex flex-col gap-3 pt-12 pb-24 text-lg max-md:text-2xl'>
                     <div className="flex items-center justify-between border-b-2 border-text dark:border-gray-500 cursor-pointer">
-                        <div className="flex gap-2">
+                        <div className="flex items-center justify-center gap-2">
                             <p className='font-semibold text-text text-xl max-md:text-3xl' onClick={() => setIsFoldExpanded(!isFoldExpanded)}>Folders</p>
-                            <div className="group z-10 relative bg-secondary p-2 rounded-full">
-                                <FaInfo />
+                            <div className="group z-10 relative bg-background p-2 rounded-full transition">
+                                <FaInfo className='text-sm'/>
                                 <div
                                 className="bg-foreground p-2 min-w-48 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2"
                                 >

@@ -138,9 +138,9 @@ const Note: React.FC<NoteProps> = ({ params }) => {
               <div className="group relative bg-secondary p-2 rounded-full">
                 <FaInfo />
                 <div
-                  className="bg-zinc-800 p-2 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2"
+                  className="bg-foreground p-2 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2"
                 >
-                  <span className="text-zinc-400 whitespace-nowrap">Double click on the name to edit it.</span>
+                  <span className="text-background whitespace-nowrap">Double click on the name to edit it.</span>
                   <div
                     className="bg-inherit rotate-45 p-1 absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2"
                   ></div>
