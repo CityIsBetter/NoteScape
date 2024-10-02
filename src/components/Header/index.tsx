@@ -128,12 +128,17 @@ const Header: React.FC<HeaderProps> = ({
               <span>/</span>
               {title}
             </p>
-          ) : title ? (
+          ) : title ? window.innerWidth > 768 ? (
             <p className="text-xl">
               <span className="text-lg">NoteScape/Note/</span>
               {title}
             </p>
-          ) : (
+          ) : ( 
+            <p className="text-xl">
+              <span className="text-lg">/</span>
+              {title}
+            </p>
+            ) : (
             "NoteScape"
           )}
         </div>
@@ -167,10 +172,10 @@ const Header: React.FC<HeaderProps> = ({
                   <p className="text-sm px-4 py-2 rounded-xl after:content-['BETA'] after:absolute after:text-xs after:-top-1 after:-right-2 after:bg-[#1E2036] after:p-0.5 after:px-1 after:rounded-md relative border-[#786CFF] border-opacity-40 text-[#786CFF] hover:bg-[#786CFF1e] hover:text-[#786CFF] dark:text-[#857aff] dark:hover:bg-[#786CFF1e] dark:hover:text-[#857aff]">Download as .Docx</p>
                 </div>
                 <div
-                  className="block px-4 py-2 text-sm text-red-500 hover:bg-red-200 cursor-pointer rounded-xl hover:scale-[.97] transition"
+                  className="block  hover:scale-[.97] transition cursor-pointer"
                   onClick={handleDeleteClick}
                 >
-                  Delete
+                  <p className="px-4 py-2 text-sm text-red-500 hover:bg-red-200 dark:hover:bg-red-900  rounded-xl"> Delete</p>
                 </div>
               </motion.div>
             )}

@@ -94,6 +94,19 @@
     padding-right: 3rem;
   }
 }
+@media (max-width: 768px) {
+  .ProseMirror {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+@media (max-width: 425px) {
+  .ProseMirror {
+    padding-left: .2rem;
+    padding-right: .2rem;
+  }
+}
+
 
 .ProseMirror .is-editor-empty:first-child::before {
   content: attr(data-placeholder);

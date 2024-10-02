@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { IoMdOpen } from "react-icons/io";
 import { collection, getDocs, setDoc, doc, query, orderBy, limit } from 'firebase/firestore';
 import db from '@/lib/firebase';
-import Header from '@/components/Header';
 import Link from 'next/link';
 import { newNote, study, geoceries, vacation, todo } from './default-values';
 
@@ -150,6 +149,7 @@ export default function Home() {
     const tomorrow: Reminder[] = [];
     const thisWeek: Reminder[] = [];
     const others: Reminder[] = [];
+    const missed: Reminder[] = [];
   
     const now = new Date();
     const todayStart = new Date(now.setHours(0, 0, 0, 0)); // Start of today
@@ -172,14 +172,16 @@ export default function Home() {
         thisWeek.push(reminder);
       } else if (reminderDate > endOfWeek) {
         others.push(reminder);
+      } else if (reminderDate < todayStart) {
+        missed.push(reminder);
       }
     });
   
-    return { today, tomorrow, thisWeek, others };
+    return { today, tomorrow, thisWeek, others, missed };
   };
 
 
-  const { today, tomorrow, thisWeek } = categorizeReminders();
+  const { today, tomorrow, thisWeek, missed } = categorizeReminders();
 
   const extractPreview = (note: any): string => {
     let preview = "";
@@ -209,23 +211,23 @@ export default function Home() {
           <div className="mt-6 p-4 max-sm:p-1 overflow-hidden max-w-[864px] w-11/12 mx-auto"> {/* Set max width and center */}
             <div className="text-3xl font-semibold">Quick Start</div>
             <div className="flex flex-row mt-2 gap-2 text-sm w-full overflow-x-auto scrollbar scrollbar-thumb-text"> {/* Enable horizontal scrolling */}
-                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("new")}>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] active:scale-95 flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("new")}>
                     <div className='flex items-center justify-center h-full'>➕</div>
                     <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>New Note</p>
                 </div>
-                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer"  onClick={() => createNewNote("g")}>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] active:scale-95 flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer"  onClick={() => createNewNote("g")}>
                     <div className='flex items-center justify-center h-full'>🍅</div>
                     <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>Groceries List</p>
                 </div>
-                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer"  onClick={() => createNewNote("t")}>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] active:scale-95 flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer"  onClick={() => createNewNote("t")}>
                     <div className='flex items-center justify-center h-full'>✅</div>
                     <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>To Do List</p>
                 </div>
-                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("s")}>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] active:scale-95 flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("s")}>
                     <div className='flex items-center justify-center h-full'>📚</div>
                     <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>Study Plan</p>
                 </div>
-                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("v")}>
+                <div className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] active:scale-95 flex flex-col justify-between items-center text-7xl font-thin rounded-xl cursor-pointer" onClick={() => createNewNote("v")}>
                     <div className='flex items-center justify-center h-full'>🏖️</div>
                     <p className='text-lg flex flex-row items-center justify-center border-t-2 border-border p-2 w-40'>Vacation Planning</p>
                 </div>
@@ -238,7 +240,7 @@ export default function Home() {
               {recentNotes.length > 0 ? (
                 recentNotes.map((note, key) => (
                   <Link href={`/Note/${note.id}`} key={key}>
-                      <div key={note.id} className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99]  flex flex-col justify-between text-7xl font-thin rounded-xl cursor-pointer">
+                      <div key={note.id} className="w-40 h-52 transition bg-secondary hover:bg-secondary-foreground hover:scale-[.99] active:scale-95 flex flex-col justify-between text-7xl font-thin rounded-xl cursor-pointer">
                           <div className="flex p-2">
                               <p className='text-sm font-extralight text-accent-foreground'>{extractPreview(note)}</p>
                           </div>
@@ -264,11 +266,24 @@ export default function Home() {
             <div className="text-3xl font-semibold">Upcoming Reminders </div>
             {reminders.length > 0 ? 
             <div className='flex flex-col mt-2 items-start justify-between gap-2'>
+              {missed.length > 0 && (
+                <div className='w-full'>
+                  <div className="font-semibold">Missed Reminders</div>
+                  {missed.map(reminder => (
+                    <div key={reminder.id} className="bg-secondary border-b-2 border-red-400 flex justify-start text-7xl font-thin rounded-xl mb-2">
+                      <div className="flex flex-row items-center justify-between text-sm w-full p-4">
+                        <p className='font-bold text-rose-400'>{reminder.title}</p>
+                        <p>{new Date(reminder.date).toLocaleString()}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
               {today.length > 0 && (
                 <div className='w-full'>
                   <div className="font-semibold">Today</div>
                   {today.map(reminder => (
-                    <div key={reminder.id} className="bg-secondary border-l-4 border-green-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
+                    <div key={reminder.id} className="bg-secondary border-l-4 border-green-400 flex justify-start text-7xl font-thin rounded-xl mb-2">
                       <div className="flex flex-row items-center justify-between text-sm w-full p-4">
                         <p>{reminder.title}</p>
                         <p>{new Date(reminder.date).toLocaleString()}</p>
@@ -281,7 +296,7 @@ export default function Home() {
                 <div className='w-full'>
                   <div className="font-semibold">Tomorrow</div>
                   {tomorrow.map(reminder => (
-                    <div key={reminder.id} className="bg-secondary border-l-4 border-red-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
+                    <div key={reminder.id} className="bg-secondary border-l-4 border-red-400 flex justify-start text-7xl font-thin rounded-xl mb-2">
                       <div className="flex flex-row items-center justify-between text-sm w-full p-4">
                         <p>{reminder.title}</p>
                         <p>{new Date(reminder.date).toLocaleString()}</p>
@@ -294,7 +309,7 @@ export default function Home() {
                 <div className='w-full'>
                   <div className="font-semibold">This Week</div>
                   {thisWeek.map(reminder => (
-                    <div key={reminder.id} className="bg-secondary border-l-4 border-yellow-400 flex justify-start text-7xl font-thin rounded-2xl mb-2">
+                    <div key={reminder.id} className="bg-secondary border-l-4 border-yellow-400 flex justify-start text-7xl font-thin rounded-xl mb-2">
                       <div className="flex flex-row items-center justify-between text-sm w-full p-4">
                         <p>{reminder.title}</p>
                         <p>{new Date(reminder.date).toLocaleString()}</p>
@@ -304,7 +319,8 @@ export default function Home() {
                 </div>
               )}
             </div>
-            : <div className="m-4">No Upcoming Reminders</div>
+            : 
+            <div className="mt-4 text-center px-4 py-2 text-text bg-secondary text-2xl rounded-xl">No Reminders</div>
           }
           </div>
         </div>

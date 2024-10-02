@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, query, orderBy, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import db from '@/lib/firebase';
-import Header from '@/components/Header';
 import Link from 'next/link';
 import { Timestamp } from 'firebase/firestore';
 

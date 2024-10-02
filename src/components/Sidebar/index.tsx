@@ -8,6 +8,7 @@ import db from '@/lib/firebase';
 import { MdFavoriteBorder, MdFavorite, MdExpandMore, MdDelete, MdAdd, MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import { FiSidebar } from "react-icons/fi";
 import { AnimatePresence, motion } from 'framer-motion';
+import { FaInfo } from 'react-icons/fa';
 
 interface Note {
     id: string;
@@ -26,7 +27,7 @@ interface SidebarProps {
     toggleSidebar: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) => {
+export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarProps) {
     const userName = window.localStorage.getItem('user-notescape');
     const userPfp = window.localStorage.getItem('pfp-notescape');
 
@@ -63,16 +64,33 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
     
     const [favNotes, setFavNotes] = useState<Note[]>(() => {
         const savedFavorites = getCookie("favorites");
-        return savedFavorites ? JSON.parse(savedFavorites) : [];
-      });
-      const [folders, setFolders] = useState<Folder[]>(() => {
+        try {
+            return savedFavorites ? JSON.parse(savedFavorites) : [];
+        } catch (error) {
+            console.error("Error parsing favorites cookie:", error);
+            return [];
+        }
+    });
+    
+    const [folders, setFolders] = useState<Folder[]>(() => {
         const savedFolders = getCookie("folders");
-        return savedFolders ? JSON.parse(savedFolders) : [];
-      });
-      const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(() => {
+        try {
+            return savedFolders ? JSON.parse(savedFolders) : [];
+        } catch (error) {
+            console.error("Error parsing folders cookie:", error);
+            return [];
+        }
+    });
+    
+    const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(() => {
         const savedExpandedFolderIds = getCookie('expandedFolderIds');
-        return savedExpandedFolderIds ? new Set(JSON.parse(savedExpandedFolderIds)) : new Set();
-      });
+        try {
+            return savedExpandedFolderIds ? new Set(JSON.parse(savedExpandedFolderIds)) : new Set();
+        } catch (error) {
+            console.error("Error parsing expandedFolderIds cookie:", error);
+            return new Set();
+        }
+    });
 
     useEffect(() => {
         fetchAllNotes();
@@ -288,9 +306,9 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                 </div>
                 <FiSidebar className='text-text text-3xl cursor-pointer hover:scale-[.95] transition' onClick={toggleSidebar}/>
             </div>
-            <div className="overflow-y-auto scrollbar-none">
-                <div className="flex flex-col gap-1 pt-12 text-lg">
-                    <p className='font-semibold border-b-2 border-text dark:border-gray-500 text-text text-xl'>General</p>
+            <div className="overflow-y-auto scrollbar-none no-scrollbar">
+                <div className="flex flex-col gap-1 pt-12 text-lg max-md:text-2xl">
+                    <p className='font-semibold border-b-2 border-text dark:border-gray-500 text-text text-xl max-md:text-3xl'>General</p>
                     <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/Home')}`}>
                         🏠Home
                     </Link>
@@ -305,10 +323,10 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                     </Link>
                 </div>
 
-                <div className='flex flex-col gap-3 pt-12 text-lg'>
+                <div className='flex flex-col gap-3 pt-12 text-lg max-md:text-2xl'>
                     <div className="flex justify-between items-center border-b-2 border-text dark:border-gray-500 cursor-pointer" onClick={() => setIsFavExpanded(!isFavExpanded)}>
-                        <p className='font-semibold text-text text-xl'>Favorites</p>
-                        {isFavExpanded ? <MdExpandMore className="rotate-180 transition-transform text-2xl" /> : <MdExpandMore className="transition-transform text-2xl" />}
+                        <p className='font-semibold text-text text-xl max-md:text-3xl'>Favorites</p>
+                        {isFavExpanded ? <MdExpandMore className="rotate-180 transition-transform text-3xl" /> : <MdExpandMore className="transition-transform text-3xl" />}
                     </div>
                     
                     <AnimatePresence>
@@ -340,14 +358,27 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                     </AnimatePresence>
                 </div>
 
-                <div className='flex flex-col gap-3 pt-12 pb-24'>
+                <div className='flex flex-col gap-3 pt-12 pb-24 text-lg max-md:text-2xl'>
                     <div className="flex items-center justify-between border-b-2 border-text dark:border-gray-500 cursor-pointer">
-                        <p className='font-semibold  text-text text-xl' onClick={() => setIsFoldExpanded(!isFoldExpanded)}>Folders</p>
+                        <div className="flex items-center justify-center gap-2">
+                            <p className='font-semibold text-text text-xl max-md:text-3xl' onClick={() => setIsFoldExpanded(!isFoldExpanded)}>Folders</p>
+                            <div className="group z-10 relative bg-background p-2 rounded-full transition">
+                                <FaInfo className='text-sm'/>
+                                <div
+                                className="bg-foreground p-2 min-w-48 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2"
+                                >
+                                <span className="text-background whitespace-wrap text-sm">Double click on the folder name to edit it.</span>
+                                <div
+                                    className="bg-inherit rotate-45 p-1 absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2"
+                                ></div>
+                                </div>
+                            </div>
+                        </div>
                         <div className="flex">
-                            <button className="text-text hover:text-green-700 text-2xl" onClick={() => setIsCreatingFolder(true)}>
+                            <button className="text-text hover:text-green-700 text-3xl" onClick={() => setIsCreatingFolder(true)}>
                                 <MdAdd />
                             </button>
-                            {isFoldExpanded ? <MdExpandMore className="rotate-180 transition-transform text-2xl" onClick={() => setIsFoldExpanded(!isFoldExpanded)} /> : <MdExpandMore className="transition-transform text-2xl" onClick={() => setIsFoldExpanded(!isFoldExpanded)} />}
+                            {isFoldExpanded ? <MdExpandMore className="rotate-180 transition-transform text-3xl" onClick={() => setIsFoldExpanded(!isFoldExpanded)} /> : <MdExpandMore className="transition-transform text-3xl" onClick={() => setIsFoldExpanded(!isFoldExpanded)} />}
                         </div>
                     </div>
                     {isCreatingFolder && (
@@ -388,24 +419,24 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
                                 ) : (
                                     <div className="flex flex-row">
                                         <button
-                                        className="text-text hover:text-foreground text-lg"
+                                        className="text-text hover:text-foreground text-2xl"
                                         onClick={() => handleToggleFolder(folder.id)}
                                     >
                                         {expandedFolderIds.has(folder.id) ? <MdExpandMore  /> : <MdExpandMore  className='-rotate-90'/>}
                                     </button>
-                                        <div className="flex-1 cursor-pointer text-lg font-semibold" onClick={() => handleToggleFolder(folder.id)} onDoubleClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
+                                        <div className="flex-1 cursor-pointer font-semibold" onClick={() => handleToggleFolder(folder.id)} onDoubleClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
                                     </div>
                                     
                                 )}
                                 <div className="flex items-center gap-2">
                                     <button
-                                        className="text-green-500 hover:text-green-700 text-lg"
+                                        className="text-green-500 hover:text-green-700 text-2xl active:scale-9 transition"
                                         onClick={() => setIsDropdownOpen(folder.id)}
                                     >
                                         <MdAdd />
                                     </button>
                                     <button
-                                        className="text-red-400 hover:text-red-500 text-lg"
+                                        className="text-red-400 hover:text-red-500 text-2xl active:scale-9 transition"
                                         onClick={() => handleDeleteFolder(folder.id)}
                                     >
                                         <MdDelete />
@@ -474,5 +505,3 @@ const Sidebar: React.FC<SidebarProps> = ({navUpdate, sidebar, toggleSidebar} ) =
         </motion.div>
     );
 }
-
-export default React.memo(Sidebar)

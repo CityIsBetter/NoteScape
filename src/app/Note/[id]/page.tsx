@@ -3,11 +3,11 @@ import { debounce } from 'lodash';
 import React, { useEffect, useState, useRef } from 'react';
 import { setDoc, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { JSONContent } from '@tiptap/core';
-
 import NovelEditor from '@/components/NovelEditor';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import db from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
+import { FaInfo } from "react-icons/fa";
 
 type NoteProps = {
   params: { id: string };
@@ -120,7 +120,7 @@ const Note: React.FC<NoteProps> = ({ params }) => {
     <ProtectedRoute navUpdate={isFavorite} onFavoriteToggle={handleFavoriteToggle} onDeleteClick={handleDeleteClick} title={title} isFavorite={isFavorite} threedots={true} getHtml={{ title, htmlContent }}>
       <div className="w-full overflow-y-auto scrollbar scrollbar-thumb-text h-screen">
         <div className="flex flex-col m-2 ">
-          <div className="flex flex-row items-center justify-start w-full p-2 border-b-2 border-border">
+          <div className="flex flex-row max-md:flex-col max-md:items-center items-end justify-start w-full gap-2 p-2 border-b-2 border-border">
             {isEditing ? (
               <input
                 type="text"
@@ -135,6 +135,17 @@ const Note: React.FC<NoteProps> = ({ params }) => {
                 {title}
               </span>
             )}
+              <div className="group relative bg-secondary p-2 rounded-full">
+                <FaInfo />
+                <div
+                  className="bg-foreground p-2 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2"
+                >
+                  <span className="text-background whitespace-nowrap">Double click on the name to edit it.</span>
+                  <div
+                    className="bg-inherit rotate-45 p-1 absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2"
+                  ></div>
+                </div>
+              </div>
           </div>
           <div className="flex flex-col items-center justify-start w-full rounded-xl">
             {!loading && content !== undefined ? (

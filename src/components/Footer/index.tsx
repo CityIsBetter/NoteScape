@@ -20,10 +20,11 @@ export default function Footer() {
                     <a href='https://github.com/CityIsBetter' target='_blank' className='hover:text-gray-400 transition'>Github</a>
                 </div>
                 <div className="links flex flex-col">
-                    <p className='text-tcolor mb-12 max-sm:mb-0 underline'>NoteScape&apos;s Links</p>
+                    <p className='text-text mb-12 max-sm:mb-0 underline'>NoteScape&apos;s Links</p>
                     <Link href={'/'} className='hover:text-gray-400 transition'>Home</Link>
                     <Link href={'/Features'} className='hover:text-blue-400 transition'>Features</Link>
                     <Link href={"/About"} className='hover:text-red-400 transition'>About</Link>
+                    <Link href={"/Home"} className='hover:text-yellow-400 transition'>Open App</Link>
                 </div>
             </div>
             <div className="flex flex-row items-end justify-start">
