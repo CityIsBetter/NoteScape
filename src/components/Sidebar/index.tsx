@@ -309,16 +309,16 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
             <div className="overflow-y-auto scrollbar-none no-scrollbar">
                 <div className="flex flex-col gap-1 pt-12 text-lg max-md:text-2xl">
                     <p className='font-semibold border-b-2 border-text dark:border-gray-500 text-text text-xl max-md:text-3xl'>General</p>
-                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/Home')}`}>
+                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Home')}`}>
                         🏠Home
                     </Link>
-                    <Link href={"/All-Notes"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/All-Notes')}`}>
+                    <Link href={"/All-Notes"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/All-Notes')}`}>
                         📒All Notes
                     </Link>
-                    <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/Reminders')}`}>
+                    <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Reminders')}`}>
                         ⏱️Reminders
                     </Link>
-                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink('/Settings')}`}>
+                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Settings')}`}>
                         ⚙️Settings
                     </Link>
                 </div>
@@ -340,11 +340,11 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                                 {favNotes.map(note => (
                                     <div
                                         key={note.id}
-                                        className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] ${isActiveLink(`/Note/${note.id}`)}`}
+                                        className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink(`/Note/${note.id}`)}`}
                                     >
                                         <Link href={`/Note/${note.id}`} className='flex-1'>{note.title}</Link>
                                         <button
-                                            className="ml-2 text-red-300 hover:text-red-700 text-lg z-10"
+                                            className="ml-2 text-red-300 hover:text-red-700  active:scale-125 text-lg z-10"
                                             onClick={() => handleRemoveFavorite(note.id)}
                                             onMouseEnter={() => setHoveredNoteId(note.id)}
                                             onMouseLeave={() => setHoveredNoteId(null)}
@@ -362,10 +362,10 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                     <div className="flex items-center justify-between border-b-2 border-text dark:border-gray-500 cursor-pointer">
                         <div className="flex items-center justify-center gap-2">
                             <p className='font-semibold text-text text-xl max-md:text-3xl' onClick={() => setIsFoldExpanded(!isFoldExpanded)}>Folders</p>
-                            <div className="group z-10 relative bg-background p-2 rounded-full transition">
+                            <div className="group z-10 relative bg-background p-2 rounded-full">
                                 <FaInfo className='text-sm'/>
                                 <div
-                                className="bg-foreground p-2 min-w-48 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2"
+                                className="bg-foreground p-2 min-w-48 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2 transition"
                                 >
                                 <span className="text-background whitespace-wrap text-sm">Double click on the folder name to edit it.</span>
                                 <div
@@ -393,7 +393,7 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                                 onBlur={handleCreateFolder}
                                 autoFocus
                             />
-                            <button className='bg-red-500 hover:bg-red-600 rounded-md text-white p-1' onClick={()=>setIsCreatingFolder(false)}>Cancel</button>
+                            <button className='bg-red-500 hover:bg-red-600 active:scale-95 rounded-md text-white p-1' onClick={()=>setIsCreatingFolder(false)}>Cancel</button>
                         </div>
                     )}
                     <AnimatePresence>
@@ -406,7 +406,7 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                     >
                     {folders.map(folder => (
                         <div key={folder.id} className="flex flex-col">
-                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium  hover:scale-[.99]">
+                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium  hover:scale-[.99] active:scale-95">
                                 {editingFolderId === folder.id ? (
                                     <input
                                         type="text"
@@ -430,13 +430,13 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                                 )}
                                 <div className="flex items-center gap-2">
                                     <button
-                                        className="text-green-500 hover:text-green-700 text-2xl active:scale-9 transition"
+                                        className="text-green-500 hover:text-green-700 text-2xl active:scale-125 transition"
                                         onClick={() => setIsDropdownOpen(folder.id)}
                                     >
                                         <MdAdd />
                                     </button>
                                     <button
-                                        className="text-red-400 hover:text-red-500 text-2xl active:scale-9 transition"
+                                        className="text-red-400 hover:text-red-500 text-2xl active:scale-125 transition"
                                         onClick={() => handleDeleteFolder(folder.id)}
                                     >
                                         <MdDelete />
@@ -448,7 +448,7 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                                     {folder.notes.map(noteId => {
                                         const note = allNotes.find(note => note.id === noteId);
                                         return note ? (
-                                            <div className={`flex px-5 py-2 transition hover:bg-secondary-foreground rounded-xl flex-row items-center justify-between hover:scale-[.99] ${isActiveLink(`/Note/${note.id}`)}`}>
+                                            <div className={`flex px-5 py-2 transition hover:bg-secondary-foreground rounded-xl flex-row items-center justify-between hover:scale-[.99] active:scale-95 ${isActiveLink(`/Note/${note.id}`)}`}>
                                                 <Link key={note.id} href={`/Note/${note.id}`} className={`text-text font-medium `}>
                                                     {note.title}
                                                 </Link>
