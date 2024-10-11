@@ -12,8 +12,12 @@ const inter = FontSans({
 });
 
 export const metadata: Metadata = {
+  applicationName: "NoteScape",
   title: "NoteScape",
   description: "Website to meet your note taking needs, it's more than a note-taking app!",
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     title: "NoteScape",
     description: "Website to meet your note taking needs, it's more than a note-taking app!",
@@ -41,10 +45,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Light theme color */}
-        <meta name="theme-color" content="#E8E8EF" media="(prefers-color-scheme: light)" />
         {/* Dark theme color */}
         <meta name="theme-color" content="#171D26" media="(prefers-color-scheme: dark)" />
+        {/* Light theme color */}
+        <meta name="theme-color" content="#E8E8EF" media="(prefers-color-scheme: light)" />
       </head>
       <body
         className={cn(
