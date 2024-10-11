@@ -4,7 +4,6 @@
   "theme_color": "#171D26",
   "background_color": "#171D26",
   "display": "standalone",
-  "orientation": "",
   "scope": "/",
   "lang": "en",
   "start_url": "/Home",
@@ -48,6 +47,24 @@
       "src": "images/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "dir": "auto",
+  "id": "notescape",
+  "description": "To meet your note taking needs, it's more than a note-taking app!",
+  "screenshots": [
+    {
+      "src": "/assets/narrow_mockup.png",
+      "type": "image/webp",
+      "sizes": "869x1605",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/mockup.png",
+      "type": "image/png",
+      "sizes": "2879x1555",
+      "form_factor": "wide"
     }
   ]
 }
