@@ -17,7 +17,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onCancel, onDelete })
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[100]"
       onClick={handleBackdropClick}
     >
       <div className="bg-secondary p-6 rounded-lg shadow-lg max-w-sm w-full">
@@ -34,7 +34,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onCancel, onDelete })
           </button>
           <button
             onClick={onDelete}
-            className="bg-red-500 text-text px-4 py-2 rounded hover:bg-red-600 transition hover:scale-[.99] active:scale-95"
+            className="bg-red-500 text-background px-4 py-2 rounded hover:bg-red-600 transition hover:scale-[.99] active:scale-95"
           >
             Delete
           </button>
