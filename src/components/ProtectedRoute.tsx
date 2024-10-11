@@ -33,7 +33,7 @@ const ProtectedRoute: React.FC<LayoutProps> = ({ children, navUpdate, onDeleteCl
 
     return <div className='bg-secondary flex w-full h-screen'>
             <Sidebar navUpdate={navUpdate} sidebar={isSidebarOpen} toggleSidebar={toggleSidebar}/>
-            <div className={`flex-1 ${isSidebarOpen ? 'w-0' : 'w-full'} flex flex-col overflow-hidden items-center bg-background shadow rounded-xl m-3`}>
+            <div className={`flex-1 ${isSidebarOpen ? 'w-0' : 'w-full'} flex flex-col overflow-hidden items-center bg-background shadow rounded-xl m-3 max-sm:m-1`}>
                 <Header onDeleteClick={onDeleteClick} onFavoriteToggle={onFavoriteToggle} sidebar={!sidebar} toggleSidebar={toggleSidebar} title={title} isFavorite={isFavorite} threedots={threedots} Html={getHtml}/>
                 {children}
             </div>
