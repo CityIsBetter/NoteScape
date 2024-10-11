@@ -5,6 +5,7 @@ import { motion } from "framer-motion"; // Importing Framer Motion
 
 import logo from "/public/logo.png";
 import { FiSidebar } from "react-icons/fi";
+import DeleteModal from "../DeleteModal";
 
 type HeaderProps = {
   title?: string;
@@ -29,6 +30,7 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [htmlContent, setHtmlContent] = useState<object | undefined>(Html);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -38,10 +40,9 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   const handleDeleteClick = () => {
-    if (window.confirm("Are you sure you want to delete this note?")) {
-      onDeleteClick();
-      closeDropdown();
-    }
+    onDeleteClick();
+    setIsDeleteModalOpen(true);
+    closeDropdown();
   };
 
   const toggleDropdown = () => {
@@ -92,12 +93,12 @@ const Header: React.FC<HeaderProps> = ({
       if (!response.ok) {
         throw new Error('Failed to convert HTML to DOCX');
       }
-
+      closeDropdown();
       // Handle the response as a Blob (binary data)
       const blob = await response.blob();
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = 'note.docx'; // Specify the filename
+      link.download = `${title}.docx`; // Specify the filename
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -107,6 +108,7 @@ const Header: React.FC<HeaderProps> = ({
   }
 
   return (
+    <>
     <div className="w-full">
       <div className="text-xl p-2 rounded-xl sticky bg-secondary-foreground z-10 mx-2 mt-2 text-center flex justify-between items-center">
         <div className="self-start flex flex-row items-center gap-2 select-none">
@@ -119,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({
             <FiSidebar
               className={`text-text text-3xl cursor-pointer hover:scale-[.95] rounded transition`}
               onClick={toggleSidebar}
-            />
+              />
           </motion.div>
 
           <Image src={logo} alt="logo" className="w-8 h-8 z-10" draggable="false" />
@@ -152,13 +154,13 @@ const Header: React.FC<HeaderProps> = ({
 
             {isDropdownVisible && ( // Only render when dropdown is visible
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: isDropdownOpen ? 1 : 0, y: isDropdownOpen ? 0 : -10 }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: isDropdownOpen ? 1 : 0, y: isDropdownOpen ? 0 : -10 }}
                 exit={{ y: 10 }}
                 transition={{ duration: 0.3 }}
                 style={{ visibility: isDropdownOpen ? "visible" : "hidden" }} // Toggle visibility based on open state
                 className={`absolute right-0 mt-2 w-40 bg-background border-2 border-border rounded-2xl shadow-lg p-2`}
-              >
+                >
                 <div
                   className="block px-4 py-2 text-sm text-text hover:bg-secondary cursor-pointer rounded-xl hover:scale-[.97] transition"
                   onClick={handleFavoriteClick}
@@ -173,9 +175,9 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
                 <div
                   className="block  hover:scale-[.97] transition cursor-pointer"
-                  onClick={handleDeleteClick}
+                  onClick={() => setIsDeleteModalOpen(true)}
                 >
-                  <p className="px-4 py-2 text-sm text-red-500 hover:bg-red-200 dark:hover:bg-red-900  rounded-xl"> Delete</p>
+                  <p className="px-4 py-2 text-sm text-red-500 hover:bg-red-200 dark:hover:bg-red-900 rounded-xl"> Delete</p>
                 </div>
               </motion.div>
             )}
@@ -183,6 +185,12 @@ const Header: React.FC<HeaderProps> = ({
         )}
       </div>
     </div>
+    <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        onDelete={() => handleDeleteClick}
+      />
+    </>
   );
 };
 
