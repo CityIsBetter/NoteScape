@@ -85,11 +85,9 @@ const Note: React.FC<NoteProps> = ({ params }) => {
   const handleDeleteClick = async () => {
     if (userEmail) {
       try {
-        if (window.confirm('Are you sure you want to delete this note?')) {
           await deleteDoc(doc(db, 'users', userEmail, 'notes', params.id));
           console.log('Note successfully deleted!');
           router.push("/Home");
-        }
       } catch (error) {
         console.error('Error deleting note:', error);
       }
@@ -115,6 +113,24 @@ const Note: React.FC<NoteProps> = ({ params }) => {
       debouncedSaveContent(content!, title, userEmail!, params.id, isFavorite);
     }
   };
+  const preprocessHtmlForDocx = (html: string) => {
+    // Replace unchecked checkboxes with "[ ]"
+    html = html.replace(
+      /<li[^>]*data-checked="true"[^>]*>.*?<input[^>]+type="checkbox"[^>]*checked[^>]*>.*?<p>(.*?)<\/p>/gi,
+      '<li><del>$1</del></li>'
+    );
+  
+    // Leave unchecked items as plain text within <li> tags
+    html = html.replace(
+      /<li[^>]*data-checked="false"[^>]*>.*?<input[^>]+type="checkbox"[^>]*>.*?<p>(.*?)<\/p>/gi,
+      '<li>$1</li>'
+    );
+  
+    // Remove unnecessary tags like <label>, <span>, <div> but keep <li>
+    html = html.replace(/<\/?(label|span|div)[^>]*>/gi, '');
+    
+    setHtmlContent(html);
+  }  
 
   return (
     <ProtectedRoute navUpdate={isFavorite} onFavoriteToggle={handleFavoriteToggle} onDeleteClick={handleDeleteClick} title={title} isFavorite={isFavorite} threedots={true} getHtml={{ title, htmlContent }}>
@@ -149,7 +165,7 @@ const Note: React.FC<NoteProps> = ({ params }) => {
           </div>
           <div className="flex flex-col items-center justify-start w-full rounded-xl">
             {!loading && content !== undefined ? (
-              <NovelEditor initialValue={content[0]} onChange={handleChange} getHtml={setHtmlContent}/>
+              <NovelEditor initialValue={content[0]} onChange={handleChange} getHtml={(e) => preprocessHtmlForDocx(e)}/>
             ) : (
               <div>Loading...</div>
             )}

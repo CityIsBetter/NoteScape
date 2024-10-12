@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import htmlToDocx from 'html-to-docx';
+import HTMLtoDOCX from '@turbodocx/html-to-docx';
 
 export async function POST(request: Request) {
   const { title, htmlContent } = await request.json();
 
   try {
     // Convert HTML to DOCX
-    const docxBuffer = await htmlToDocx(htmlContent);
+    const docxBuffer = await HTMLtoDOCX(htmlContent);
 
     // Create a response with the DOCX file, using the title for the filename
     const fileName = `${title || 'note'}.docx`; // Fallback to 'note.docx' if title is not provided

@@ -118,7 +118,7 @@ export default function AllNotes() {
                 filteredNotes.map((note) => {
                   const formattedDate = formatLastEditedDate(note.lastEdited);
                   return (
-                    <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
+                    <div key={note.id} className="w-full transition bg-secondary hover:bg-secondary-foreground active:scale-95 flex justify-start text-7xl font-thin rounded-xl cursor-pointer">
                       
                         <div className="flex flex-row items-center justify-between text-sm w-full p-4">
                           <Link href={`/Note/${note.id}`} className='w-full' key={note.id}><div className="">

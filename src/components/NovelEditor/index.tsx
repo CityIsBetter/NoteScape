@@ -101,6 +101,7 @@ const Editor = ({ initialValue, onChange, getHtml }: EditorProp) => {
         onCreate={({ editor }) => {
           // This will run when the editor is initialized
           getHtml(editor.getHTML());
+          console.log(editor.getHTML());
         }}
         // slotAfter={<ImageResizer />} buggy cuz of h-screen styling
       >
