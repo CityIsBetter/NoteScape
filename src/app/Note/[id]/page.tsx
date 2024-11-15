@@ -13,25 +13,57 @@ type NoteProps = {
   params: { id: string };
 };
 
+// Helper function to sanitize content for Firebase
+const sanitizeContent = (content: JSONContent): JSONContent => {
+  if (!content || typeof content !== 'object') return {};
+
+  return Object.entries(content).reduce((acc: any, [key, value]) => {
+    // Skip undefined values
+    if (value === undefined) return acc;
+
+    // Handle arrays
+    if (Array.isArray(value)) {
+      acc[key] = value.map(item => 
+        typeof item === 'object' ? sanitizeContent(item) : item
+      ).filter(item => item !== undefined);
+    }
+    // Handle nested objects
+    else if (value && typeof value === 'object') {
+      acc[key] = sanitizeContent(value);
+    }
+    // Handle primitive values
+    else {
+      acc[key] = value;
+    }
+
+    return acc;
+  }, {});
+};
+
 const Note: React.FC<NoteProps> = ({ params }) => {
   const router = useRouter();
   const [content, setContent] = useState<JSONContent[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState<string>(params.id);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false); // State to manage edit mode
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [htmlContent, setHtmlContent] = useState<string>("");
   const userEmail = typeof window !== 'undefined' ? window.localStorage.getItem('email-notescape') : null;
 
   const debouncedSaveContent = useRef(
     debounce(async (newContent: JSONContent[], newTitle: string, userEmail: string, noteId: string, isFavorite: boolean) => {
       try {
-        await setDoc(doc(db, 'users', userEmail, 'notes', noteId), {
-          json: { content: newContent },
+        // Sanitize the content before saving
+        const sanitizedContent = newContent.map(item => sanitizeContent(item));
+        
+        const docData = {
+          json: { content: sanitizedContent },
           title: newTitle,
           fav: isFavorite,
           lastEdited: new Date(),
-        });
+        };
+
+        await setDoc(doc(db, 'users', userEmail, 'notes', noteId), docData);
         console.log('Note successfully saved!');
       } catch (error) {
         console.error('Error saving note:', error);
@@ -42,15 +74,19 @@ const Note: React.FC<NoteProps> = ({ params }) => {
   useEffect(() => {
     const getData = async () => {
       if (userEmail) {
-        const docRef = doc(db, 'users', userEmail, 'notes', params.id);
-        const dataDB = await getDoc(docRef);
-        if (dataDB.exists()) {
-          const data = dataDB.data();
-          setContent(data.json.content);
-          data.title && setTitle(data.title);
-          setIsFavorite(data.fav || false);
-        } else {
-          console.log('No such document!');
+        try {
+          const docRef = doc(db, 'users', userEmail, 'notes', params.id);
+          const dataDB = await getDoc(docRef);
+          if (dataDB.exists()) {
+            const data = dataDB.data();
+            setContent(data.json.content);
+            data.title && setTitle(data.title);
+            setIsFavorite(data.fav || false);
+          } else {
+            console.log('No such document!');
+          }
+        } catch (error) {
+          console.error('Error fetching note:', error);
         }
         setLoading(false);
       }
@@ -61,13 +97,21 @@ const Note: React.FC<NoteProps> = ({ params }) => {
 
   useEffect(() => {
     const handleDebounceSave = () => {
-      if (content !== undefined) {
-        debouncedSaveContent(content, title, userEmail!, params.id, isFavorite);
+      if (content !== undefined && userEmail) {
+        debouncedSaveContent(content, title, userEmail, params.id, isFavorite);
       }
     };
 
     handleDebounceSave();
   }, [content, title, isFavorite, userEmail, params.id, debouncedSaveContent]);
+
+  const handleChange = (e: JSONContent) => {
+    setContent([e]);
+  };
+
+  const handleTitleChange = (e: string) => {
+    setTitle(e);
+  };
 
   const handleFavoriteToggle = async () => {
     if (userEmail) {
@@ -85,21 +129,13 @@ const Note: React.FC<NoteProps> = ({ params }) => {
   const handleDeleteClick = async () => {
     if (userEmail) {
       try {
-          await deleteDoc(doc(db, 'users', userEmail, 'notes', params.id));
-          console.log('Note successfully deleted!');
-          router.push("/Home");
+        await deleteDoc(doc(db, 'users', userEmail, 'notes', params.id));
+        console.log('Note successfully deleted!');
+        router.push("/Home");
       } catch (error) {
         console.error('Error deleting note:', error);
       }
     }
-  };
-
-  const handleChange = (e: JSONContent) => {
-    setContent([e]);
-  };
-
-  const handleTitleChange = (e: string) => {
-    setTitle(e);
   };
 
   const handleTitleDoubleClick = () => {
@@ -108,64 +144,74 @@ const Note: React.FC<NoteProps> = ({ params }) => {
 
   const handleTitleBlur = () => {
     setIsEditing(false);
-    // Save the title when editing is done
-    if (userEmail) {
-      debouncedSaveContent(content!, title, userEmail!, params.id, isFavorite);
+    if (userEmail && content !== undefined) {
+      debouncedSaveContent(content, title, userEmail, params.id, isFavorite);
     }
   };
+
   const preprocessHtmlForDocx = (html: string) => {
-    // Replace unchecked checkboxes with "[ ]"
     html = html.replace(
       /<li[^>]*data-checked="true"[^>]*>.*?<input[^>]+type="checkbox"[^>]*checked[^>]*>.*?<p>(.*?)<\/p>/gi,
       '<li><del>$1</del></li>'
     );
   
-    // Leave unchecked items as plain text within <li> tags
     html = html.replace(
       /<li[^>]*data-checked="false"[^>]*>.*?<input[^>]+type="checkbox"[^>]*>.*?<p>(.*?)<\/p>/gi,
       '<li>$1</li>'
     );
   
-    // Remove unnecessary tags like <label>, <span>, <div> but keep <li>
     html = html.replace(/<\/?(label|span|div)[^>]*>/gi, '');
     
     setHtmlContent(html);
-  }  
+  };
 
   return (
-    <ProtectedRoute navUpdate={isFavorite} onFavoriteToggle={handleFavoriteToggle} onDeleteClick={handleDeleteClick} title={title} isFavorite={isFavorite} threedots={true} getHtml={{ title, htmlContent }}>
+    <ProtectedRoute 
+      navUpdate={isFavorite} 
+      onFavoriteToggle={handleFavoriteToggle} 
+      onDeleteClick={handleDeleteClick} 
+      title={title} 
+      isFavorite={isFavorite} 
+      threedots={true} 
+      getHtml={{ title, htmlContent }}
+    >
       <div className="w-full overflow-y-auto scrollbar scrollbar-thumb-text h-screen">
-        <div className="flex flex-col m-2 ">
+        <div className="flex flex-col m-2">
           <div className="flex flex-row max-md:flex-col max-md:items-center items-end justify-start w-full gap-2 p-2 border-b-2 border-border">
             {isEditing ? (
               <input
                 type="text"
                 value={title}
                 onChange={(e) => handleTitleChange(e.target.value)}
-                onBlur={handleTitleBlur} // Save on blur
+                onBlur={handleTitleBlur}
                 className="pt-4 font-bold text-4xl outline-none text-foreground bg-secondary"
                 autoFocus
               />
             ) : (
-              <span onDoubleClick={handleTitleDoubleClick} className="pt-4 font-bold text-4xl cursor-pointer text-foreground">
+              <span 
+                onDoubleClick={handleTitleDoubleClick} 
+                className="pt-4 font-bold text-4xl cursor-pointer text-foreground"
+              >
                 {title}
               </span>
             )}
-              <div className="group relative bg-secondary p-2 rounded-full">
-                <FaInfo />
-                <div
-                  className="bg-foreground p-2 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2"
-                >
-                  <span className="text-background whitespace-nowrap">Double click on the name to edit it.</span>
-                  <div
-                    className="bg-inherit rotate-45 p-1 absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2"
-                  ></div>
-                </div>
+            <div className="group relative bg-secondary p-2 rounded-full">
+              <FaInfo />
+              <div className="bg-foreground p-2 rounded-md group-hover:flex hidden absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2">
+                <span className="text-background whitespace-nowrap">
+                  Double click on the name to edit it.
+                </span>
+                <div className="bg-inherit rotate-45 p-1 absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2"></div>
               </div>
+            </div>
           </div>
           <div className="flex flex-col items-center justify-start w-full rounded-xl">
             {!loading && content !== undefined ? (
-              <NovelEditor initialValue={content[0]} onChange={handleChange} getHtml={(e) => preprocessHtmlForDocx(e)}/>
+              <NovelEditor 
+                initialValue={content[0]} 
+                onChange={handleChange} 
+                getHtml={(e) => preprocessHtmlForDocx(e)}
+              />
             ) : (
               <div>Loading...</div>
             )}
