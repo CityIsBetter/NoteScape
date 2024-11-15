@@ -22,7 +22,16 @@ export const suggestionItems = createSuggestionItems([
     icon: <MessageSquarePlus size={18} />,
     command: ({ editor, range }) => {
       editor.chain().focus().deleteRange(range).run();
-      window.open("/feedback", "_blank");
+      
+      // Create email parameters
+      const subject = encodeURIComponent("Notescape Feedback");
+      const body = encodeURIComponent("Hi, I'd like to provide feedback about Notescape:\n\n");
+      
+      // Construct the mailto URL with subject and body
+      const mailtoUrl = `mailto:mahesh.paul.j@gmail.com?subject=${subject}&body=${body}`;
+      
+      // Open in new window/tab
+      window.open(mailtoUrl, "_blank");
     },
   },
   {
