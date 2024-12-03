@@ -54,7 +54,6 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
 
     const [allNotes, setAllNotes] = useState<Note[]>([]);
     const [isMobile, setIsMobile] = useState(false);
-    const [hoveredNoteId, setHoveredNoteId] = useState<string | null>(null);
     const [newFolderName, setNewFolderName] = useState<string>('');
     const [isCreatingFolder, setIsCreatingFolder] = useState<boolean>(false);
     const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
@@ -286,7 +285,7 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
 
     return (
         <motion.div
-            initial={{ width: '350px', padding: '20px' }}
+            initial={{ width: sidebar ? '350px' : '0', padding: sidebar ? '20px' : '0' }}
             animate={{
                 width: sidebar ? isMobile ? '100vw' :'350px' : '0px',
                 padding: sidebar ? '20px' : '0px' // Animate padding separately
@@ -297,7 +296,7 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
             }}
             className={`flex flex-col transition-transform ease-in-out duration-300 bg-secondary h-screen w-full justify-start overflow-hidden select-none`}
             >
-            <div className="user flex flex-row justify-between items-center">
+            <div className="user flex flex-row justify-between items-center pb-6">
                 <div className="flex items-center gap-4">
                     {userPfp && <Image src={userPfp} alt='user Photo' height={50} width={50} className='rounded-full' draggable='false'/>}
                     <div className="flex-col">
@@ -307,18 +306,18 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                 <FiSidebar className='text-text text-3xl cursor-pointer hover:scale-[.95] transition' onClick={toggleSidebar}/>
             </div>
             <div className="overflow-y-auto scrollbar-none no-scrollbar">
-                <div className="flex flex-col gap-1 pt-12 text-lg max-md:text-2xl">
+                <div className="flex flex-col gap-1 pt-6 text-lg max-md:text-2xl">
                     <p className='font-semibold border-b-2 border-text dark:border-gray-500 text-text text-xl max-md:text-3xl'>General</p>
-                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Home')}`}>
+                    <Link href={"/Home"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Home')}`} prefetch>
                         🏠Home
                     </Link>
-                    <Link href={"/All-Notes"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/All-Notes')}`}>
+                    <Link href={"/All-Notes"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/All-Notes')}`} prefetch>
                         📒All Notes
                     </Link>
-                    <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Reminders')}`}>
+                    <Link href={"/Reminders"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Reminders')}`} prefetch>
                         ⏱️Reminders
                     </Link>
-                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Settings')}`}>
+                    <Link href={"/Settings"} className={`px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink('/Settings')}`} prefetch>
                         ⚙️Settings
                     </Link>
                 </div>
@@ -337,22 +336,22 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                                 exit={{ height: 0, opacity: 0 }} // Collapsed state
                                 transition={{ duration: 0.3 }} // Transition settings
                             >
-                                {favNotes.map(note => (
-                                    <div
-                                        key={note.id}
-                                        className={`flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 ${isActiveLink(`/Note/${note.id}`)}`}
-                                    >
-                                        <Link href={`/Note/${note.id}`} className='flex-1'>{note.title}</Link>
-                                        <button
-                                            className="ml-2 text-red-300 hover:text-red-700  active:scale-125 text-lg z-10"
-                                            onClick={() => handleRemoveFavorite(note.id)}
-                                            onMouseEnter={() => setHoveredNoteId(note.id)}
-                                            onMouseLeave={() => setHoveredNoteId(null)}
-                                        >
-                                            {hoveredNoteId === note.id ? <MdFavoriteBorder /> : <MdFavorite className='text-red-400' />}
-                                        </button>
-                                    </div>
-                                ))}
+                            {favNotes.map(note => (
+                            <div
+                                key={note.id}
+                                className="group flex items-center justify-between px-5 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 relative"
+                            >
+                                <Link href={`/Note/${note.id}`} className='flex-1' prefetch>
+                                    {(note.title)}
+                                </Link>
+                                <button
+                                    className="absolute right-5 text-red-300 hover:text-red-600 active:scale-125 text-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    onClick={() => handleRemoveFavorite(note.id)}
+                                >
+                                    <MdFavorite />
+                                </button>
+                            </div>
+                            ))}
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -360,8 +359,8 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
 
                 <div className='flex flex-col gap-3 pt-12 pb-24 text-lg max-md:text-2xl'>
                     <div className="flex items-center justify-between border-b-2 border-text dark:border-gray-500 cursor-pointer">
-                        <div className="flex items-center justify-center gap-2">
-                            <p className='font-semibold text-text text-xl max-md:text-3xl' onClick={() => setIsFoldExpanded(!isFoldExpanded)}>Folders</p>
+                        <div className="flex items-center justify-center gap-2" onClick={() => setIsFoldExpanded(!isFoldExpanded)}>
+                            <p className='font-semibold text-text text-xl max-md:text-3xl'>Folders</p>
                             <div className="group z-10 relative bg-background p-2 rounded-full">
                                 <FaInfo className='text-sm'/>
                                 <div
@@ -374,6 +373,7 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                                 </div>
                             </div>
                         </div>
+                        <div className='w-full h-8' onClick={() => setIsFoldExpanded(!isFoldExpanded)}></div>
                         <div className="flex">
                             <button className="text-text hover:text-green-700 text-3xl" onClick={() => setIsCreatingFolder(true)}>
                                 <MdAdd />
@@ -405,8 +405,8 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                         transition={{ duration: 0.3 }} // Transition settings
                     >
                     {folders.map(folder => (
-                        <div key={folder.id} className="flex flex-col">
-                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium  hover:scale-[.99] active:scale-95">
+                        <div key={folder.id} className="flex flex-col group">
+                            <div className="flex items-center justify-between px-2 py-2 transition hover:bg-secondary-foreground rounded-xl text-text font-medium hover:scale-[.99] active:scale-95 relative">
                                 {editingFolderId === folder.id ? (
                                     <input
                                         type="text"
@@ -417,18 +417,27 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                                         className='focus:outline-none border-b-2 border-gray-200 w-3/4'
                                     />
                                 ) : (
-                                    <div className="flex flex-row">
+                                    <div className="flex flex-row items-center w-full text-nowrap">
                                         <button
-                                        className="text-text hover:text-foreground text-2xl"
-                                        onClick={() => handleToggleFolder(folder.id)}
-                                    >
-                                        {expandedFolderIds.has(folder.id) ? <MdExpandMore  /> : <MdExpandMore  className='-rotate-90'/>}
-                                    </button>
-                                        <div className="flex-1 cursor-pointer font-semibold" onClick={() => handleToggleFolder(folder.id)} onDoubleClick={() => setEditingFolderId(folder.id)}>{folder.name}</div>
+                                            className="text-text hover:text-foreground text-2xl"
+                                            onClick={() => handleToggleFolder(folder.id)}
+                                        >
+                                            {expandedFolderIds.has(folder.id) ? <MdExpandMore /> : <MdExpandMore className='-rotate-90'/>}
+                                        </button>
+                                        <div 
+                                            className="flex-1 cursor-pointer font-semibold" 
+                                            onClick={() => handleToggleFolder(folder.id)} 
+                                            onDoubleClick={() => setEditingFolderId(folder.id)}
+                                        >
+                                            {folder.name.length > 25 
+                                                ? `${folder.name.slice(0, 20)}...` 
+                                                : folder.name
+                                            }
+                                        </div>
                                     </div>
-                                    
                                 )}
-                                <div className="flex items-center gap-2">
+                                <div className='w-full h-6 cursor-pointer' onClick={() => handleToggleFolder(folder.id)}></div>
+                                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <button
                                         className="text-green-500 hover:text-green-700 text-2xl active:scale-125 transition"
                                         onClick={() => setIsDropdownOpen(folder.id)}
@@ -448,11 +457,16 @@ export default function Sidebar ({navUpdate, sidebar, toggleSidebar} : SidebarPr
                                     {folder.notes.map(noteId => {
                                         const note = allNotes.find(note => note.id === noteId);
                                         return note ? (
-                                            <div className={`flex px-5 py-2 transition hover:bg-secondary-foreground rounded-xl flex-row items-center justify-between hover:scale-[.99] active:scale-95 ${isActiveLink(`/Note/${note.id}`)}`}>
-                                                <Link key={note.id} href={`/Note/${note.id}`} className={`text-text font-medium `}>
+                                            <div 
+                                                className={`group relative flex px-5 py-2 transition hover:bg-secondary-foreground rounded-xl flex-row items-center justify-between hover:scale-[.99] active:scale-95 ${isActiveLink(`/Note/${note.id}`)}`}
+                                            >
+                                                <Link key={note.id} href={`/Note/${note.id}`} className={`text-text font-medium`} prefetch>
                                                     {note.title}
                                                 </Link>
-                                                <MdDelete className="text-red-500 hover:text-red-600 cursor-pointer" onClick={() => handleRemoveNoteFromFolder(folder.id, noteId)} />
+                                                <MdDelete 
+                                                    className="text-red-300 hover:text-red-600 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
+                                                    onClick={() => handleRemoveNoteFromFolder(folder.id, noteId)} 
+                                                />
                                             </div>
                                         ) : null;
                                     })}
