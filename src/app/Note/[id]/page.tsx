@@ -7,7 +7,7 @@ import NovelEditor from '@/components/NovelEditor';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import db from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
-import { FaInfo } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaInfo } from "react-icons/fa";
 
 type NoteProps = {
   params: { id: string };
@@ -165,6 +165,42 @@ const Note: React.FC<NoteProps> = ({ params }) => {
     setHtmlContent(html);
   };
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showScrollBottom, setShowScrollBottom] = useState(true);
+
+  const scrollToTop = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollToBottom = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+      
+      // Show scroll to top button if not at the top
+      setShowScrollTop(scrollTop > 100);
+      
+      // Show scroll to bottom button if not at the bottom
+      setShowScrollBottom(
+        scrollTop + clientHeight < scrollHeight - 100
+      );
+    }
+  };
+
   return (
     <ProtectedRoute 
       navUpdate={isFavorite} 
@@ -175,7 +211,31 @@ const Note: React.FC<NoteProps> = ({ params }) => {
       threedots={true} 
       getHtml={{ title, htmlContent }}
     >
-      <div className="w-full overflow-y-auto scrollbar scrollbar-thumb-text h-screen">
+      <div 
+        ref={scrollContainerRef}
+        onScroll={handleScroll}
+        className="w-full overflow-y-auto scrollbar scrollbar-thumb-text h-screen relative"
+      >
+        {/* Scroll to Top Button */}
+        {showScrollTop && (
+          <button 
+            onClick={scrollToTop}
+            className="fixed top-20 right-4 z-50 bg-accent hover:bg-secondary text-accent-foreground active:scale-95 p-4 rounded-full shadow-lg transition-all"
+          >
+            <FaArrowUp className='text-accent-foreground text-xl'/>
+          </button>
+        )}
+
+        {/* Scroll to Bottom Button */}
+        {showScrollBottom && (
+          <button 
+            onClick={scrollToBottom}
+            className="fixed bottom-4 right-4 z-50 bg-accent hover:bg-secondary text-accent-foreground active:scale-95 p-4 rounded-full shadow-lg transition-all"
+          >
+            <FaArrowDown className='text-xl'/>
+          </button>
+        )}
+
         <div className="flex flex-col m-2">
           <div className="flex flex-row max-md:flex-col max-md:items-center items-end justify-start w-full gap-2 p-2 border-b-2 border-border">
             {isEditing ? (

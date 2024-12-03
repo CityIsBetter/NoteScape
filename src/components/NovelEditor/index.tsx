@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   EditorRoot,
   EditorCommand,
@@ -10,7 +10,7 @@ import {
   EditorCommandList,
   EditorBubble,
 } from "novel";
-import { ImageResizer, handleCommandNavigation } from "novel/extensions";
+import { handleCommandNavigation } from "novel/extensions";
 import { defaultExtensions } from "./extensions";
 import { NodeSelector } from "./selectors/node-selector";
 import { LinkSelector } from "./selectors/link-selector";
@@ -21,6 +21,7 @@ import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { uploadFn } from "./image-upload";
 import { Separator } from "../ui/separator";
 import { Button } from "@/components/ui/button";
+//import { ImageResizer } from "./ImageResizer";
 
 import { BsStars } from "react-icons/bs";
 
@@ -80,7 +81,7 @@ const Editor = ({ initialValue, onChange, getHtml }: EditorProp) => {
   return (
     <EditorRoot>
       <EditorContent
-        className="p-4 max-md:p-0 rounded-xl"
+        className="p-4 max-md:p-0 rounded-xl editor"
         {...(initialValue && { initialContent: initialValue })}
         extensions={extensions}
         editorProps={{
@@ -102,7 +103,7 @@ const Editor = ({ initialValue, onChange, getHtml }: EditorProp) => {
           // This will run when the editor is initialized
           getHtml(editor.getHTML());
         }}
-        // slotAfter={<ImageResizer />} buggy cuz of h-screen styling
+        //slotAfter={<ImageResizer />} buggy asf
       >
         <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
           <EditorCommandEmpty className="px-2 text-muted-foreground">
